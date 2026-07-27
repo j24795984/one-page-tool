@@ -32,7 +32,9 @@ export default defineConfig({
       sourcemap: false,
       rolldownOptions: {
         output: {
-          assetFileNames
+          assetFileNames,
+          chunkFileNames: 'assets/chunk-[name]-[hash].js',
+          entryFileNames: 'assets/entry-[name]-[hash].js'
         }
       }
     }

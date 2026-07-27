@@ -1,8 +1,28 @@
 ---
+import ContentDirectory from '../../components/ContentDirectory.vue';
 import TopMenu from '../../components/TopMenu.vue';
 import '../../styles/global.css';
 
 const baseUrl = `${import.meta.env.BASE_URL.replace(/\/$/, '')}/`;
+const items = [
+  {
+    title: 'Page Link Highlight',
+    category: '導覽'
+  },
+  {
+    title: 'Parallax',
+    category: '視差'
+  },
+  {
+    title: 'Text Fade',
+    category: '文字'
+  },
+  {
+    title: 'Object Fade Active',
+    category: '物件',
+    href: `${baseUrl}js-effects/object-fade-active/`
+  }
+];
 ---
 
 <!DOCTYPE html>
@@ -17,5 +37,10 @@ const baseUrl = `${import.meta.env.BASE_URL.replace(/\/$/, '')}/`;
 </head>
 <body class="min-h-screen bg-[#f5f1ea] font-['Inter',sans-serif] text-[#314d74]">
   <TopMenu baseUrl={baseUrl} />
+  <ContentDirectory
+    client:load
+    title="JS 效果"
+    items={items}
+  />
 </body>
 </html>

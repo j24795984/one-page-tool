@@ -36,12 +36,18 @@ const initialFiles = await getFiles(outputDir);
 const renamedFiles = new Map();
 
 for (const filePath of initialFiles) {
-  assertSafeOutputPath(filePath);
+  const originalName = path.basename(filePath);
+  let finalizedName = originalName.startsWith('_')
+    ? `file-${originalName.slice(1)}`
+    : originalName;
 
-  if (path.extname(filePath) === '.js' && !filePath.endsWith('.min.js')) {
-    const minifiedPath = filePath.replace(/\.js$/, '.min.js');
-    await rename(filePath, minifiedPath);
-    renamedFiles.set(path.basename(filePath), path.basename(minifiedPath));
+  if (path.extname(finalizedName) === '.js' && !finalizedName.endsWith('.min.js')) {
+    finalizedName = finalizedName.replace(/\.js$/, '.min.js');
+  }
+
+  if (finalizedName !== originalName) {
+    await rename(filePath, path.join(path.dirname(filePath), finalizedName));
+    renamedFiles.set(originalName, finalizedName);
   }
 }
 

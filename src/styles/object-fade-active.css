@@ -1,0 +1,128 @@
+.object-fade-demo {
+  height: 100%;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+.object-fade-demo__intro {
+  display: grid;
+  min-height: 78%;
+  place-items: center;
+  padding: 2rem;
+  text-align: center;
+}
+
+.object-fade-demo__intro-inner {
+  max-width: 25rem;
+}
+
+.object-fade-demo__intro-label {
+  margin: 0 0 1rem;
+  color: #7a889b;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+
+.object-fade-demo__intro-title {
+  margin: 0;
+  color: #314d74;
+  font-size: clamp(2rem, 5vw, 4.5rem);
+  font-weight: 500;
+  letter-spacing: -0.06em;
+  line-height: 0.95;
+}
+
+.object-fade-demo__scroll-hint {
+  display: inline-block;
+  margin-top: 2rem;
+  color: #5f7189;
+  font-size: 0.8rem;
+}
+
+.object-fade-demo__grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+  padding: 3rem clamp(1.25rem, 4vw, 4rem) 35vh;
+}
+
+.object-fade-demo__card {
+  display: flex;
+  min-height: 12rem;
+  flex-direction: column;
+  justify-content: space-between;
+  border: 1px solid rgb(49 77 116 / 14%);
+  border-radius: 1rem;
+  background: rgb(245 241 234 / 75%);
+  padding: clamp(1.25rem, 3vw, 2rem);
+  color: #314d74;
+  will-change: transform, opacity;
+}
+
+.object-fade-demo__card-index {
+  color: #7a889b;
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+}
+
+.object-fade-demo__card-title {
+  margin: 0;
+  font-size: clamp(1.2rem, 2.5vw, 2rem);
+  font-weight: 500;
+}
+
+.object-fade-demo__description-copy {
+  margin: 0;
+}
+
+.object-fade-demo__code {
+  display: block;
+  margin-top: 1.5rem;
+  border-radius: 0.6rem;
+  background: rgb(49 77 116 / 8%);
+  padding: 0.85rem;
+  color: #314d74;
+  font-family: monospace;
+  font-size: 0.75rem;
+  overflow-wrap: anywhere;
+}
+
+.object-fade-demo__options {
+  display: grid;
+  gap: 0.5rem;
+  margin-top: 1.5rem;
+}
+
+.object-fade-demo__option {
+  width: 100%;
+  border: 1px solid rgb(49 77 116 / 16%);
+  border-radius: 0.7rem;
+  background: transparent;
+  padding: 0.75rem 0.85rem;
+  color: #5f7189;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.object-fade-demo__option:hover,
+.object-fade-demo__option[aria-pressed='true'] {
+  border-color: #314d74;
+  background: #314d74;
+  color: #fff;
+}
+
+.object-fade-demo__option-note {
+  display: block;
+  margin-top: 0.3rem;
+  font-size: 0.7rem;
+  opacity: 0.72;
+}
+
+@media (max-width: 42rem) {
+  .object-fade-demo__grid {
+    grid-template-columns: 1fr;
+  }
+}
