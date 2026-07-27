@@ -1,5 +1,7 @@
 ---
 import '../../../styles/global.css';
+
+const homeHref = `${import.meta.env.BASE_URL.replace(/\/$/, '')}/`;
 ---
 
 <!DOCTYPE html>
@@ -157,7 +159,7 @@ import '../../../styles/global.css';
   <!-- Standalone Top Header -->
   <header class="fixed top-0 left-0 right-0 z-50 bg-[#ebe7df]/90 backdrop-blur-md border-b border-[#314d74]/10 px-6 py-4 flex items-center justify-between">
     <div class="flex items-center gap-3">
-      <a href="/" class="flex items-center gap-3 no-underline hover:opacity-80 transition-opacity">
+      <a href={homeHref} class="flex items-center gap-3 no-underline hover:opacity-80 transition-opacity">
         <div class="w-8 h-8 rounded-lg bg-[#314d74] flex items-center justify-center text-white font-bold text-lg">L</div>
         <span class="font-semibold text-[#314d74] tracking-wider">LOTTIE INSPECTOR</span>
       </a>
