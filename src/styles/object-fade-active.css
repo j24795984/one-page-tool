@@ -73,54 +73,6 @@
   font-weight: 500;
 }
 
-.object-fade-demo__description-copy {
-  margin: 0;
-}
-
-.object-fade-demo__code {
-  display: block;
-  margin-top: 1.5rem;
-  border-radius: 0.6rem;
-  background: rgb(49 77 116 / 8%);
-  padding: 0.85rem;
-  color: #314d74;
-  font-family: monospace;
-  font-size: 0.75rem;
-  overflow-wrap: anywhere;
-}
-
-.object-fade-demo__options {
-  display: grid;
-  gap: 0.5rem;
-  margin-top: 1.5rem;
-}
-
-.object-fade-demo__option {
-  width: 100%;
-  border: 1px solid rgb(49 77 116 / 16%);
-  border-radius: 0.7rem;
-  background: transparent;
-  padding: 0.75rem 0.85rem;
-  color: #5f7189;
-  font: inherit;
-  text-align: left;
-  cursor: pointer;
-}
-
-.object-fade-demo__option:hover,
-.object-fade-demo__option[aria-pressed='true'] {
-  border-color: #314d74;
-  background: #314d74;
-  color: #fff;
-}
-
-.object-fade-demo__option-note {
-  display: block;
-  margin-top: 0.3rem;
-  font-size: 0.7rem;
-  opacity: 0.72;
-}
-
 @media (max-width: 42rem) {
   .object-fade-demo__grid {
     grid-template-columns: 1fr;

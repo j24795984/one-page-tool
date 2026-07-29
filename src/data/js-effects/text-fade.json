@@ -1,0 +1,95 @@
+{
+  "info": {
+    "eyebrow": "JS Effect",
+    "title": "Text Fade",
+    "summary": "將文字拆分為單字元，在進入可視範圍時依序淡入，適合標題、引言與短篇文案。"
+  },
+  "usage": {
+    "title": "使用方式",
+    "description": "依效果在文字元素加入對應的 data attribute，再統一呼叫 initFadeText()。",
+    "examples": [
+      {
+        "label": "DOM 元素",
+        "code": "<h2 data-fade-text>Fade Up</h2>\n<h2 data-fade-3dtext>Matrix 3D</h2>\n<h2 data-fade-brtext data-fadeT-start=\"90\">\n  Preserve<br>Line Break\n</h2>"
+      },
+      {
+        "label": "JavaScript",
+        "code": "initFadeText();"
+      }
+    ],
+    "parameters": [
+      {
+        "name": "data-fadeT-start",
+        "description": "僅供 data-fade-brtext 使用，設定觸發位置，預設為 90。"
+      }
+    ],
+    "currentLabel": "目前 DOM"
+  },
+  "controls": {
+    "title": "效果選擇",
+    "choiceKey": "variant",
+    "choices": [
+      {
+        "label": "Fade Up",
+        "value": "up",
+        "note": "由下往上逐字浮現"
+      },
+      {
+        "label": "Matrix 3D",
+        "value": "3d",
+        "note": "使用原始 matrix3d 逐字浮現"
+      },
+      {
+        "label": "BR Text",
+        "value": "br",
+        "note": "保留換行並可設定觸發位置"
+      }
+    ],
+    "fieldsTitle": "參數控制",
+    "fields": [
+      {
+        "key": "start",
+        "label": "Fade Start",
+        "unit": "%",
+        "type": "number",
+        "step": 1,
+        "showWhen": {
+          "key": "variant",
+          "value": "br"
+        }
+      }
+    ]
+  },
+  "preview": {
+    "label": "Live Preview",
+    "title": "Words in motion",
+    "hint": "向下捲動查看逐字效果 ↓",
+    "sections": [
+      {
+        "label": "01 — Introduction",
+        "lines": [
+          "Every idea begins",
+          "with a quiet sentence."
+        ]
+      },
+      {
+        "label": "02 — Process",
+        "lines": [
+          "Shape the words.",
+          "Reveal the rhythm."
+        ]
+      },
+      {
+        "label": "03 — Result",
+        "lines": [
+          "Make every letter",
+          "arrive with purpose."
+        ]
+      }
+    ]
+  },
+  "defaults": {
+    "variant": "up",
+    "start": 90
+  }
+}

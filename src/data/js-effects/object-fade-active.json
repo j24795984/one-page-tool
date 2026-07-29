@@ -1,0 +1,159 @@
+{
+  "info": {
+    "eyebrow": "JS Effect",
+    "title": "Object Fade Active",
+    "summary": "當物件進入可視範圍時，以透明度與位移呈現進場效果；回捲離開觸發線後會重置，可重複觀看。"
+  },
+  "usage": {
+    "title": "使用方式",
+    "description": "在目標元素加入 data-object-fade，並透過屬性內容設定效果參數。",
+    "examples": [
+      {
+        "label": "DOM 元素",
+        "code": "<div data-object-fade>\n  Effect content\n</div>"
+      }
+    ],
+    "parameters": [
+      {
+        "name": "fade",
+        "description": "進場方向：up、down、left、right。"
+      },
+      {
+        "name": "duration",
+        "description": "動畫時間，單位為秒。"
+      },
+      {
+        "name": "offset",
+        "description": "初始位移距離，單位為 px。"
+      },
+      {
+        "name": "start",
+        "description": "元素頂端到達展示區百分比時觸發。"
+      },
+      {
+        "name": "stagger / delay",
+        "description": "同批項目的間隔與整批延遲秒數。"
+      },
+      {
+        "name": "reset",
+        "description": "開啟時回捲會重置並可再次播放；關閉時只觸發一次。"
+      }
+    ],
+    "currentLabel": "目前設定"
+  },
+  "controls": {
+    "title": "效果選擇",
+    "choiceKey": "direction",
+    "choices": [
+      {
+        "label": "Fade Up",
+        "value": "up",
+        "note": "由下往上浮現"
+      },
+      {
+        "label": "Fade Down",
+        "value": "down",
+        "note": "由上往下浮現"
+      },
+      {
+        "label": "Fade Left",
+        "value": "left",
+        "note": "由右往左浮現"
+      },
+      {
+        "label": "Fade Right",
+        "value": "right",
+        "note": "由左往右浮現"
+      }
+    ],
+    "fieldsTitle": "參數控制",
+    "fields": [
+      {
+        "key": "duration",
+        "label": "Duration",
+        "unit": "秒",
+        "type": "number",
+        "min": 0,
+        "max": 5,
+        "step": 0.05
+      },
+      {
+        "key": "offset",
+        "label": "Offset",
+        "unit": "px",
+        "type": "number",
+        "min": 0,
+        "max": 300,
+        "step": 1
+      },
+      {
+        "key": "start",
+        "label": "Start",
+        "unit": "%",
+        "type": "number",
+        "min": 10,
+        "max": 100,
+        "step": 1
+      },
+      {
+        "key": "stagger",
+        "label": "Stagger",
+        "unit": "秒",
+        "type": "number",
+        "min": 0,
+        "max": 2,
+        "step": 0.01
+      },
+      {
+        "key": "delay",
+        "label": "Delay",
+        "unit": "秒",
+        "type": "number",
+        "min": 0,
+        "max": 5,
+        "step": 0.05
+      },
+      {
+        "key": "ease",
+        "label": "Ease",
+        "type": "select",
+        "options": [
+          "power1.out",
+          "power2.out",
+          "power3.out",
+          "back.out(1.7)",
+          "expo.out"
+        ]
+      },
+      {
+        "key": "reset",
+        "label": "Reset：回捲時重置",
+        "type": "checkbox"
+      }
+    ],
+    "submitLabel": "套用並重播"
+  },
+  "preview": {
+    "label": "Live Preview",
+    "title": "Scroll to reveal",
+    "hint": "向下捲動查看效果 ↓",
+    "cards": [
+      "Discover",
+      "Compose",
+      "Refine",
+      "Deliver",
+      "Observe",
+      "Repeat"
+    ]
+  },
+  "defaults": {
+    "direction": "up",
+    "duration": 0.75,
+    "offset": 56,
+    "start": 84,
+    "stagger": 0.12,
+    "delay": 0,
+    "ease": "power2.out",
+    "reset": true
+  }
+}

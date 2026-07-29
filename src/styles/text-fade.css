@@ -1,0 +1,82 @@
+.text-fade-demo {
+  height: 100%;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+.text-fade-demo__intro {
+  display: grid;
+  min-height: 78%;
+  place-items: center;
+  padding: 2rem;
+  text-align: center;
+}
+
+.text-fade-demo__intro-label,
+.text-fade-demo__section-label {
+  margin: 0 0 1rem;
+  color: #7a889b;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+
+.text-fade-demo__intro-title {
+  margin: 0;
+  color: #314d74;
+  font-size: clamp(2rem, 5vw, 4.5rem);
+  font-weight: 500;
+  letter-spacing: -0.06em;
+  line-height: 0.95;
+}
+
+.text-fade-demo__scroll-hint {
+  display: inline-block;
+  margin-top: 2rem;
+  color: #5f7189;
+  font-size: 0.8rem;
+}
+
+.text-fade-demo__content {
+  padding: 2rem clamp(1.5rem, 6vw, 6rem) 30vh;
+}
+
+.text-fade-demo__section {
+  display: flex;
+  min-height: 70vh;
+  flex-direction: column;
+  justify-content: center;
+  border-top: 1px solid rgb(49 77 116 / 14%);
+}
+
+.text-fade-demo__text {
+  margin: 0;
+  color: #314d74;
+  font-size: clamp(2rem, 5vw, 5.5rem);
+  font-weight: 500;
+  letter-spacing: -0.055em;
+  line-height: 1.05;
+}
+
+[data-fade-text],
+[data-fade-brtext],
+[data-fade-3dtext] {
+  opacity: 0;
+}
+
+.text-fade-character {
+  display: inline-block;
+  will-change: transform, opacity;
+}
+
+.text-fade-word {
+  display: inline-block;
+  white-space: nowrap;
+}
+
+@media (max-width: 42rem) {
+  .text-fade-demo__content {
+    padding-inline: 1.25rem;
+  }
+}
