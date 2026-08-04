@@ -66,18 +66,40 @@ const {
           :key="item.href ?? item.title"
           class="content-directory__item"
         >
-          <a v-if="item.href" class="content-directory__link" :href="item.href">
-            <span>
-              <span class="content-directory__item-title">{{ item.title }}</span>
-              <span class="content-directory__item-category">{{ item.category }}</span>
+          <div
+            class="content-directory__link"
+            :class="{ 'content-directory__link--pending': !item.href }"
+          >
+            <span class="content-directory__item-content">
+              <a v-if="item.href" class="content-directory__title-link" :href="item.href">
+                <span class="content-directory__item-title">{{ item.title }}</span>
+              </a>
+              <span v-else class="content-directory__item-title">{{ item.title }}</span>
+
+              <span v-if="item.subtitle" class="content-directory__item-note">
+                {{ item.subtitle }}
+              </span>
+
+              <button
+                v-if="item.category"
+                class="content-directory__item-tag"
+                type="button"
+                :aria-label="`篩選分類：${item.category}`"
+                :aria-pressed="selectedCategory === item.category"
+                @click="selectedCategory = item.category"
+              >
+                {{ item.category }}
+              </button>
             </span>
-            <span class="content-directory__arrow" aria-hidden="true">→</span>
-          </a>
-          <div v-else class="content-directory__link content-directory__link--pending">
-            <span>
-              <span class="content-directory__item-title">{{ item.title }}</span>
-              <span class="content-directory__item-category">{{ item.category }}</span>
-            </span>
+
+            <a
+              v-if="item.href"
+              class="content-directory__arrow-link"
+              :href="item.href"
+              :aria-label="`前往 ${item.title}`"
+            >
+              <span class="content-directory__arrow" aria-hidden="true">→</span>
+            </a>
           </div>
         </li>
       </ul>

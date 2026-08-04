@@ -1,7 +1,14 @@
 ---
-import ObjectFadeActiveDemo from '../../../components/ObjectFadeActiveDemo.vue';
-import '../../../styles/global.css';
+import PageLinkHighlightGuide from './PageLinkHighlightGuide.vue';
+import '../styles/global.css';
 
+interface Props {
+  groupId: string;
+  initialId: string;
+  title: string;
+}
+
+const { groupId, initialId, title } = Astro.props;
 const baseUrl = `${import.meta.env.BASE_URL.replace(/\/$/, '')}/`;
 ---
 
@@ -10,12 +17,17 @@ const baseUrl = `${import.meta.env.BASE_URL.replace(/\/$/, '')}/`;
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Object Fade Active | One Page Tool</title>
+  <title>{title} | One Page Tool</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 </head>
-<body class="h-screen overflow-hidden bg-[#f5f1ea] font-['Inter',sans-serif] text-[#314d74]">
-  <ObjectFadeActiveDemo client:load baseUrl={baseUrl} />
+<body class="min-h-screen bg-[#f5f1ea] font-['Inter',sans-serif] text-[#314d74]">
+  <PageLinkHighlightGuide
+    client:only="vue"
+    baseUrl={baseUrl}
+    groupId={groupId}
+    initialId={initialId}
+  />
 </body>
 </html>

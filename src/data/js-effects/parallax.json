@@ -1,0 +1,98 @@
+{
+  "info": {
+    "eyebrow": "JS Effect",
+    "title": "Parallax",
+    "summary": "將元素綁定原生捲動位置，依元素速度與初始偏移產生垂直視差效果。"
+  },
+  "usage": {
+    "title": "使用方式",
+    "description": "在視差元素加入 luxy-el 類別與對應的 data attribute，再呼叫 parallax.init()。",
+    "examples": [
+      {
+        "label": "DOM 元素",
+        "code": "<div class=\"luxy-el\" data-speed-y=\"10\" data-offset=\"-50\">\n  Parallax content\n</div>"
+      },
+      {
+        "label": "JavaScript",
+        "code": "parallax.init({\n  targets: '.luxy-el',\n  targetSpeed: 0.02,\n  scrub: true\n});"
+      }
+    ],
+    "parameters": [
+      {
+        "name": "data-speed-y",
+        "description": "控制元素在 Y 軸上的移動速率。"
+      },
+      {
+        "name": "data-offset",
+        "description": "控制元素初始的 Y 軸偏移量。"
+      },
+      {
+        "name": "targets",
+        "description": "指定要套用效果的元素選擇器，預設為 .luxy-el。"
+      },
+      {
+        "name": "targetSpeed",
+        "description": "設定整體視差移動倍率，預設為 0.02。"
+      },
+      {
+        "name": "scrub",
+        "description": "設定效果是否跟隨捲動進度，預設為 true。"
+      }
+    ],
+    "currentLabel": "目前設定"
+  },
+  "controls": {
+    "title": "參數控制",
+    "choices": [],
+    "fieldsTitle": "Parallax 設定",
+    "fields": [
+      {
+        "key": "speedY",
+        "label": "Speed Y",
+        "type": "number",
+        "step": 1
+      },
+      {
+        "key": "offset",
+        "label": "Offset",
+        "unit": "px",
+        "type": "number",
+        "step": 1
+      },
+      {
+        "key": "targetSpeed",
+        "label": "Target Speed",
+        "type": "number",
+        "step": 0.01
+      },
+      {
+        "key": "scrub",
+        "label": "Scrub：跟隨捲動進度",
+        "type": "checkbox"
+      }
+    ],
+    "submitLabel": "套用設定"
+  },
+  "preview": {
+    "label": "Live Preview",
+    "title": "Layers in motion",
+    "hint": "向下捲動查看視差效果 ↓",
+    "sections": [
+      {
+        "index": "01",
+        "title": "Image Parallax",
+        "note": "Scroll creates depth through vertical motion",
+        "image": "https://images.unsplash.com/photo-1750157815846-d51ccaf99b42?auto=format&fit=crop&w=1400&q=85",
+        "alt": "雪山與湖面倒影的空拍風景",
+        "credit": "DEENOW",
+        "source": "https://unsplash.com/photos/mountains-and-a-lake-reflecting-the-beautiful-landscape-kblRqsIVebw"
+      }
+    ]
+  },
+  "defaults": {
+    "speedY": 10,
+    "offset": -50,
+    "targetSpeed": 0.02,
+    "scrub": true
+  }
+}

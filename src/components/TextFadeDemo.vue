@@ -74,7 +74,7 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <EffectShowcaseLayout>
+  <EffectShowcaseLayout :back-href="`${baseUrl}js-effects/`">
     <template #info>
       <EffectInfoPanel
         :back-href="`${baseUrl}js-effects/`"

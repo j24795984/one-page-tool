@@ -1,0 +1,198 @@
+{
+  "info": {
+    "summary": "在不能修改後端、路由與 HTML 架構，只能注入 JavaScript／CSS 的前提下，以目前 URL 與既有 DOM 判斷 Top Menu 狀態是合理的做法；其他可控制路由的網站則應改由各自的渲染架構管理。"
+  },
+  "groups": [
+    {
+      "id": "fallback",
+      "label": "第三方平台",
+      "description": "無法控制網站輸出時的補強方案。",
+      "options": [
+        {
+          "id": "shopline",
+          "label": "Shopline／第三方平台",
+          "short": "注入既有頁面並比對網址",
+          "badge": "URL／DOM fallback",
+          "category": "第三方平台",
+          "title": "Shopline／第三方平台注入方式",
+          "rendering": "Injected enhancement",
+          "summary": "在不能修改後端、路由與 HTML 架構，只能注入 JavaScript／CSS 的前提下，目前以 pageLinkFocus.js 判斷網址並修改既有 Top Menu class 的方向是合理的。",
+          "source": "window.location 與既有 Top Menu 連結",
+          "lifecycle": "頁面載入；平台使用 AJAX 換頁時需再次執行",
+          "recommendation": "保留 pageLinkFocus.js 作為第三方平台專用 fallback",
+          "notes": [
+            "Selector 應限定在 Top Menu，避免同時修改 Footer 或內容連結。",
+            "完全相同路徑優先；否則選擇最長且有效的父路徑。",
+            "特殊網址映射應集中設定，不寫死在共用比對流程。"
+          ],
+          "samples": [
+            {
+              "label": "平台注入位置",
+              "language": "HTML",
+              "code": "<!-- Shopline 自訂程式碼區：不修改既有 Top Menu 結構 -->\n<link rel=\"stylesheet\" href=\"/assets/page-link-focus.css\">\n<script src=\"/assets/pageLinkFocus.bundle.js\" defer></script>"
+            },
+            {
+              "label": "狀態樣式契約",
+              "language": "CSS",
+              "code": ".top-menu a.active {\n  color: var(--menu-active-color);\n}\n\n.top-menu a[aria-current=\"page\"] {\n  text-decoration-thickness: 2px;\n}"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "coupled",
+      "label": "前後端耦合渲染",
+      "description": "後端在輸出 HTML 時決定目前選單。",
+      "options": [
+        {
+          "id": "php-slim",
+          "label": "PHP／Slim 4",
+          "short": "使用 route name 與 section",
+          "category": "前後端耦合渲染",
+          "title": "由後端路由直接輸出選單狀態",
+          "rendering": "Server-rendered HTML",
+          "summary": "後端已知道目前命中的路由，不需要在瀏覽器重新解析網址。以 route name 或 menu section 作為唯一狀態來源，再由模板輸出 class 與 aria-current。",
+          "source": "Slim RouteContext、route name 與 menu section",
+          "lifecycle": "每一次伺服器 request render",
+          "recommendation": "路由決定狀態，模板輸出語意，CSS 負責視覺",
+          "notes": [
+            "所有需要判斷的 Slim route 都應設定名稱。",
+            "詳細頁使用相同 section，避免依動態 slug 判斷。",
+            "目前頁使用 aria-current；父層分類可使用 is-ancestor。"
+          ],
+          "samples": [
+            {
+              "label": "命名路由與 Section",
+              "language": "PHP",
+              "code": "$app->get('/products', ProductController::class . ':index')\n    ->setName('products.index');\n\n$app->get('/products/{slug}', ProductController::class . ':detail')\n    ->setName('products.detail');\n\n$currentSection = str_starts_with($currentRoute, 'products.')\n    ? 'products'\n    : null;"
+            },
+            {
+              "label": "模板輸出",
+              "language": "Twig",
+              "code": "<a\n  href=\"{{ url_for('products.index') }}\"\n  class=\"{{ currentSection == 'products' ? 'active' : '' }}\"\n  {% if currentRoute == 'products.index' %}aria-current=\"page\"{% endif %}\n>\n  Products\n</a>"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "frontend",
+      "label": "前端渲染",
+      "description": "由 Router 或框架 render context 管理。",
+      "options": [
+        {
+          "id": "vue",
+          "label": "Vue Router",
+          "short": "RouterLink 與 route meta",
+          "category": "前端渲染／SPA",
+          "title": "使用 RouterLink 的路由匹配狀態",
+          "rendering": "Client-side routing",
+          "summary": "RouterLink 已提供 active 與 exact-active 狀態。一般頁面直接使用內建 class；跨頁面分類則透過 route meta 指定所屬 Top Menu。",
+          "source": "Vue Router route record、params 與 route meta",
+          "lifecycle": "Router navigation 後自動重新渲染",
+          "recommendation": "使用 RouterLink，不掃描渲染完成後的 DOM",
+          "notes": [
+            "exact-active 表示目前頁面，active 可涵蓋巢狀父路由。",
+            "News 詳細頁等特殊對應放在 meta.topMenu。",
+            "可在 createRouter 統一設定 active class 名稱。"
+          ],
+          "samples": [
+            {
+              "label": "Top Menu 元件",
+              "language": "Vue",
+              "code": "<RouterLink\n  to=\"/products\"\n  active-class=\"is-ancestor\"\n  exact-active-class=\"active\"\n>\n  Products\n</RouterLink>"
+            },
+            {
+              "label": "特殊分類",
+              "language": "Router config",
+              "code": "{\n  path: '/news/:slug',\n  component: NewsDetail,\n  meta: { topMenu: 'news' }\n}"
+            }
+          ]
+        },
+        {
+          "id": "react",
+          "label": "React Router",
+          "short": "NavLink 與 route matches",
+          "category": "前端渲染／SPA",
+          "title": "使用 NavLink 管理 Active 與 Pending",
+          "rendering": "Client-side routing",
+          "summary": "React Router 的 NavLink 直接提供 isActive 與 isPending。單層選單可使用 end 限制精確匹配，多層選單則由 route hierarchy 與 metadata 表達父子關係。",
+          "source": "React Router location、route match 與 handle metadata",
+          "lifecycle": "Router location 改變後自動重新渲染",
+          "recommendation": "頁面狀態使用 NavLink，分類狀態使用 route metadata",
+          "notes": [
+            "首頁與單層項目使用 end，避免前綴造成誤啟用。",
+            "多層選單不要只靠 pathname 字串推算 DOM 祖先。",
+            "NavLink 會替 active link 提供 aria-current 語意。"
+          ],
+          "samples": [
+            {
+              "label": "單層 Top Menu",
+              "language": "JSX",
+              "code": "<NavLink\n  to=\"/products\"\n  end\n  className={({ isActive }) => isActive ? 'active' : ''}\n>\n  Products\n</NavLink>"
+            },
+            {
+              "label": "多層分類資料",
+              "language": "Route config",
+              "code": "{\n  path: 'products/:slug',\n  element: <ProductDetail />,\n  handle: { topMenu: 'products' }\n}"
+            }
+          ]
+        },
+        {
+          "id": "next",
+          "label": "Next.js App Router",
+          "short": "Pathname 與 layout segment",
+          "category": "前端渲染／Hybrid",
+          "title": "在小型 Client Component 管理選單",
+          "rendering": "SSR / RSC + client navigation",
+          "summary": "Next.js Link 沒有內建 active 狀態。Top Menu 可維持在共用 layout，並讓一個範圍很小的 Client Component 使用 pathname 或 selected layout segment 判斷目前項目。",
+          "source": "App Router pathname 或 selected layout segment",
+          "lifecycle": "初次伺服器輸出，client navigation 後重新渲染",
+          "recommendation": "只讓 Top Menu link 包裝元件成為 Client Component",
+          "notes": [
+            "避免為了 active 狀態把整個 Header 都改成 Client Component。",
+            "使用 rewrite 時需注意伺服器與瀏覽器 pathname 不一致。",
+            "特殊分類集中在 route-to-menu 設定，不分散於元件。"
+          ],
+          "samples": [
+            {
+              "label": "共用 Layout",
+              "language": "TSX",
+              "code": "export default function Layout({ children }) {\n  return (\n    <>\n      <TopMenu />\n      <main>{children}</main>\n    </>\n  );\n}"
+            },
+            {
+              "label": "Top Menu Link 介面",
+              "language": "TSX",
+              "code": "<TopMenuLink href=\"/products\">Products</TopMenuLink>\n<TopMenuLink href=\"/news\">News</TopMenuLink>"
+            }
+          ]
+        },
+        {
+          "id": "astro",
+          "label": "Astro",
+          "short": "Render context 或 ClientRouter",
+          "category": "前端渲染／MPA 與 Hybrid",
+          "title": "依 Astro Render Context 輸出狀態",
+          "rendering": "SSG / SSR / optional client routing",
+          "summary": "一般 Astro 頁面可在伺服器或建置階段使用 Astro.url.pathname，直接輸出 active class；只有持久化 Header 搭配 ClientRouter 時，才需要在換頁完成後更新狀態。",
+          "source": "Astro.url.pathname、routePattern 或 page data",
+          "lifecycle": "每頁 render；ClientRouter 模式則跟隨頁面導航",
+          "recommendation": "預設採 render-time 判斷，不額外加入 client script",
+          "notes": [
+            "一般換頁會取得新的 HTML，Top Menu 狀態自然更新。",
+            "可用 class:list 輸出 class，並保留 aria-current。",
+            "使用 transition:persist 保留 Header 時才需要額外同步。"
+          ],
+          "samples": [
+            {
+              "label": "Astro Top Menu",
+              "language": "Astro",
+              "code": "---\nconst { href, label } = Astro.props;\nconst pathname = Astro.url.pathname;\nconst exact = pathname === href;\nconst section = href !== '/' && pathname.startsWith(`${href}/`);\n---\n\n<a\n  href={href}\n  class:list={{ active: exact || section }}\n  aria-current={exact ? 'page' : undefined}\n>\n  {label}\n</a>"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

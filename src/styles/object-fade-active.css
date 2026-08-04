@@ -19,7 +19,7 @@
 .object-fade-demo__intro-label {
   margin: 0 0 1rem;
   color: #7a889b;
-  font-size: 0.72rem;
+  font-size: var(--type-text-caption);
   font-weight: 600;
   letter-spacing: 0.15em;
   text-transform: uppercase;
@@ -28,7 +28,7 @@
 .object-fade-demo__intro-title {
   margin: 0;
   color: #314d74;
-  font-size: clamp(2rem, 5vw, 4.5rem);
+  font-size: var(--type-display-md);
   font-weight: 500;
   letter-spacing: -0.06em;
   line-height: 0.95;
@@ -38,7 +38,7 @@
   display: inline-block;
   margin-top: 2rem;
   color: #5f7189;
-  font-size: 0.8rem;
+  font-size: var(--type-text-small);
 }
 
 .object-fade-demo__grid {
@@ -63,13 +63,13 @@
 
 .object-fade-demo__card-index {
   color: #7a889b;
-  font-size: 0.72rem;
+  font-size: var(--type-text-caption);
   letter-spacing: 0.12em;
 }
 
 .object-fade-demo__card-title {
   margin: 0;
-  font-size: clamp(1.2rem, 2.5vw, 2rem);
+  font-size: var(--type-display-sm);
   font-weight: 500;
 }
 

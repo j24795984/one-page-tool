@@ -16,7 +16,7 @@
 .text-fade-demo__section-label {
   margin: 0 0 1rem;
   color: #7a889b;
-  font-size: 0.72rem;
+  font-size: var(--type-text-caption);
   font-weight: 600;
   letter-spacing: 0.15em;
   text-transform: uppercase;
@@ -25,7 +25,7 @@
 .text-fade-demo__intro-title {
   margin: 0;
   color: #314d74;
-  font-size: clamp(2rem, 5vw, 4.5rem);
+  font-size: var(--type-display-md);
   font-weight: 500;
   letter-spacing: -0.06em;
   line-height: 0.95;
@@ -35,7 +35,7 @@
   display: inline-block;
   margin-top: 2rem;
   color: #5f7189;
-  font-size: 0.8rem;
+  font-size: var(--type-text-small);
 }
 
 .text-fade-demo__content {
@@ -53,7 +53,7 @@
 .text-fade-demo__text {
   margin: 0;
   color: #314d74;
-  font-size: clamp(2rem, 5vw, 5.5rem);
+  font-size: var(--type-display-lg);
   font-weight: 500;
   letter-spacing: -0.055em;
   line-height: 1.05;

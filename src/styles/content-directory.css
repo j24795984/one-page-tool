@@ -20,7 +20,7 @@
   display: block;
   margin-bottom: 0.65rem;
   color: #314d74;
-  font-size: 0.75rem;
+  font-size: var(--type-text-small);
   font-weight: 600;
   letter-spacing: 0.08em;
 }
@@ -85,7 +85,7 @@
 .content-directory__title {
   margin: 0;
   color: #314d74;
-  font-size: clamp(2rem, 4vw, 3.5rem);
+  font-size: var(--type-heading-1);
   font-weight: 500;
   letter-spacing: -0.04em;
 }
@@ -94,7 +94,7 @@
   flex: none;
   margin: 0 0 0.4rem;
   color: #7a889b;
-  font-size: 0.85rem;
+  font-size: var(--type-text-small);
 }
 
 .content-directory__item {
@@ -115,26 +115,66 @@
   text-decoration: none;
 }
 
-.content-directory__link:hover .content-directory__item-title {
-  transform: translateX(0.35rem);
+.content-directory__item-content {
+  min-width: 0;
 }
 
-.content-directory__link--pending:hover .content-directory__item-title {
-  transform: none;
+.content-directory__title-link,
+.content-directory__arrow-link {
+  color: inherit;
+  text-decoration: none;
+}
+
+.content-directory__title-link:hover .content-directory__item-title {
+  transform: translateX(0.35rem);
 }
 
 .content-directory__item-title {
   display: block;
-  font-size: clamp(1.15rem, 2vw, 1.5rem);
+  font-size: var(--type-heading-3);
   font-weight: 500;
   transition: transform 160ms ease;
 }
 
-.content-directory__item-category {
+.content-directory__item-note {
   display: block;
-  margin-top: 0.35rem;
+  margin-top: 0.45rem;
   color: #7a889b;
-  font-size: 0.8rem;
+  font-size: var(--type-text-small);
+  line-height: 1.55;
+}
+
+.content-directory__item-tag {
+  display: inline-flex;
+  align-items: center;
+  margin-top: 0.7rem;
+  border: 1px solid rgb(49 77 116 / 32%);
+  border-radius: 999px;
+  background: transparent;
+  padding: 0.28rem 0.65rem;
+  color: #5f7189;
+  font: inherit;
+  font-size: var(--type-text-small);
+  line-height: 1.2;
+  cursor: pointer;
+}
+
+.content-directory__item-tag:hover,
+.content-directory__item-tag[aria-pressed='true'] {
+  border-color: #314d74;
+  color: #314d74;
+}
+
+.content-directory__item-tag:focus-visible {
+  outline: 2px solid #314d74;
+  outline-offset: 2px;
+}
+
+.content-directory__arrow-link {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
 }
 
 .content-directory__arrow {

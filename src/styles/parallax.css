@@ -1,0 +1,128 @@
+.parallax-demo {
+  height: 100%;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+.parallax-demo__content {
+  position: relative;
+  overflow: hidden;
+  background: #f5f1ea;
+}
+
+.parallax-demo__section {
+  border-bottom: 1px solid rgb(49 77 116 / 14%);
+}
+
+.parallax-demo__section-heading {
+  display: flex;
+  min-height: 48vh;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: clamp(3rem, 7vw, 6rem);
+}
+
+.parallax-demo__section-heading p {
+  margin: 0 0 1rem;
+  color: #7a889b;
+  font-size: var(--type-text-caption);
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+
+.parallax-demo__section-heading h2 {
+  margin: 0;
+  color: #314d74;
+  font-size: var(--type-display-xl);
+  font-weight: 500;
+  letter-spacing: -0.07em;
+  line-height: 0.86;
+}
+
+.parallax-demo__section-heading span {
+  margin-top: 1.5rem;
+  color: #5f7189;
+  font-size: var(--type-text-body);
+}
+
+.parallax-demo__stage {
+  position: relative;
+  display: grid;
+  min-height: 88vh;
+  place-items: center;
+  overflow: hidden;
+  border-top: 1px solid rgb(49 77 116 / 14%);
+  background: #e2e7e9;
+  padding: clamp(4rem, 8vw, 7rem) clamp(1.5rem, 7vw, 6rem);
+}
+
+.parallax-demo__section:nth-of-type(even) .parallax-demo__stage {
+  background: #ddd7cd;
+}
+
+.parallax-demo__stage-label {
+  position: absolute;
+  top: 1.5rem;
+  left: clamp(1.5rem, 5vw, 4rem);
+  color: rgb(49 77 116 / 55%);
+  font-size: var(--type-text-caption);
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.parallax-demo__object {
+  position: relative;
+  width: min(82%, 44rem);
+  margin: 0;
+  border-radius: 0.5rem;
+  background: #314d74;
+  box-shadow: 0 2rem 5rem rgb(25 42 64 / 24%);
+  color: #314d74;
+  overflow: hidden;
+  will-change: transform;
+}
+
+.parallax-demo__object img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  object-fit: cover;
+}
+
+.parallax-demo__object figcaption {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1rem 1.1rem 1.1rem;
+  background: #f5f1ea;
+}
+
+.parallax-demo__object figcaption span,
+.parallax-demo__object a {
+  color: #5f7189;
+  font-size: var(--type-text-caption);
+  line-height: 1.45;
+}
+
+.parallax-demo__object a {
+  text-underline-offset: 0.18em;
+}
+
+@media (max-width: 42rem) {
+  .parallax-demo__section-heading {
+    min-height: 42vh;
+    padding-inline: 1.5rem;
+  }
+
+  .parallax-demo__stage {
+    min-height: 82vh;
+    padding-inline: 1.25rem;
+  }
+
+  .parallax-demo__object {
+    width: 88%;
+  }
+}

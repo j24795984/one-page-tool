@@ -6,12 +6,27 @@ import '../../styles/global.css';
 const baseUrl = `${import.meta.env.BASE_URL.replace(/\/$/, '')}/`;
 const items = [
   {
-    title: 'Page Link Highlight',
-    category: '導覽'
+    title: 'Page Link Highlight — 第三方平台',
+    category: '導覽',
+    subtitle: '無法控制 HTML 與後端時的 URL／DOM fallback',
+    href: `${baseUrl}js-effects/page-link-highlight/`
+  },
+  {
+    title: 'Page Link Highlight — 後端路由',
+    category: '導覽',
+    subtitle: '前後端耦合渲染',
+    href: `${baseUrl}js-effects/page-link-highlight/backend/`
+  },
+  {
+    title: 'Page Link Highlight — 前端路由',
+    category: '導覽',
+    subtitle: '前端渲染',
+    href: `${baseUrl}js-effects/page-link-highlight/frontend/`
   },
   {
     title: 'Parallax',
-    category: '視差'
+    category: '視差',
+    href: `${baseUrl}js-effects/parallax/`
   },
   {
     title: 'Text Fade',

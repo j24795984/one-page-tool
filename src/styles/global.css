@@ -1,1 +1,28 @@
 @import "tailwindcss";
+
+:root {
+  /* Display: effect previews and visual statements. */
+  --type-display-xl: clamp(3.5rem, 9vw, 8rem);
+  --type-display-lg: clamp(2rem, 5vw, 5.5rem);
+  --type-display-md: clamp(2rem, 5vw, 4.5rem);
+  --type-display-sm: clamp(1.25rem, 2.5vw, 2rem);
+
+  /* Heading: page and content hierarchy. */
+  --type-heading-1: clamp(2rem, 4vw, 4rem);
+  --type-heading-2: clamp(1.75rem, 3vw, 3.25rem);
+  --type-heading-3: 1.25rem;
+
+  /* Text: reading and supporting content. */
+  --type-text-lead: clamp(1.1rem, 2vw, 1.65rem);
+  --type-text-body: 1rem;
+  --type-text-small: 0.875rem;
+  --type-text-caption: 0.75rem;
+}
+
+html {
+  font-size: 100%;
+}
+
+body {
+  font-size: var(--type-text-body);
+}
