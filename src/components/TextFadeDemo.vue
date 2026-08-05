@@ -4,6 +4,7 @@ import EffectControlsPanel from './EffectControlsPanel.vue';
 import EffectInfoPanel from './EffectInfoPanel.vue';
 import EffectShowcaseLayout from './EffectShowcaseLayout.vue';
 import effectData from '../data/js-effects/text-fade.json';
+import textFadeDownloadUrl from '../scripts/text-fade.js?url';
 import '../styles/text-fade.css';
 
 defineProps({
@@ -81,6 +82,8 @@ onBeforeUnmount(() => {
         :info="effectData.info"
         :usage="effectData.usage"
         :current-code="parameterCode"
+        :download-href="textFadeDownloadUrl"
+        download-filename="text-fade.js"
       />
     </template>
 

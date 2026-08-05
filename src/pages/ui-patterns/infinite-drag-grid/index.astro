@@ -1,0 +1,145 @@
+---
+import PatternGuideLayout from '../../../components/PatternGuideLayout.astro';
+import '../../../styles/global.css';
+import '../../../styles/infinite-drag-grid.css';
+
+const baseUrl = `${import.meta.env.BASE_URL.replace(/\/$/, '')}/`;
+---
+
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Infinite Drag Grid | One Page Tool</title>
+</head>
+<body class="infinite-drag-grid-page">
+  <PatternGuideLayout
+    backHref={`${baseUrl}ui-patterns/`}
+    eyebrow="GSAP Draggable"
+    title="Infinite Drag Grid"
+    summary="拖曳卡片網格，透過座標循環形成無限延伸效果。"
+  >
+    <div slot="details" class="pattern-guide__details">
+      <section>
+        <h2>基本說明</h2>
+        <p>模擬無限卡片區塊，以整個 viewport 作為拖曳區，grid-container 負責承載卡片。</p>
+        <a href="https://godly.website/" target="_blank" rel="noreferrer">參考網站：Godly</a>
+      </section>
+
+      <section>
+        <h2>製作方式</h2>
+        <ol>
+          <li>依視窗尺寸建立卡片，並在畫面外多保留四排緩衝區。</li>
+          <li>使用 gsap.utils.wrap 計算卡片循環座標。</li>
+          <li>以 quickSetter 更新卡片的 x、y transform。</li>
+          <li>透過 Draggable 與 InertiaPlugin 處理拖曳及放手後的慣性。</li>
+          <li>視窗縮放時重新建立並渲染網格。</li>
+        </ol>
+      </section>
+    </div>
+
+    <div id="viewport">
+      <div id="grid-container"></div>
+    </div>
+  </PatternGuideLayout>
+
+  <script>
+    import gsap from 'gsap';
+    import { Draggable } from 'gsap/Draggable';
+    import { InertiaPlugin } from 'gsap/InertiaPlugin';
+
+    gsap.registerPlugin(Draggable, InertiaPlugin);
+
+    const viewport = document.getElementById('viewport');
+    const container = document.getElementById('grid-container');
+
+    const cardW = 320;
+    const cardH = 220;
+    const gap = 24;
+    const cellW = cardW + gap;
+    const cellH = cardH + gap;
+
+    let cardObjects = [];
+    let wrapX;
+    let wrapY;
+    let totalW;
+    let totalH;
+
+    function init() {
+      container.innerHTML = '';
+      cardObjects = [];
+
+      const cols = Math.ceil(window.innerWidth / cellW) + 4;
+      const rows = Math.ceil(window.innerHeight / cellH) + 4;
+      totalW = cols * cellW;
+      totalH = rows * cellH;
+
+      wrapX = gsap.utils.wrap(-cellW, totalW - cellW);
+      wrapY = gsap.utils.wrap(-cellH, totalH - cellH);
+
+      for (let i = 0; i < cols * rows; i++) {
+        const el = document.createElement('div');
+        const seed = i + 100;
+
+        el.className = 'card';
+        el.innerHTML = `
+          <div class="card-img" style="background-image: url('https://picsum.photos/seed/${seed}/400/300')"></div>
+          <div class="card-label">PROJECT ${seed}</div>
+        `;
+
+        container.appendChild(el);
+
+        const startX = (i % cols) * cellW;
+        const startY = Math.floor(i / cols) * cellH;
+        const setX = gsap.quickSetter(el, 'x', 'px');
+        const setY = gsap.quickSetter(el, 'y', 'px');
+
+        cardObjects.push({ el, startX, startY, setX, setY });
+      }
+    }
+
+    function render() {
+      const gridX = gsap.getProperty(container, 'x');
+      const gridY = gsap.getProperty(container, 'y');
+
+      cardObjects.forEach((card) => {
+        const nextX = wrapX(card.startX + gridX) - gridX;
+        const nextY = wrapY(card.startY + gridY) - gridY;
+
+        card.setX(nextX);
+        card.setY(nextY);
+      });
+    }
+
+    Draggable.create(container, {
+      trigger: viewport,
+      type: 'x,y',
+      inertia: true,
+      onDrag: render,
+      onThrowUpdate: render,
+      onClick(event) {
+        const card = event.target.closest('.card');
+
+        if (card) {
+          alert(`點擊成功：${card.innerText}`);
+        }
+      },
+      onPress: () => {
+        viewport.style.cursor = 'grabbing';
+      },
+      onRelease: () => {
+        viewport.style.cursor = 'grab';
+      }
+    });
+
+    init();
+    render();
+
+    window.addEventListener('resize', () => {
+      init();
+      render();
+    });
+  </script>
+</body>
+</html>

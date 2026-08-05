@@ -15,6 +15,14 @@ defineProps({
   currentCode: {
     type: String,
     default: ''
+  },
+  downloadHref: {
+    type: String,
+    default: ''
+  },
+  downloadFilename: {
+    type: String,
+    default: 'effect.js'
   }
 });
 </script>
@@ -23,6 +31,15 @@ defineProps({
   <a class="effect-info__back" :href="backHref">← 返回 JS 效果</a>
   <p class="effect-info__eyebrow">{{ info.eyebrow }}</p>
   <h1 class="effect-info__title">{{ info.title }}</h1>
+  <a
+    v-if="downloadHref"
+    class="effect-info__download"
+    :href="downloadHref"
+    :download="downloadFilename"
+  >
+    JS 下載
+    <span aria-hidden="true">↓</span>
+  </a>
   <p class="effect-info__summary">{{ info.summary }}</p>
 
   <section class="effect-info__usage" aria-labelledby="effect-usage-title">

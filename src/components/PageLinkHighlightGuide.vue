@@ -1,6 +1,7 @@
 <script setup>
 import { computed, ref } from 'vue';
 import guideData from '../data/js-effects/page-link-highlight.json';
+import pageLinkFocusDownloadUrl from '../scripts/pageLinkFocus.js?url';
 import '../styles/page-link-highlight.css';
 
 const props = defineProps({
@@ -41,6 +42,15 @@ const selectedOption = computed(() => (
 
       <p class="page-link-guide__eyebrow">Architecture Guide</p>
       <h1>Page Link<br>Highlight</h1>
+      <a
+        v-if="groupId === 'fallback'"
+        class="page-link-guide__download"
+        :href="pageLinkFocusDownloadUrl"
+        download="pageLinkFocus.js"
+      >
+        JS 下載
+        <span aria-hidden="true">↓</span>
+      </a>
       <p class="page-link-guide__summary">{{ guideData.info.summary }}</p>
 
       <nav class="page-link-guide__choices" aria-label="Top Menu Highlight 架構選擇">

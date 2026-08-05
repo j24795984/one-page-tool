@@ -1,0 +1,87 @@
+---
+import '../styles/pattern-guide.css';
+
+const {
+  backHref,
+  eyebrow,
+  title,
+  summary
+} = Astro.props;
+---
+
+<main class="pattern-guide">
+  <header class="pattern-guide__mobile-header">
+    <a class="pattern-guide__mobile-back" href={backHref}>← 返回 UI 範例</a>
+  </header>
+
+  <aside id="pattern-guide-sidebar" class="pattern-guide__sidebar" data-pattern-sidebar>
+    <div id="pattern-guide-sidebar-content" class="pattern-guide__sidebar-content" data-pattern-sidebar-content>
+      <a class="pattern-guide__back" href={backHref}>← 返回 UI 範例</a>
+      <p class="pattern-guide__eyebrow">{eyebrow}</p>
+      <h1 class="pattern-guide__title">{title}</h1>
+      <p class="pattern-guide__summary">{summary}</p>
+      <slot name="details" />
+    </div>
+  </aside>
+
+  <article class="pattern-guide__content">
+    <slot />
+  </article>
+
+  <button
+    class="pattern-guide__mobile-backdrop"
+    type="button"
+    aria-label="關閉說明"
+    data-pattern-mobile-backdrop
+    hidden
+  ></button>
+
+  <nav class="pattern-guide__mobile-menu" aria-label="頁面選單">
+    <button
+      type="button"
+      aria-expanded="false"
+      aria-controls="pattern-guide-sidebar"
+      data-pattern-mobile-toggle
+    >
+      說明
+    </button>
+  </nav>
+</main>
+
+<script>
+  const mobileSidebar = window.matchMedia('(max-width: 56rem)');
+
+  document.querySelectorAll('[data-pattern-sidebar]').forEach((sidebar) => {
+    const guide = sidebar.closest('.pattern-guide');
+    const toggle = guide?.querySelector('[data-pattern-mobile-toggle]');
+    const backdrop = guide?.querySelector('[data-pattern-mobile-backdrop]');
+    const content = sidebar.querySelector('[data-pattern-sidebar-content]');
+
+    if (!(toggle instanceof HTMLButtonElement) || !(backdrop instanceof HTMLButtonElement) || !(content instanceof HTMLElement)) {
+      return;
+    }
+
+    const setOpen = (open) => {
+      const mobileOpen = mobileSidebar.matches && open;
+
+      sidebar.classList.toggle('is-open', mobileOpen);
+      toggle.setAttribute('aria-expanded', String(mobileOpen));
+      backdrop.hidden = !mobileOpen;
+      content.inert = mobileSidebar.matches && !mobileOpen;
+      content.setAttribute('aria-hidden', String(mobileSidebar.matches && !mobileOpen));
+    };
+
+    toggle.addEventListener('click', () => {
+      setOpen(!sidebar.classList.contains('is-open'));
+    });
+
+    backdrop.addEventListener('click', () => setOpen(false));
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape') {
+        setOpen(false);
+      }
+    });
+    mobileSidebar.addEventListener('change', () => setOpen(false));
+    setOpen(false);
+  });
+</script>

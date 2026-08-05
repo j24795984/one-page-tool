@@ -1,0 +1,139 @@
+---
+import '../../../styles/global.css';
+import '../../../styles/horizontal-scroll.css';
+import 'lenis/dist/lenis.css';
+
+const baseUrl = `${import.meta.env.BASE_URL.replace(/\/$/, '')}/`;
+---
+
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Horizontal Scroll | One Page Tool</title>
+</head>
+<body class="horizontal-scroll-page">
+  <a class="horizontal-scroll__back" href={`${baseUrl}ui-patterns/`}>← 返回 UI 範例</a>
+
+  <main class="horizontal-scroll-demo">
+    <div class="horizontal-scroll__desktop">
+      <nav class="horizontal-scroll__nav">
+        <div class="horizontal-scroll__brand">HORIZONTAL SCROLL</div>
+        <div class="horizontal-scroll__meta">CSS Sticky / GSAP / Lenis</div>
+      </nav>
+
+      <header class="horizontal-scroll__intro">
+        <div>
+          <h2>Horizontal Scroll</h2>
+          <p>將垂直捲動進度映射為作品列表的橫向位移。桌面版以 CSS Sticky 固定展示舞台，由 GSAP ScrollTrigger 控制水平移動，並使用 Lenis 平滑原生捲動。</p>
+        </div>
+      </header>
+
+      <div class="horizontal-scroll__main js-horizontal-section">
+        <section class="horizontal-scroll__stage js-horizontal-stage">
+          <div class="horizontal-scroll__viewport">
+            <div class="horizontal-scroll__list js-horizontal-list">
+            <article class="horizontal-scroll__card">
+              <div class="horizontal-scroll__card-content">
+                <span class="horizontal-scroll__year">STEP 01 / CSS</span>
+                <h3>建立 Sticky 舞台</h3>
+                <p>外層保留垂直捲動高度，展示舞台使用 position: sticky 固定在視窗頂端。</p>
+              </div>
+            </article>
+
+            <article class="horizontal-scroll__card">
+              <div class="horizontal-scroll__card-content">
+                <span class="horizontal-scroll__year">STEP 02 / JavaScript</span>
+                <h3>計算水平距離</h3>
+                <p>以列表總寬度減去舞台寬度，取得水平移動距離並建立對等的垂直區間。</p>
+              </div>
+            </article>
+
+            <article class="horizontal-scroll__card">
+              <div class="horizontal-scroll__card-content">
+                <span class="horizontal-scroll__year">STEP 03 / GSAP</span>
+                <h3>映射捲動進度</h3>
+                <p>ScrollTrigger 讀取垂直捲動進度，將作品列表同步轉換為水平 translateX。</p>
+              </div>
+            </article>
+
+            <article class="horizontal-scroll__card">
+              <div class="horizontal-scroll__card-content">
+                <span class="horizontal-scroll__year">STEP 04 / Lenis</span>
+                <h3>平滑捲動更新</h3>
+                <p>Lenis 與 GSAP ticker、ScrollTrigger 同步，降低滾輪輸入造成的跳躍感。</p>
+              </div>
+            </article>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <footer class="horizontal-scroll__outro">
+        <div>
+          <h2>流程完成</h2>
+          <p>CSS Sticky / GSAP ScrollTrigger / Lenis</p>
+        </div>
+      </footer>
+    </div>
+
+    <section class="horizontal-scroll__mobile-message">
+      <p>此效果為電腦版限定</p>
+    </section>
+  </main>
+
+  <script>
+    import Lenis from 'lenis';
+    import gsap from 'gsap';
+    import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+    gsap.registerPlugin(ScrollTrigger);
+
+    const section = document.querySelector('.js-horizontal-section');
+    const stage = document.querySelector('.js-horizontal-stage');
+    const list = document.querySelector('.js-horizontal-list');
+
+    const media = gsap.matchMedia();
+
+    media.add('(min-width: 601px) and (prefers-reduced-motion: no-preference)', () => {
+      const getScrollAmount = () => Math.max(0, list.scrollWidth - stage.clientWidth);
+      const setScrollDistance = () => {
+        section.style.setProperty('--horizontal-scroll-distance', `${getScrollAmount()}px`);
+      };
+
+      const lenis = new Lenis({
+        smoothWheel: true,
+        syncTouch: false
+      });
+      const updateLenis = (time) => lenis.raf(time * 1000);
+
+      lenis.on('scroll', ScrollTrigger.update);
+      gsap.ticker.add(updateLenis);
+      gsap.ticker.lagSmoothing(0);
+      ScrollTrigger.addEventListener('refreshInit', setScrollDistance);
+      setScrollDistance();
+
+      gsap.to(list, {
+        x: () => -getScrollAmount(),
+        ease: 'none',
+        scrollTrigger: {
+          trigger: section,
+          start: 'top top',
+          end: () => `+=${getScrollAmount()}`,
+          scrub: true,
+          invalidateOnRefresh: true
+        }
+      });
+
+      return () => {
+        ScrollTrigger.removeEventListener('refreshInit', setScrollDistance);
+        gsap.ticker.remove(updateLenis);
+        gsap.ticker.lagSmoothing(500, 33);
+        lenis.destroy();
+        section.style.removeProperty('--horizontal-scroll-distance');
+      };
+    });
+  </script>
+</body>
+</html>

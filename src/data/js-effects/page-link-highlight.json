@@ -1,6 +1,6 @@
 {
   "info": {
-    "summary": "在不能修改後端、路由與 HTML 架構，只能注入 JavaScript／CSS 的前提下，以目前 URL 與既有 DOM 判斷 Top Menu 狀態是合理的做法；其他可控制路由的網站則應改由各自的渲染架構管理。"
+    "summary": "在不能修改後端、路由與 HTML 架構，只能注入 JavaScript/CSS 的前提下，以目前 URL 與既有 DOM 判斷 Top Menu 狀態是合理的做法；其他可控制路由的網站則應改由各自的渲染架構管理。"
   },
   "groups": [
     {
@@ -10,13 +10,13 @@
       "options": [
         {
           "id": "shopline",
-          "label": "Shopline／第三方平台",
+          "label": "Shopline/第三方平台",
           "short": "注入既有頁面並比對網址",
-          "badge": "URL／DOM fallback",
+          "badge": "URL/DOM fallback",
           "category": "第三方平台",
-          "title": "Shopline／第三方平台注入方式",
+          "title": "Shopline/第三方平台注入方式",
           "rendering": "Injected enhancement",
-          "summary": "在不能修改後端、路由與 HTML 架構，只能注入 JavaScript／CSS 的前提下，目前以 pageLinkFocus.js 判斷網址並修改既有 Top Menu class 的方向是合理的。",
+          "summary": "在不能修改後端、路由與 HTML 架構，只能注入 JavaScript/CSS 的前提下，目前以 pageLinkFocus.js 判斷網址並修改既有 Top Menu class 的方向是合理的。",
           "source": "window.location 與既有 Top Menu 連結",
           "lifecycle": "頁面載入；平台使用 AJAX 換頁時需再次執行",
           "recommendation": "保留 pageLinkFocus.js 作為第三方平台專用 fallback",
@@ -29,7 +29,7 @@
             {
               "label": "平台注入位置",
               "language": "HTML",
-              "code": "<!-- Shopline 自訂程式碼區：不修改既有 Top Menu 結構 -->\n<link rel=\"stylesheet\" href=\"/assets/page-link-focus.css\">\n<script src=\"/assets/pageLinkFocus.bundle.js\" defer></script>"
+              "code": "<!-- Shopline 自訂程式碼區：不修改既有 Top Menu 結構 -->\n<link rel=\"stylesheet\" href=\"/assets/page-link-focus.css\">\n<script type=\"module\">\n  import { linkHighlight } from '/assets/pageLinkFocus.js';\n\n  linkHighlight('.top-menu a');\n</script>"
             },
             {
               "label": "狀態樣式契約",
@@ -47,7 +47,7 @@
       "options": [
         {
           "id": "php-slim",
-          "label": "PHP／Slim 4",
+          "label": "PHP/Slim 4",
           "short": "使用 route name 與 section",
           "category": "前後端耦合渲染",
           "title": "由後端路由直接輸出選單狀態",
@@ -85,7 +85,7 @@
           "id": "vue",
           "label": "Vue Router",
           "short": "RouterLink 與 route meta",
-          "category": "前端渲染／SPA",
+          "category": "前端渲染/SPA",
           "title": "使用 RouterLink 的路由匹配狀態",
           "rendering": "Client-side routing",
           "summary": "RouterLink 已提供 active 與 exact-active 狀態。一般頁面直接使用內建 class；跨頁面分類則透過 route meta 指定所屬 Top Menu。",
@@ -114,7 +114,7 @@
           "id": "react",
           "label": "React Router",
           "short": "NavLink 與 route matches",
-          "category": "前端渲染／SPA",
+          "category": "前端渲染/SPA",
           "title": "使用 NavLink 管理 Active 與 Pending",
           "rendering": "Client-side routing",
           "summary": "React Router 的 NavLink 直接提供 isActive 與 isPending。單層選單可使用 end 限制精確匹配，多層選單則由 route hierarchy 與 metadata 表達父子關係。",
@@ -143,7 +143,7 @@
           "id": "next",
           "label": "Next.js App Router",
           "short": "Pathname 與 layout segment",
-          "category": "前端渲染／Hybrid",
+          "category": "前端渲染/Hybrid",
           "title": "在小型 Client Component 管理選單",
           "rendering": "SSR / RSC + client navigation",
           "summary": "Next.js Link 沒有內建 active 狀態。Top Menu 可維持在共用 layout，並讓一個範圍很小的 Client Component 使用 pathname 或 selected layout segment 判斷目前項目。",
@@ -172,7 +172,7 @@
           "id": "astro",
           "label": "Astro",
           "short": "Render context 或 ClientRouter",
-          "category": "前端渲染／MPA 與 Hybrid",
+          "category": "前端渲染/MPA 與 Hybrid",
           "title": "依 Astro Render Context 輸出狀態",
           "rendering": "SSG / SSR / optional client routing",
           "summary": "一般 Astro 頁面可在伺服器或建置階段使用 Astro.url.pathname，直接輸出 active class；只有持久化 Header 搭配 ClientRouter 時，才需要在換頁完成後更新狀態。",

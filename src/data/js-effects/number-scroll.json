@@ -1,0 +1,159 @@
+{
+  "info": {
+    "eyebrow": "JS Effect",
+    "title": "Number Scroll",
+    "summary": "將數值拆成獨立位數，透過垂直數字軌道呈現 Odometer 滾動；適合營收、累積數量、百分比與即時統計。"
+  },
+  "usage": {
+    "title": "使用方式",
+    "description": "準備一個數值容器，再以 ESM 匯入 initNumberScroll()。每次初始化會回傳 cleanup，更新數值或卸載元件前應先執行。",
+    "examples": [
+      {
+        "label": "DOM 元素",
+        "code": "<span data-number-scroll></span>"
+      },
+      {
+        "label": "JavaScript / ESM",
+        "code": "import { initNumberScroll } from './number-scroll.js';\n\nconst cleanup = initNumberScroll({\n  element: document.querySelector('[data-number-scroll]'),\n  start: 12480,\n  end: 128640,\n  duration: 1.6\n});"
+      }
+    ],
+    "parameters": [
+      {
+        "name": "start / end",
+        "description": "起始值與目標值；整數部分最多 9 位。"
+      },
+      {
+        "name": "duration / ease",
+        "description": "滾動秒數與 GSAP easing。"
+      },
+      {
+        "name": "decimals",
+        "description": "固定小數位數，範圍 0–3。"
+      },
+      {
+        "name": "grouping",
+        "description": "是否顯示千分位分隔符號。"
+      },
+      {
+        "name": "prefix / suffix",
+        "description": "固定顯示於數值前後的文字或符號。"
+      }
+    ],
+    "currentLabel": "目前 DOM"
+  },
+  "controls": {
+    "title": "滾動方向",
+    "choiceKey": "direction",
+    "choices": [
+      {
+        "label": "Auto",
+        "value": "auto",
+        "note": "依數值增減自動判斷"
+      },
+      {
+        "label": "Roll Up",
+        "value": "up",
+        "note": "數字由下往上遞增"
+      },
+      {
+        "label": "Roll Down",
+        "value": "down",
+        "note": "數字由上往下遞減"
+      }
+    ],
+    "fieldsTitle": "參數控制",
+    "fields": [
+      {
+        "key": "startValue",
+        "label": "Start Value",
+        "type": "number",
+        "min": -999999999,
+        "max": 999999999,
+        "step": 0.01
+      },
+      {
+        "key": "endValue",
+        "label": "End Value",
+        "type": "number",
+        "min": -999999999,
+        "max": 999999999,
+        "step": 0.01
+      },
+      {
+        "key": "duration",
+        "label": "Duration",
+        "unit": "秒",
+        "type": "number",
+        "min": 0,
+        "max": 10,
+        "step": 0.1
+      },
+      {
+        "key": "decimals",
+        "label": "Decimal Places",
+        "type": "number",
+        "min": 0,
+        "max": 3,
+        "step": 1
+      },
+      {
+        "key": "prefix",
+        "label": "Prefix",
+        "type": "text"
+      },
+      {
+        "key": "suffix",
+        "label": "Suffix",
+        "type": "text"
+      },
+      {
+        "key": "ease",
+        "label": "Ease",
+        "type": "select",
+        "options": [
+          "power2.out",
+          "power3.inOut",
+          "expo.out",
+          "none"
+        ]
+      },
+      {
+        "key": "grouping",
+        "label": "顯示千分位",
+        "type": "checkbox"
+      }
+    ],
+    "submitLabel": "套用並重播"
+  },
+  "preview": {
+    "label": "Live Metric",
+    "note": "Transform-only digit tracks",
+    "metricLabel": "Annual recurring revenue",
+    "caption": "Updated moments ago",
+    "facts": [
+      {
+        "label": "DOM updates",
+        "value": "Apply only"
+      },
+      {
+        "label": "Animated property",
+        "value": "Transform"
+      },
+      {
+        "label": "Reduced motion",
+        "value": "Supported"
+      }
+    ]
+  },
+  "defaults": {
+    "direction": "auto",
+    "startValue": 12480,
+    "endValue": 128640,
+    "duration": 1.6,
+    "decimals": 0,
+    "prefix": "$",
+    "suffix": "",
+    "ease": "power3.inOut",
+    "grouping": true
+  }
+}

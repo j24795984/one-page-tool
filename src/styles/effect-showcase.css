@@ -105,6 +105,36 @@
   line-height: 1.8;
 }
 
+.effect-info__download {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  width: fit-content;
+  margin-top: 1.5rem;
+  border: 1px solid #314d74;
+  border-radius: 0.7rem;
+  background: transparent;
+  padding: 0.7rem 0.85rem;
+  color: #314d74;
+  font-size: var(--type-text-small);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.effect-info__download:hover {
+  background: #314d74;
+  color: #fff;
+}
+
+.effect-info__download:focus-visible {
+  outline: 2px solid #314d74;
+  outline-offset: 3px;
+}
+
+.effect-info__download + .effect-info__summary {
+  margin-top: 1rem;
+}
+
 .effect-info__usage {
   margin-top: 2rem;
   color: #5f7189;

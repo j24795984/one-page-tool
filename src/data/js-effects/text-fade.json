@@ -13,8 +13,8 @@
         "code": "<h2 data-fade-text>Fade Up</h2>\n<h2 data-fade-3dtext>Matrix 3D</h2>\n<h2 data-fade-brtext data-fadeT-start=\"90\">\n  Preserve<br>Line Break\n</h2>"
       },
       {
-        "label": "JavaScript",
-        "code": "initFadeText();"
+        "label": "JavaScript / ESM",
+        "code": "import { initFadeText } from './text-fade.js';\n\nconst cleanup = initFadeText();"
       }
     ],
     "parameters": [

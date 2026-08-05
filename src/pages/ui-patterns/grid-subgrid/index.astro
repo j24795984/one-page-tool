@@ -1,0 +1,110 @@
+---
+import PatternGuideLayout from '../../../components/PatternGuideLayout.astro';
+import '../../../styles/global.css';
+
+const baseUrl = `${import.meta.env.BASE_URL.replace(/\/$/, '')}/`;
+---
+
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CSS Grid/Subgrid | One Page Tool</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+</head>
+<body class="min-h-screen bg-[#f5f1ea] font-['Inter',sans-serif] text-[#314d74]">
+  <PatternGuideLayout
+    backHref={`${baseUrl}ui-patterns/`}
+    eyebrow="CSS Layout Guide"
+    title="CSS Grid/Subgrid"
+    summary="使用 Subgrid 繼承父層軌道，讓巢狀內容維持一致對齊。"
+  >
+    <section id="subgrid-inheritance" class="pattern-section">
+      <p class="pattern-section__index">01 / Subgrid</p>
+      <h2 class="pattern-section__title">Subgrid 軌道繼承</h2>
+      <p class="pattern-section__lead">
+        當巢狀結構中的元素需要對齊外層網格時，可使用 <code class="pattern-inline-code">subgrid</code> 繼承父層軌道。
+      </p>
+
+      <div class="pattern-example">
+        <p class="pattern-example__label">150px / 1fr / 1fr 軌道繼承</p>
+        <div class="pattern-example__viewport">
+          <div class="pattern-example__canvas grid-demo grid-demo--subgrid">
+            <div class="grid-demo__item grid-demo__item--full">父層軌道：150px / 1fr / 1fr</div>
+            <div class="grid-demo__subgrid">
+              <div class="grid-demo__item">標籤</div>
+              <div class="grid-demo__item grid-demo__item--double">輸入區域</div>
+            </div>
+          </div>
+        </div>
+        <pre class="pattern-example__code"><code>.parent &#123;
+  display: grid;
+  grid-template-columns: 150px 1fr 1fr;
+&#125;
+
+.child-group &#123;
+  display: grid;
+  grid-column: 1 / -1;
+  grid-template-columns: subgrid;
+&#125;</code></pre>
+      </div>
+    </section>
+
+    <section id="card-alignment" class="pattern-section">
+      <p class="pattern-section__index">02 / Card Alignment</p>
+      <h2 class="pattern-section__title">Subgrid 卡片對齊</h2>
+      <p class="pattern-section__lead">
+        卡片跨越父容器定義的四個橫列，並使用 Subgrid 繼承列高。內容長度不同時，同列元素仍會對齊。
+      </p>
+
+      <div class="pattern-example">
+        <p class="pattern-example__label">圖片、標題、內容與按鈕對齊</p>
+        <div class="pattern-example__viewport">
+          <div class="subgrid-cards">
+            <article class="subgrid-card">
+              <div class="subgrid-card__image">IMAGE 01</div>
+              <h3 class="subgrid-card__title">短標題</h3>
+              <div class="subgrid-card__content">
+                <ul><li>列表項目 A</li><li>列表項目 B</li></ul>
+              </div>
+              <button class="subgrid-card__action" type="button">了解更多</button>
+            </article>
+
+            <article class="subgrid-card">
+              <div class="subgrid-card__image">IMAGE 02</div>
+              <h3 class="subgrid-card__title">這是一個較長的標題，用來觀察其他卡片是否同步對齊</h3>
+              <div class="subgrid-card__content">
+                <ul><li>列表項目 C</li></ul>
+              </div>
+              <button class="subgrid-card__action" type="button">了解更多</button>
+            </article>
+
+            <article class="subgrid-card">
+              <div class="subgrid-card__image">IMAGE 03</div>
+              <h3 class="subgrid-card__title">標準標題</h3>
+              <div class="subgrid-card__content">
+                <p>內容較多時會增加這一列的高度，下方按鈕仍與其他卡片對齊。</p>
+              </div>
+              <button class="subgrid-card__action" type="button">了解更多</button>
+            </article>
+          </div>
+        </div>
+        <pre class="pattern-example__code"><code>.card-list &#123;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: auto auto auto auto;
+&#125;
+
+.card &#123;
+  display: grid;
+  grid-row: span 4;
+  grid-template-rows: subgrid;
+&#125;</code></pre>
+      </div>
+    </section>
+  </PatternGuideLayout>
+</body>
+</html>

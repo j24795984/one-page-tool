@@ -11,6 +11,10 @@
       {
         "label": "DOM 元素",
         "code": "<div data-object-fade>\n  Effect content\n</div>"
+      },
+      {
+        "label": "JavaScript / ESM",
+        "code": "import { initObjectFadeActive } from './object-fade-active.js';\n\nconst cleanup = initObjectFadeActive({\n  direction: 'up',\n  root: document,\n  scroller: window\n});"
       }
     ],
     "parameters": [

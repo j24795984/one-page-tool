@@ -13,8 +13,8 @@
         "code": "<div class=\"luxy-el\" data-speed-y=\"10\" data-offset=\"-50\">\n  Parallax content\n</div>"
       },
       {
-        "label": "JavaScript",
-        "code": "parallax.init({\n  targets: '.luxy-el',\n  targetSpeed: 0.02,\n  scrub: true\n});"
+        "label": "JavaScript / ESM",
+        "code": "import { parallax } from './parallax.js';\n\nparallax.init({\n  targets: '.luxy-el',\n  targetSpeed: 0.02,\n  scrub: true\n});"
       }
     ],
     "parameters": [

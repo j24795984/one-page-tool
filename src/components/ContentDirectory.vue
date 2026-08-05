@@ -20,7 +20,8 @@ const props = defineProps({
 const {
   categories,
   filteredItems,
-  query,
+  searchInput,
+  submitSearch,
   selectedCategory
 } = useContentDirectory(() => props.items);
 </script>
@@ -29,13 +30,16 @@ const {
   <main class="content-directory">
     <aside class="content-directory__sidebar" aria-label="搜尋與分類">
       <label class="content-directory__label" for="directory-search">搜尋</label>
-      <input
-        id="directory-search"
-        v-model="query"
-        class="content-directory__search"
-        type="search"
-        placeholder="輸入標題或分類"
-      >
+      <form class="content-directory__search-form" role="search" @submit.prevent="submitSearch">
+        <input
+          id="directory-search"
+          v-model="searchInput"
+          class="content-directory__search"
+          type="search"
+          placeholder="輸入標題或分類"
+        >
+        <button class="content-directory__search-button" type="submit">搜尋</button>
+      </form>
 
       <div class="content-directory__categories">
         <p class="content-directory__category-title">分類</p>

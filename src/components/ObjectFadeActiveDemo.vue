@@ -4,6 +4,7 @@ import EffectControlsPanel from './EffectControlsPanel.vue';
 import EffectInfoPanel from './EffectInfoPanel.vue';
 import EffectShowcaseLayout from './EffectShowcaseLayout.vue';
 import effectData from '../data/js-effects/object-fade-active.json';
+import objectFadeActiveDownloadUrl from '../scripts/object-fade-active.js?url';
 import '../styles/object-fade-active.css';
 
 defineProps({
@@ -73,6 +74,8 @@ onBeforeUnmount(() => {
         :info="effectData.info"
         :usage="effectData.usage"
         :current-code="parameterCode"
+        :download-href="objectFadeActiveDownloadUrl"
+        download-filename="object-fade-active.js"
       />
     </template>
 

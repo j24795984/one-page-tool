@@ -1,0 +1,69 @@
+.infinite-drag-grid-page {
+  --card-w: 320px;
+  --card-h: 220px;
+  --gap: 24px;
+  --bg: #080808;
+
+  width: 100%;
+  height: 100vh;
+  margin: 0;
+  overflow: hidden;
+  background: var(--bg);
+  font-family: sans-serif;
+}
+
+.infinite-drag-grid-page .pattern-guide {
+  height: 100vh;
+}
+
+.infinite-drag-grid-page .pattern-guide__content {
+  padding: 0;
+  overflow: hidden;
+}
+
+#viewport {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: transparent;
+  cursor: grab;
+}
+
+#grid-container {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.card {
+  position: absolute;
+  width: var(--card-w);
+  height: var(--card-h);
+  overflow: hidden;
+  border: 1px solid #222;
+  border-radius: 12px;
+  background: #151515;
+  pointer-events: auto;
+  will-change: transform;
+}
+
+.card-img {
+  width: 100%;
+  height: 100%;
+  background-position: center;
+  background-size: cover;
+  pointer-events: none;
+}
+
+.card-label {
+  position: absolute;
+  bottom: 12px;
+  left: 12px;
+  border-radius: 4px;
+  background: rgb(0 0 0 / 70%);
+  padding: 5px 10px;
+  color: #fff;
+  font-size: 11px;
+}

@@ -1,0 +1,78 @@
+---
+import '../../../styles/global.css';
+import '../../../styles/dramatic-diagonal-carousel.css';
+
+const baseUrl = `${import.meta.env.BASE_URL.replace(/\/$/, '')}/`;
+---
+
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dramatic Diagonal Carousel | One Page Tool</title>
+</head>
+<body class="diagonal-page">
+  <a class="diagonal-back" href={`${baseUrl}ui-patterns/`}>← 返回 UI 範例</a>
+
+  <main class="diagonal-carousel" data-diagonal-carousel tabindex="0" aria-label="Dramatic Diagonal Carousel">
+    <div class="diagonal-slides" aria-live="polite">
+      <article class="diagonal-slide" data-slide>
+        <button class="diagonal-frame" type="button" aria-label="查看清晨光影">
+          <span class="diagonal-mask"><span class="diagonal-mask-inner"><span class="diagonal-image" style="background-image:url('https://picsum.photos/seed/diagonal-morning/1200/900')"></span></span></span>
+          <span class="diagonal-detail"><time>09:21</time><strong>清晨光影</strong><small>城市建築 / Morning Study</small></span>
+        </button>
+      </article>
+      <article class="diagonal-slide" data-slide>
+        <button class="diagonal-frame" type="button" aria-label="查看穿梭之間">
+          <span class="diagonal-mask"><span class="diagonal-mask-inner"><span class="diagonal-image" style="background-image:url('https://picsum.photos/seed/diagonal-building/1200/900')"></span></span></span>
+          <span class="diagonal-detail"><time>10:05</time><strong>穿梭之間</strong><small>空間構成 / Architecture</small></span>
+        </button>
+      </article>
+      <article class="diagonal-slide" data-slide>
+        <button class="diagonal-frame" type="button" aria-label="查看午後綠地">
+          <span class="diagonal-mask"><span class="diagonal-mask-inner"><span class="diagonal-image" style="background-image:url('https://picsum.photos/seed/diagonal-green/1200/900')"></span></span></span>
+          <span class="diagonal-detail"><time>12:30</time><strong>午後綠地</strong><small>自然景觀 / Landscape</small></span>
+        </button>
+      </article>
+      <article class="diagonal-slide" data-slide>
+        <button class="diagonal-frame" type="button" aria-label="查看靜謐片刻">
+          <span class="diagonal-mask"><span class="diagonal-mask-inner"><span class="diagonal-image" style="background-image:url('https://picsum.photos/seed/diagonal-room/1200/900')"></span></span></span>
+          <span class="diagonal-detail"><time>15:16</time><strong>靜謐片刻</strong><small>室內光線 / Interior</small></span>
+        </button>
+      </article>
+      <article class="diagonal-slide" data-slide>
+        <button class="diagonal-frame" type="button" aria-label="查看日落之前">
+          <span class="diagonal-mask"><span class="diagonal-mask-inner"><span class="diagonal-image" style="background-image:url('https://picsum.photos/seed/diagonal-evening/1200/900')"></span></span></span>
+          <span class="diagonal-detail"><time>17:21</time><strong>日落之前</strong><small>暮色街景 / Evening</small></span>
+        </button>
+      </article>
+    </div>
+
+    <aside class="diagonal-time-map" aria-label="選擇時段">
+      <ol class="diagonal-hours" aria-hidden="true">
+        <li>9:00</li>
+        <li>10:00</li>
+        <li>11:00</li>
+        <li>12:00</li>
+        <li>13:00</li>
+        <li>14:00</li>
+        <li>15:00</li>
+        <li>16:00</li>
+        <li>17:00</li>
+        <li>18:00</li>
+        <li>19:00</li>
+      </ol>
+      <ol class="diagonal-points">
+        <li style="--time-offset: 3.5%"><button type="button" data-go-to="0" aria-label="09:21"></button></li>
+        <li style="--time-offset: 10.83%"><button type="button" data-go-to="1" aria-label="10:05"></button></li>
+        <li style="--time-offset: 35%"><button type="button" data-go-to="2" aria-label="12:30"></button></li>
+        <li style="--time-offset: 62.67%"><button type="button" data-go-to="3" aria-label="15:16"></button></li>
+        <li style="--time-offset: 83.5%"><button type="button" data-go-to="4" aria-label="17:21"></button></li>
+      </ol>
+    </aside>
+  </main>
+
+  <script src="../../../scripts/dramaticDiagonalCarousel.js"></script>
+</body>
+</html>

@@ -4,6 +4,7 @@ const ALL_CATEGORY = '全部';
 
 export function useContentDirectory(items) {
   const query = ref('');
+  const searchInput = ref('');
   const selectedCategory = ref(ALL_CATEGORY);
 
   const categories = computed(() => [
@@ -27,10 +28,16 @@ export function useContentDirectory(items) {
     });
   });
 
+  function submitSearch() {
+    query.value = searchInput.value;
+  }
+
   return {
     categories,
     filteredItems,
     query,
+    searchInput,
+    submitSearch,
     selectedCategory
   };
 }
