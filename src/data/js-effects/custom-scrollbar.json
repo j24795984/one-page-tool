@@ -1,0 +1,39 @@
+{
+  "info": {
+    "eyebrow": "JS Effect",
+    "title": "Custom Scrollbar",
+    "summary": "保留瀏覽器原生捲動行為，另外以可拖曳滑塊呈現目前閱讀位置。適合固定高度的內容面板、選單與彈出視窗。"
+  },
+  "usage": {
+    "title": "使用方式",
+    "description": "內容由原生 overflow 捲動；模組依 scrollTop 同步固定高度滑塊的位置，並提供滑鼠拖曳控制。",
+    "examples": [
+      {
+        "label": "DOM 結構",
+        "code": "<div class=\"scroll-shell\">\n  <div id=\"article-scroll\" class=\"scroll-container\">\n    <div class=\"scroll-content\">...</div>\n  </div>\n  <div class=\"scroll-track\">\n    <div class=\"scroll-thumb\"></div>\n  </div>\n</div>"
+      },
+      {
+        "label": "JavaScript / ESM",
+        "code": "import { initCustomScrollbar } from './custom-scrollbar.js';\n\nconst scrollbar = initCustomScrollbar({\n  container: document.querySelector('.scroll-container'),\n  track: document.querySelector('.scroll-track'),\n  thumb: document.querySelector('.scroll-thumb')\n});\n\n// scrollbar.update();\n// scrollbar.destroy();"
+      }
+    ],
+    "parameters": [
+      { "name": "container", "description": "實際產生 scrollTop 的 overflow 容器。" },
+      { "name": "track", "description": "自訂捲動軌道；沒有溢位內容時會自動隱藏。" },
+      { "name": "thumb", "description": "固定高度的滑塊，支援滑鼠上下拖曳。" }
+    ],
+    "currentLabel": "目前設定"
+  },
+  "preview": {
+    "label": "Reading Panel",
+    "title": "A quieter way to navigate long content",
+    "intro": "捲動內容會同步右側滑塊；也可以按住滑塊上下拖曳。",
+    "sections": [
+      { "number": "01", "title": "原生捲動仍是核心", "body": "內容容器繼續使用瀏覽器的 scrollTop，因此滑鼠滾輪、觸控板、觸控滑動與程式控制都維持原生行為。自訂介面只負責把閱讀進度映射至滑塊。" },
+      { "number": "02", "title": "滑塊同步閱讀位置", "body": "以目前 scrollTop 除以最大捲動距離，再映射至軌道可移動範圍，讓固定高度滑塊反映目前閱讀位置。" },
+      { "number": "03", "title": "更新集中在動畫影格", "body": "高頻 scroll 事件只提出更新要求，真正的尺寸讀取與 transform 寫入會合併到下一個 requestAnimationFrame，降低重複版面計算。" },
+      { "number": "04", "title": "容器尺寸變動時更新", "body": "ResizeObserver 監測捲動容器，面板高度或寬度改變時重新計算滑塊位置。" },
+      { "number": "05", "title": "解除事件與還原狀態", "body": "destroy() 會移除捲動、滑鼠與尺寸監聽，並還原初始化前的行內樣式。" }
+    ]
+  }
+}

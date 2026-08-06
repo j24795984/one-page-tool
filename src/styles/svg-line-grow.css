@@ -1,0 +1,104 @@
+.svg-line-grow-demo {
+  display: grid;
+  height: 100%;
+  align-content: center;
+  justify-items: center;
+  gap: 1rem;
+  background: #1a1a1a;
+  padding: clamp(1rem, 4vw, 4rem);
+}
+
+.svg-line-grow-demo__label {
+  width: min(100%, 42rem);
+  margin: 0;
+  color: rgb(245 241 234 / 58%);
+  font-size: var(--type-text-caption);
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.svg-line-grow-demo__canvas {
+  display: grid;
+  width: min(100%, 42rem);
+  min-height: min(70vh, 38rem);
+  place-items: center;
+  border: 1px solid rgb(255 255 255 / 8%);
+  border-radius: 1rem;
+  background-color: #141414;
+}
+
+.svg-line-grow-demo__canvas svg {
+  width: clamp(6rem, 25%, 12rem);
+  overflow: visible;
+}
+
+.svg-line-grow-demo__canvas path {
+  fill: none;
+  stroke: #fff;
+  stroke-width: 1px;
+  stroke-miterlimit: 10;
+  stroke-dasharray: 1000;
+  stroke-dashoffset: 1000;
+  opacity: 0;
+  will-change: stroke-dashoffset, filter;
+}
+
+.svg-line-grow-controls__style {
+  display: grid;
+  gap: 0.35rem;
+  margin-top: 1.5rem;
+  border: 1px solid #314d74;
+  border-radius: 0.7rem;
+  background-color: #314d74;
+  padding: 0.85rem;
+  color: #fff;
+}
+
+.svg-line-grow-controls__style strong {
+  font-size: var(--type-text-small);
+}
+
+.svg-line-grow-controls__style span {
+  font-size: var(--type-text-caption);
+  opacity: 0.72;
+}
+
+.svg-line-grow-controls__parameters {
+  margin-top: 2.5rem;
+}
+
+.svg-line-grow-controls__parameters dl {
+  display: grid;
+  margin: 1.5rem 0 0;
+  border-top: 1px solid rgb(49 77 116 / 14%);
+}
+
+.svg-line-grow-controls__parameters dl div {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  border-bottom: 1px solid rgb(49 77 116 / 14%);
+  padding: 0.8rem 0;
+  font-size: var(--type-text-small);
+}
+
+.svg-line-grow-controls__parameters dt {
+  color: #7a889b;
+}
+
+.svg-line-grow-controls__parameters dd {
+  margin: 0;
+  color: #314d74;
+  font-weight: 600;
+}
+
+@media (max-width: 42rem) {
+  .svg-line-grow-demo {
+    padding: 1rem;
+  }
+
+  .svg-line-grow-demo__canvas {
+    min-height: 70%;
+  }
+}

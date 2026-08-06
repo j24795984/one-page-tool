@@ -1,0 +1,21 @@
+---
+import SvgLineGrowDemo from '../../../components/SvgLineGrowDemo.vue';
+import '../../../styles/global.css';
+
+const baseUrl = `${import.meta.env.BASE_URL.replace(/\/$/, '')}/`;
+---
+
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SVG Line Grow | One Page Tool</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+</head>
+<body class="h-screen overflow-hidden bg-[#f5f1ea] font-['Inter',sans-serif] text-[#314d74]">
+  <SvgLineGrowDemo client:load baseUrl={baseUrl} />
+</body>
+</html>

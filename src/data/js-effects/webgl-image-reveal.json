@@ -1,0 +1,85 @@
+{
+  "info": {
+    "eyebrow": "JS Effect",
+    "title": "WebGL Image Reveal",
+    "summary": "以 PixiJS 與 GSAP 製作可選的圖片揭露效果，包含交界像素延伸，以及水平切片搭配位移貼圖的扭曲轉場。"
+  },
+  "usage": {
+    "title": "使用方式",
+    "description": "準備一個承載 canvas 的容器，選擇 variant 並傳入圖片網址。Edge Stretch 使用單張圖片；Slice Displacement 使用多張圖片並在每次 play() 時切換到下一張。",
+    "examples": [
+      {
+        "label": "DOM 元素",
+        "code": "<div id=\"webgl-image\"></div>"
+      },
+      {
+        "label": "JavaScript / ESM",
+        "code": "import { initWebGLImageReveal } from './webgl-image-reveal.js';\n\nconst reveal = await initWebGLImageReveal({\n  container: document.querySelector('#webgl-image'),\n  variant: 'slice-displacement',\n  imageUrls: [\n    '/images/slide-1.jpg',\n    '/images/slide-2.jpg',\n    '/images/slide-3.jpg'\n  ],\n  slices: 10\n});\n\nreveal.play();\n// reveal.reset();\n// reveal.destroy();"
+      }
+    ],
+    "parameters": [
+      { "name": "container", "description": "PixiJS canvas 的掛載容器。" },
+      { "name": "variant", "description": "edge-stretch（預設）或 slice-displacement。" },
+      { "name": "imageUrl", "description": "Edge Stretch 使用的單張圖片；跨網域圖片必須允許 CORS。" },
+      { "name": "imageUrls", "description": "Slice Displacement 依序切換的圖片陣列。" },
+      { "name": "slices", "description": "水平切片數量，預設為 10。" },
+      { "name": "width / height", "description": "WebGL 畫布邏輯尺寸，預設為 800 × 500。" },
+      { "name": "play / reset", "description": "執行目前效果，或回到初始狀態。" },
+      { "name": "destroy", "description": "停止 Tween 並釋放 PixiJS、Texture 與 WebGL 資源。" }
+    ],
+    "notesTitle": "注意事項",
+    "notes": [
+      "跨網域圖片必須提供允許 Canvas 使用的 CORS 回應標頭，否則 Texture 可能載入失敗。",
+      "Slice Displacement 會為每張圖片建立多個切片與濾鏡；圖片數量、解析度與 slices 越高，GPU 與記憶體負載越大。",
+      "不同圖片比例會先以 cover 方式縮放，重要內容請避免過度靠近圖片邊緣。",
+      "參考網站約每 7 秒自動輪播；此工具頁刻意保留手動播放，方便逐次檢視與重置效果。",
+      "系統啟用 prefers-reduced-motion 時，轉場會直接完成，避免持續扭曲造成不適。"
+    ],
+    "currentLabel": "目前初始化"
+  },
+  "controls": {
+    "title": "效果選擇",
+    "choiceKey": "variant",
+    "choices": [
+      {
+        "label": "Edge Stretch",
+        "value": "edge-stretch",
+        "note": "右至左・交界像素延伸"
+      },
+      {
+        "label": "Slice Displacement",
+        "value": "slice-displacement",
+        "note": "水平切片・位移貼圖扭曲"
+      }
+    ],
+    "fields": []
+  },
+  "preview": {
+    "label": "Shader Preview",
+    "loading": "Loading WebGL textures…",
+    "error": "圖片或 WebGL 載入失敗，請確認網路與瀏覽器支援。",
+    "resetLabel": "重置效果",
+    "parametersTitle": "效果參數",
+    "variants": {
+      "edge-stretch": {
+        "playLabel": "啟動無擠壓還原",
+        "parameters": [
+          { "label": "Direction", "value": "Right → Left" },
+          { "label": "Reveal", "value": "3.0s" },
+          { "label": "Canvas", "value": "800 × 500" }
+        ]
+      },
+      "slice-displacement": {
+        "playLabel": "切換下一張",
+        "parameters": [
+          { "label": "Slices", "value": "10" },
+          { "label": "Displacement", "value": "300px → 0px" },
+          { "label": "Transition", "value": "3.0s" }
+        ]
+      }
+    }
+  },
+  "defaults": {
+    "variant": "edge-stretch"
+  }
+}

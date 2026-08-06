@@ -1,0 +1,144 @@
+.custom-scrollbar-demo {
+  height: 100%;
+  padding: clamp(1rem, 3vw, 2.5rem);
+}
+
+.custom-scrollbar-demo__shell {
+  position: relative;
+  height: 100%;
+  border: 1px solid rgb(49 77 116 / 14%);
+  border-radius: 1rem;
+  background: #f5f1ea;
+  overflow: hidden;
+}
+
+.custom-scrollbar-demo__container {
+  height: 100%;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: none;
+}
+
+.custom-scrollbar-demo__container::-webkit-scrollbar {
+  display: none;
+}
+
+.custom-scrollbar-demo__content {
+  padding: clamp(1.75rem, 5vw, 5rem) clamp(2.75rem, 7vw, 7rem) 20vh clamp(1.5rem, 6vw, 6rem);
+}
+
+.custom-scrollbar-demo__header {
+  min-height: 70vh;
+  border-bottom: 1px solid rgb(49 77 116 / 16%);
+}
+
+.custom-scrollbar-demo__header p,
+.custom-scrollbar-demo__section > p {
+  margin: 0;
+  color: #7a889b;
+  font-size: var(--type-text-caption);
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.custom-scrollbar-demo__header h2 {
+  max-width: 10ch;
+  margin: 1.2rem 0;
+  color: #314d74;
+  font-size: var(--type-display-lg);
+  font-weight: 500;
+  letter-spacing: -0.055em;
+  line-height: 1;
+}
+
+.custom-scrollbar-demo__header span,
+.custom-scrollbar-demo__section span {
+  display: block;
+  max-width: 42rem;
+  color: #5f7189;
+  font-size: var(--type-text-body);
+  line-height: 1.8;
+}
+
+.custom-scrollbar-demo__section {
+  display: grid;
+  grid-template-columns: 3rem minmax(0, 1fr);
+  gap: clamp(1rem, 4vw, 4rem);
+  min-height: 48vh;
+  align-content: center;
+  border-bottom: 1px solid rgb(49 77 116 / 14%);
+}
+
+.custom-scrollbar-demo__section h3 {
+  margin: 0 0 1rem;
+  color: #314d74;
+  font-size: var(--type-heading-2);
+  font-weight: 500;
+  letter-spacing: -0.035em;
+}
+
+.custom-scrollbar-demo__track {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  bottom: 1rem;
+  width: 0.4rem;
+  border-radius: 999px;
+  background: rgb(17 17 17 / 16%);
+}
+
+.custom-scrollbar-demo__thumb {
+  height: 3.125rem;
+  width: 100%;
+  border-radius: inherit;
+  background: #111;
+  cursor: grab;
+  will-change: transform;
+}
+
+.custom-scrollbar-demo__thumb:hover,
+.custom-scrollbar-demo__thumb.active {
+  background: #314d74;
+}
+
+.custom-scrollbar-demo__thumb.active {
+  cursor: grabbing;
+}
+
+.custom-scrollbar-demo__notes dl {
+  display: grid;
+  gap: 1.5rem;
+  margin: 2rem 0 0;
+}
+
+.custom-scrollbar-demo__notes dt {
+  color: #314d74;
+  font-size: var(--type-text-body);
+  font-weight: 600;
+}
+
+.custom-scrollbar-demo__notes dd {
+  margin: 0.5rem 0 0;
+  color: #5f7189;
+  font-size: var(--type-text-small);
+  line-height: 1.7;
+}
+
+@media (max-width: 42rem) {
+  .custom-scrollbar-demo {
+    padding: 0.75rem;
+  }
+
+  .custom-scrollbar-demo__content {
+    padding: 2rem 2.75rem 20vh 1.25rem;
+  }
+
+  .custom-scrollbar-demo__track {
+    right: 0.75rem;
+  }
+
+  .custom-scrollbar-demo__section {
+    grid-template-columns: 2rem minmax(0, 1fr);
+  }
+}

@@ -1,0 +1,42 @@
+{
+  "info": {
+    "eyebrow": "JS Effect",
+    "title": "SVG Line Grow",
+    "summary": "依 SVG Path 的實際長度設定 stroke dash，以 dashoffset 從完整長度移動至零，形成線條逐步生長並反向收回的循環動畫。"
+  },
+  "usage": {
+    "title": "使用方式",
+    "description": "將需要繪製的 SVG path 傳入 initSvgLineGrow()。模組會自動取得路徑長度、建立循環 Timeline，並在元素離開畫面時暫停。執行動畫的 SVG 必須是單一連續線段，才能明確判定線段的起點與終點。",
+    "examples": [
+      {
+        "label": "SVG Path",
+        "code": "<svg viewBox=\"0 0 32.36 140.46\">\n  <path id=\"line-path\" d=\"M16.42,0v108.63...\" />\n</svg>"
+      },
+      {
+        "label": "JavaScript / ESM",
+        "code": "import { initSvgLineGrow } from './svg-line-grow.js';\n\nconst lineGrow = initSvgLineGrow({\n  path: document.querySelector('#line-path')\n});\n\n// lineGrow.destroy();"
+      }
+    ],
+    "parameters": [
+      { "name": "適用條件", "description": "SVG 必須是單一連續 Path，不能是包含多段不連續路徑的復合圖形；否則無法有效判定線段起點與終點，繪製順序也可能不符合預期。" },
+      { "name": "getTotalLength", "description": "初始化時讀取一次 Path 的實際長度。" },
+      { "name": "strokeDasharray", "description": "建立與完整路徑等長的虛線區段。" },
+      { "name": "strokeDashoffset", "description": "由完整長度動畫至 0，逐步顯示線條。" },
+      { "name": "Timeline", "description": "線條繪製與發光重疊執行，整體無限循環並反向播放。" },
+      { "name": "destroy", "description": "移除監測、停止 Timeline 並還原原始行內樣式。" }
+    ],
+    "currentLabel": "目前初始化"
+  },
+  "preview": {
+    "label": "Path Preview",
+    "styleTitle": "呈現風格",
+    "styleLabel": "Line Draw + Glow",
+    "styleNote": "循環・反向收回",
+    "parametersTitle": "參數調整",
+    "parameters": [
+      { "label": "Draw", "value": "2.0s" },
+      { "label": "Glow", "value": "1.0s" },
+      { "label": "Repeat", "value": "Infinite" }
+    ]
+  }
+}
