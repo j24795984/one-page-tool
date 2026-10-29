@@ -41,8 +41,9 @@ for (const filePath of initialFiles) {
     ? `file-${originalName.slice(1)}`
     : originalName;
 
-  if (path.extname(finalizedName) === '.js' && !finalizedName.endsWith('.min.js')) {
-    finalizedName = finalizedName.replace(/\.js$/, '.min.js');
+  const extension = path.extname(finalizedName);
+  if (['.js', '.css'].includes(extension) && !finalizedName.endsWith(`.min${extension}`)) {
+    finalizedName = finalizedName.slice(0, -extension.length) + `.min${extension}`;
   }
 
   if (finalizedName !== originalName) {
@@ -86,4 +87,4 @@ for (const filePath of finalFiles) {
   }
 }
 
-console.log(`Finalized ${renamedFiles.size} JavaScript asset(s) for GitHub Pages.`);
+console.log(`Finalized ${renamedFiles.size} JavaScript/CSS asset(s) for GitHub Pages.`);

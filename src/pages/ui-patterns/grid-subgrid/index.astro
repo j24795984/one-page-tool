@@ -1,9 +1,13 @@
 ---
 import BaseLayout from '../../../layouts/BaseLayout.astro';
 import PatternDetail from '../../../components/PatternDetail.vue';
-import { createUiShowcaseItems } from '../../../data/ui-showcase.js';
+import { getPatternDetails } from '../../../data/ui-patterns.js';
 const baseUrl = `${import.meta.env.BASE_URL.replace(/\/$/, '')}/`;
-const item = createUiShowcaseItems(baseUrl).find(item => item.id === 'grid-subgrid');
+const item = {
+ ...getPatternDetails(baseUrl).find(item => item.href === `${baseUrl}ui-patterns/grid-subgrid/`),
+ id: 'grid-subgrid',
+ title: 'Subgrid Alignment',
+};
 ---
 <BaseLayout title={item.title} showNavigation={false}>
  <PatternDetail client:load item={item} baseUrl={baseUrl} />
