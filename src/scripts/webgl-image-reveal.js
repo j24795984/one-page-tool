@@ -92,11 +92,11 @@ function createEdgeStretchController({ app, render, texture, reduceMotion }) {
   }
 
   return {
-    play() {
-      animateTo(1, 3, 'power2.inOut');
+    play(duration = 3) {
+      animateTo(1, duration, 'power2.inOut');
     },
-    reset() {
-      animateTo(0, 1, 'power2.out');
+    reset(duration = 1) {
+      animateTo(0, duration, duration === 1 ? 'power2.out' : 'power2.inOut');
     },
     destroy() {
       tween?.kill();
@@ -270,13 +270,14 @@ export async function initWebGLImageReveal({
   variant = 'edge-stretch',
   slices = 10,
   width = 800,
-  height = 500
+  height = 500,
+  signal
 } = {}) {
   const urls = variant === 'slice-displacement'
     ? (imageUrls.length ? imageUrls : [imageUrl].filter(Boolean))
     : [imageUrl].filter(Boolean);
 
-  if (!container || !urls.length) return { ...EMPTY_REVEAL };
+  if (!container || !urls.length || signal?.aborted) return { ...EMPTY_REVEAL };
 
   const app = new Application({
     width,
@@ -294,12 +295,16 @@ export async function initWebGLImageReveal({
   let controller = null;
   let displacementTexture = null;
   let destroyed = false;
+  let resourcesDestroyed = false;
 
   function render() {
     if (!destroyed) app.renderer.render(app.stage);
   }
 
   function destroyResources() {
+    if (resourcesDestroyed) return;
+    resourcesDestroyed = true;
+    signal?.removeEventListener('abort', abort);
     controller?.destroy();
     app.destroy(true, {
       children: true,
@@ -310,9 +315,17 @@ export async function initWebGLImageReveal({
     displacementTexture?.destroy(true);
   }
 
+  function abort() {
+    destroyed = true;
+    destroyResources();
+  }
+  signal?.addEventListener('abort', abort, { once: true });
+
   try {
     for (const url of urls) {
-      textures.push(await Texture.fromURL(url, { crossorigin: 'anonymous' }));
+      const texture = await Texture.fromURL(url, { crossorigin: 'anonymous' });
+      if (destroyed) { texture.destroy(true); return { ...EMPTY_REVEAL }; }
+      textures.push(texture);
     }
   } catch (error) {
     destroyed = true;
@@ -349,11 +362,11 @@ export async function initWebGLImageReveal({
   render();
 
   return {
-    play() {
-      controller.play();
+    play(...args) {
+      controller.play(...args);
     },
-    reset() {
-      controller.reset();
+    reset(...args) {
+      controller.reset(...args);
     },
     destroy() {
       if (destroyed) return;

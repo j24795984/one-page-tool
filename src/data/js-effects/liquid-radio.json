@@ -1,0 +1,40 @@
+{
+  "info": {
+    "eyebrow": "表單 · GSAP",
+    "title": "水滴單選 Liquid Radio",
+    "summary": "選取圓點拉長成水滴滑向新選項，再彈回圓形。使用網站藍灰配色，保留原生單選與鍵盤操作。"
+  },
+  "usage": {
+    "title": "使用方式",
+    "description": "參考 Motion Library 第 250 項 Liquid Radio 的切換動作重新實作。點選配送選項，或以 Tab 進入群組後使用方向鍵切換。每個群組使用不同 name；需先安裝 gsap，並套用下方 CSS。",
+    "examples": [
+      {
+        "label": "HTML",
+        "code": "<fieldset class=\"liquid-radio\" aria-label=\"配送方式\">\n  <label><input type=\"radio\" name=\"delivery\" value=\"0\" checked><i aria-hidden=\"true\"></i><span>標準寄送</span></label>\n  <label><input type=\"radio\" name=\"delivery\" value=\"1\"><i aria-hidden=\"true\"></i><span>快速到貨</span></label>\n  <label><input type=\"radio\" name=\"delivery\" value=\"2\"><i aria-hidden=\"true\"></i><span>門市自取</span></label>\n  <span data-liquid-dot aria-hidden=\"true\"></span>\n</fieldset>"
+      },
+      {
+        "label": "JavaScript / ESM",
+        "code": "import { initLiquidRadio } from './liquid-radio.js';\nconst radio = initLiquidRadio({ root: document.querySelector('.liquid-radio') });\n// 卸載時呼叫 radio.destroy();"
+      }
+    ],
+    "parameters": [
+      {
+        "name": "root",
+        "description": "包含同名原生 radio、label 與 data-liquid-dot 的容器；預設勾選一項。"
+      },
+      {
+        "name": "preview / running",
+        "description": "列表模式每 0.9 秒切換，順序 1→2→3→2→1，動畫以 1.5 倍速播放；running 控制暫停。"
+      },
+      {
+        "name": "動作與無障礙",
+        "description": "先拉長 0.12 秒、移動 0.32 秒、以彈性緩動回圓 0.48 秒。減少動態偏好下直接切換。快速切換會中斷前次動畫。"
+      },
+      {
+        "name": "destroy",
+        "description": "清除動畫、排程、尺寸觀察器及事件。背景分頁停止播放。"
+      }
+    ],
+    "currentLabel": "目前初始化"
+  }
+}

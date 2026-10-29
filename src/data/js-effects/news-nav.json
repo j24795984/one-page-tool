@@ -1,0 +1,25 @@
+{
+  "info": {
+    "eyebrow": "UI EFFECT",
+    "title": "分類導覽滑動效果",
+    "summary": "圓點指示器跟隨滑鼠移入、鍵盤焦點與選取項目移動；移出後回到目前選取項目。"
+  },
+  "usage": {
+    "title": "使用方式",
+    "description": "將分類按鈕放入 .category-nav，並使用原始 HTML 中的樣式與腳本控制指示器。",
+    "examples": [
+      {
+        "label": "HTML",
+        "code": "<nav class=\"category-nav\" aria-label=\"分類導覽\">\n  <span class=\"category-indicator\" aria-hidden=\"true\"></span>\n  <ul class=\"category-list\">…</ul>\n</nav>"
+      },
+      {
+        "label": "JavaScript",
+        "code": "const target = hoveredLink || focusedLink || selected;\npositionIndicator(target);"
+      }
+    ],
+    "parameters": [
+      { "name": "--theme-base", "description": "指示器及分隔線的主題色。" },
+      { "name": "aria-pressed", "description": "標示目前選取的分類；點擊時同步更新。" }
+    ]
+  }
+}

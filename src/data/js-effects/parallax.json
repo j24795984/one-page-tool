@@ -5,6 +5,8 @@
     "summary": "將元素綁定原生捲動位置，依元素速度與初始偏移產生垂直視差效果。"
   },
   "usage": {
+    "examplesTitle": "引入方式",
+    "parametersTitle": "控制項目",
     "title": "使用方式",
     "description": "在視差元素加入 luxy-el 類別與對應的 data attribute，再呼叫 parallax.init()。",
     "examples": [

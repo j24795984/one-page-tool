@@ -1,6 +1,6 @@
 <script setup>
 import { computed, nextTick, onBeforeUnmount, onMounted, ref } from 'vue';
-import EffectControlsPanel from './EffectControlsPanel.vue';
+import EffectPreviewToolbar from './EffectPreviewToolbar.vue';
 import EffectInfoPanel from './EffectInfoPanel.vue';
 import EffectShowcaseLayout from './EffectShowcaseLayout.vue';
 import effectData from '../data/js-effects/webgl-image-reveal.json';
@@ -25,7 +25,6 @@ const canvasContainer = ref(null);
 const loading = ref(true);
 const loadError = ref(false);
 const selectedVariant = ref(effectData.defaults.variant);
-const variantPreview = computed(() => effectData.preview.variants[selectedVariant.value]);
 const currentCode = computed(() => {
   if (selectedVariant.value === 'slice-displacement') {
     return `await initWebGLImageReveal({\n  container,\n  variant: 'slice-displacement',\n  imageUrls: [\n    '${IMAGE_URLS[0]}',\n    '${IMAGE_URLS[1]}',\n    '${IMAGE_URLS[2]}'\n  ],\n  slices: 10\n});`;
@@ -42,9 +41,6 @@ function play() {
   reveal?.play();
 }
 
-function reset() {
-  reveal?.reset();
-}
 
 async function initializeReveal() {
   const requestId = ++initializationId;
@@ -93,10 +89,10 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <EffectShowcaseLayout :back-href="`${baseUrl}js-effects/`">
+  <EffectShowcaseLayout :back-href="`${baseUrl}ui/`">
     <template #info>
       <EffectInfoPanel
-        :back-href="`${baseUrl}js-effects/`"
+        :back-href="`${baseUrl}ui/`"
         :info="effectData.info"
         :usage="effectData.usage"
         :current-code="currentCode"
@@ -112,6 +108,8 @@ onBeforeUnmount(() => {
       </section>
     </template>
 
+    <template #toolbar><EffectPreviewToolbar @replay="play" :disabled="loading || loadError" :config="effectData.controls" :model-value="{ variant: selectedVariant }" @select-choice="selectVariant" /></template>
+
     <template #preview>
       <div class="webgl-reveal-demo">
         <p class="webgl-reveal-demo__label">{{ effectData.preview.label }}</p>
@@ -124,33 +122,8 @@ onBeforeUnmount(() => {
           </p>
         </div>
 
-        <div class="webgl-reveal-demo__actions">
-          <button type="button" :disabled="loading || loadError" @click="play">
-            {{ variantPreview.playLabel }}
-          </button>
-          <button type="button" :disabled="loading || loadError" @click="reset">
-            {{ effectData.preview.resetLabel }}
-          </button>
-        </div>
       </div>
     </template>
 
-    <template #controls>
-      <EffectControlsPanel
-        :config="effectData.controls"
-        :model-value="{ variant: selectedVariant }"
-        @select-choice="selectVariant"
-      />
-
-      <section class="webgl-reveal-controls__parameters">
-        <p class="effect-controls__title">{{ effectData.preview.parametersTitle }}</p>
-        <dl>
-          <div v-for="parameter in variantPreview.parameters" :key="parameter.label">
-            <dt>{{ parameter.label }}</dt>
-            <dd>{{ parameter.value }}</dd>
-          </div>
-        </dl>
-      </section>
-    </template>
   </EffectShowcaseLayout>
 </template>

@@ -31,6 +31,15 @@
   line-height: 0.95;
 }
 
+.text-fade-demo__intro-copy { min-width: 0; }
+.text-fade-demo__description {
+  max-width: 36rem;
+  margin: 20px auto 0;
+  color: var(--text-secondary);
+  font-size: 16px;
+  line-height: 1.75;
+}
+
 .text-fade-demo__scroll-hint {
   display: inline-block;
   margin-top: 2rem;

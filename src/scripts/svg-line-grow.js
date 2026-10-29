@@ -1,6 +1,6 @@
 import { gsap } from 'gsap';
 
-export function initSvgLineGrow({ path } = {}) {
+export function initSvgLineGrow({ path, repeat = -1, speed = 1, onComplete } = {}) {
   if (!path) return { destroy() {} };
 
   const originalStyle = path.getAttribute('style');
@@ -25,7 +25,8 @@ export function initSvgLineGrow({ path } = {}) {
 
     const timeline = gsap.timeline({
       paused: true,
-      repeat: -1,
+      repeat,
+      onComplete,
       yoyo: true,
       defaults: {
         duration: 2,
@@ -45,6 +46,7 @@ export function initSvgLineGrow({ path } = {}) {
         yoyo: true
       }, '-=1');
 
+    timeline.timeScale(speed);
     let observer = null;
 
     if ('IntersectionObserver' in window) {

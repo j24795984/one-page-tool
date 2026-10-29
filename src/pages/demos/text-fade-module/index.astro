@@ -1,0 +1,65 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="Text Fade Module 展示" showNavigation={false}>
+  <main class="module-demo">
+    <div class="module-demo__inner">
+      <p class="module-demo__eyebrow">TEXT FADE MODULE</p>
+      <h1>Words in motion</h1>
+      <p id="mode-description" class="module-demo__description" aria-live="polite">文字逐字淡入。</p>
+      <div class="module-demo__choices" role="group" aria-label="展示版本">
+        <button type="button" data-mode="fade" aria-pressed="true">淡入</button>
+        <button type="button" data-mode="rise" aria-pressed="false">上移淡入</button>
+        <button type="button" data-mode="blur" aria-pressed="false">模糊淡入</button>
+      </div>
+      <section class="module-demo__preview" aria-label="效果展示">
+        <p class="module-demo__label">效果展示</p>
+        <p id="demo-text" data-text-fade="timing(d:0.27;o:0.8;e:none) fade">Every idea begins with a quiet sentence.</p>
+      </section>
+      <button id="replay" class="module-demo__replay" type="button">↻ 重新播放</button>
+    </div>
+  </main>
+</BaseLayout>
+
+<script>
+  import { gsap } from 'gsap';
+  import { createTextFade } from '../../../scripts/text-fade-module.mjs';
+
+  const text = document.querySelector('#demo-text');
+  const description = document.querySelector('#mode-description');
+  const choices = [...document.querySelectorAll('[data-mode]')];
+  const modes = {
+    fade: { attribute: 'timing(d:0.27;o:0.8;e:none) fade', description: '文字逐字淡入。' },
+    rise: { attribute: 'timing(d:0.48;s:0.13;e:none) fade rise(y:9)', description: '文字逐字向上移動並淡入。' },
+    blur: { attribute: 'timing(d:0.7;s:0.07;e:power2.out) fade blur(b:10)', description: '文字從模糊逐字轉為清晰。' }
+  };
+  let effect;
+
+  function showMode(mode) {
+    effect?.destroy();
+    text.setAttribute('data-text-fade', modes[mode].attribute);
+    description.textContent = modes[mode].description;
+    choices.forEach(button => button.setAttribute('aria-pressed', String(button.dataset.mode === mode)));
+    effect = createTextFade(text, { gsap });
+    effect.timeline.play();
+  }
+
+  choices.forEach(button => button.addEventListener('click', () => showMode(button.dataset.mode)));
+  document.querySelector('#replay').addEventListener('click', () => effect?.timeline.restart());
+  showMode('fade');
+</script>
+
+<style>
+  .module-demo { min-height:100dvh; display:grid; place-items:center; padding:32px 20px; }
+  .module-demo__inner { width:min(100%, 720px); }
+  .module-demo__eyebrow, .module-demo__label { color:var(--text-secondary); font-size:14px; letter-spacing:.08em; }
+  h1 { font-size:clamp(28px, 5vw, 48px); margin:8px 0; }
+  .module-demo__description { color:var(--text-secondary); margin:0 0 24px; }
+  .module-demo__choices { display:flex; flex-wrap:wrap; gap:8px; }
+  button { font:inherit; border:1px solid var(--border); border-radius:8px; padding:8px 12px; color:var(--accent); background:white; cursor:pointer; }
+  button[aria-pressed='true'], button:hover { background:var(--surface-selected); border-color:var(--accent); }
+  .module-demo__preview { display:grid; align-content:center; min-height:260px; margin:24px 0 16px; padding:32px; border:1px solid var(--border); border-radius:12px; background:white; }
+  .module-demo__preview p:last-child { font-size:clamp(24px, 4vw, 38px); line-height:1.35; margin:12px 0 0; }
+  @media(max-width:480px) { .module-demo__preview { padding:20px; min-height:220px; } }
+</style>

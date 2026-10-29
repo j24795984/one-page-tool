@@ -26,3 +26,9 @@ html {
 body {
   font-size: var(--type-text-body);
 }
+
+:root {
+ --surface-page: #f7f7f4; --surface-card: #fff; --text-primary: #252a30; --text-secondary: #626971; --accent: #496783; --surface-selected: #e8eef3; --border: #dedfda;
+ --type-heading-1: clamp(1.75rem, 2.3vw, 2rem);
+}
+:where(a, button, input, select):focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }

@@ -1,5 +1,6 @@
 <script setup>
 import { onBeforeUnmount, onMounted, ref } from 'vue';
+import EffectPreviewToolbar from './EffectPreviewToolbar.vue';
 import EffectInfoPanel from './EffectInfoPanel.vue';
 import EffectShowcaseLayout from './EffectShowcaseLayout.vue';
 import effectData from '../data/js-effects/svg-line-grow.json';
@@ -18,10 +19,16 @@ defineProps({
 
 const pathElement = ref(null);
 let lineGrow = null;
+let initEffect;
+function restartEffect() {
+ if (!initEffect) return;
+ lineGrow?.destroy();
+ lineGrow = initEffect({ path: pathElement.value });
+}
 
 onMounted(async () => {
-  const { initSvgLineGrow } = await import('../scripts/svg-line-grow.js');
-  lineGrow = initSvgLineGrow({ path: pathElement.value });
+  ({ initSvgLineGrow: initEffect } = await import('../scripts/svg-line-grow.js'));
+  restartEffect();
 });
 
 onBeforeUnmount(() => {
@@ -30,10 +37,10 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <EffectShowcaseLayout :back-href="`${baseUrl}js-effects/`">
+  <EffectShowcaseLayout :back-href="`${baseUrl}ui/`">
     <template #info>
       <EffectInfoPanel
-        :back-href="`${baseUrl}js-effects/`"
+        :back-href="`${baseUrl}ui/`"
         :info="effectData.info"
         :usage="effectData.usage"
         :current-code="currentCode"
@@ -41,6 +48,8 @@ onBeforeUnmount(() => {
         download-filename="svg-line-grow.js"
       />
     </template>
+
+    <template #toolbar><EffectPreviewToolbar @replay="restartEffect" /></template>
 
     <template #preview>
       <div class="svg-line-grow-demo">
@@ -56,26 +65,5 @@ onBeforeUnmount(() => {
       </div>
     </template>
 
-    <template #controls>
-      <div class="svg-line-grow-controls">
-        <section>
-          <p class="effect-controls__title">{{ effectData.preview.styleTitle }}</p>
-          <div class="svg-line-grow-controls__style" aria-current="true">
-            <strong>{{ effectData.preview.styleLabel }}</strong>
-            <span>{{ effectData.preview.styleNote }}</span>
-          </div>
-        </section>
-
-        <section class="svg-line-grow-controls__parameters">
-          <p class="effect-controls__title">{{ effectData.preview.parametersTitle }}</p>
-          <dl>
-            <div v-for="parameter in effectData.preview.parameters" :key="parameter.label">
-              <dt>{{ parameter.label }}</dt>
-              <dd>{{ parameter.value }}</dd>
-            </div>
-          </dl>
-        </section>
-      </div>
-    </template>
   </EffectShowcaseLayout>
 </template>

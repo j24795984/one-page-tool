@@ -1,0 +1,19 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import ImportedEffectDetail from '../../../components/ImportedEffectDetail.vue';
+import { info, usage } from '../../../data/js-effects/news-nav.json';
+
+const baseUrl = `${import.meta.env.BASE_URL.replace(/\/$/, '')}/`;
+---
+
+<BaseLayout title={info.title} showNavigation={false}>
+  <ImportedEffectDetail
+    client:load
+    baseUrl={baseUrl}
+    demoHref={`${baseUrl}demos/news-nav-demo.html`}
+    downloadHref={`${baseUrl}demos/news-nav-demo.html`}
+    downloadFilename="news-nav-demo.html"
+    info={info}
+    usage={usage}
+  />
+</BaseLayout>

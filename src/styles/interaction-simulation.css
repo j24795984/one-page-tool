@@ -1,0 +1,4 @@
+.button-effect-stage { position:relative; }
+.preview-cursor { position:absolute; top:0; left:0; z-index:10; width:14px; height:20px; background:#496783; clip-path:polygon(0 0,100% 65%,56% 68%,35% 100%); filter:drop-shadow(0 0 1px white); pointer-events:none; transition:background .15s; }
+.preview-cursor[hidden] { display:none; }
+.preview-cursor.is-pressed { background:#e58b53; }

@@ -1,0 +1,44 @@
+{
+  "info": {
+    "eyebrow": "SVG · GSAP",
+    "title": "圓餅圖分段",
+    "summary": "四段環圈依序描繪，對應圖例從右側滑入。中央保留總比例，適合流量來源與占比統計。"
+  },
+  "usage": {
+    "title": "使用方式",
+    "description": "參考 Motion Library 的 Donut Chart Segments，使用 SVG 與 GSAP 重新實作。進入可視區後播放一次，離開畫面或背景分頁暫停；可使用上方按鈕重播。",
+    "examples": [
+      {
+        "label": "SVG 結構",
+        "code": "<div class=\"chart\" style=\"background:#15161a\">\n  <svg viewBox=\"0 0 800 500\" style=\"display:block;width:100%\" role=\"img\" aria-label=\"流量來源：搜尋42%、社群28%、直接18%、其他12%\">\n    <g transform=\"rotate(-90 300 250)\" fill=\"none\" stroke-width=\"32.5\">\n      <circle data-percent=\"42\" cx=\"300\" cy=\"250\" r=\"95\" stroke=\"#ff7a2f\" stroke-dasharray=\"243.5363 353.3663\" stroke-dashoffset=\"-3.5814\" />\n      <circle data-percent=\"28\" cx=\"300\" cy=\"250\" r=\"95\" stroke=\"#7c5cff\" stroke-dasharray=\"159.9699 436.9327\" stroke-dashoffset=\"-254.2805\" />\n      <circle data-percent=\"18\" cx=\"300\" cy=\"250\" r=\"95\" stroke=\"#00c8ff\" stroke-dasharray=\"100.2796 496.6230\" stroke-dashoffset=\"-421.4132\" />\n      <circle data-percent=\"12\" cx=\"300\" cy=\"250\" r=\"95\" stroke=\"#ffd23f\" stroke-dasharray=\"64.4655 532.4371\" stroke-dashoffset=\"-528.8557\" />\n    </g>\n    <text x=\"300\" y=\"254\" text-anchor=\"middle\" fill=\"white\" font-size=\"38\" font-weight=\"700\">100%</text>\n    <text x=\"300\" y=\"282\" text-anchor=\"middle\" fill=\"#a5a7b1\" font-size=\"16\">流量來源</text>\n    <g data-legend>\n      <rect x=\"448\" y=\"191\" width=\"14\" height=\"14\" fill=\"#ff7a2f\" />\n      <text x=\"474\" y=\"204\" fill=\"white\" font-size=\"19\">搜尋</text>\n      <text x=\"600\" y=\"204\" text-anchor=\"end\" fill=\"white\" font-size=\"19\">42%</text>\n    </g>\n    <g data-legend>\n      <rect x=\"448\" y=\"227\" width=\"14\" height=\"14\" fill=\"#7c5cff\" />\n      <text x=\"474\" y=\"240\" fill=\"white\" font-size=\"19\">社群</text>\n      <text x=\"600\" y=\"240\" text-anchor=\"end\" fill=\"white\" font-size=\"19\">28%</text>\n    </g>\n    <g data-legend>\n      <rect x=\"448\" y=\"263\" width=\"14\" height=\"14\" fill=\"#00c8ff\" />\n      <text x=\"474\" y=\"276\" fill=\"white\" font-size=\"19\">直接</text>\n      <text x=\"600\" y=\"276\" text-anchor=\"end\" fill=\"white\" font-size=\"19\">18%</text>\n    </g>\n    <g data-legend>\n      <rect x=\"448\" y=\"299\" width=\"14\" height=\"14\" fill=\"#ffd23f\" />\n      <text x=\"474\" y=\"312\" fill=\"white\" font-size=\"19\">其他</text>\n      <text x=\"600\" y=\"312\" text-anchor=\"end\" fill=\"white\" font-size=\"19\">12%</text>\n    </g>\n  </svg>\n</div>"
+      },
+      {
+        "label": "JavaScript / ESM",
+        "code": "import { initDonutChart } from './donut-chart.js';\n// 模組使用 gsap，請先 npm install gsap。\nconst chart = initDonutChart({ root: document.querySelector('.chart') });\n// chart.restart();\n// 離開頁面時 chart.destroy();"
+      }
+    ],
+    "parameters": [
+      {
+        "name": "root",
+        "description": "包含 SVG 圓環及 data-legend 圖例的容器；各圓環使用 data-percent 設定比例。"
+      },
+      {
+        "name": "分段與間隙",
+        "description": "預設 42%、28%、18%、12%；各段保留圓周 1.2% 的間隙，從十二點方向開始順時針描繪。"
+      },
+      {
+        "name": "播放節奏",
+        "description": "每段 0.6 秒，圖例同時以 0.4 秒滑入。列表以 1.5 倍速正向／反向播放，端點停留 0.2 秒（0.3 秒經倍速換算）。"
+      },
+      {
+        "name": "preview / running",
+        "description": "列表模式由既有可見性排程控制播放；不提供操作，不建立 iframe。"
+      },
+      {
+        "name": "restart / destroy",
+        "description": "重新播放；或解除觀察器、事件與動畫並還原 SVG。減少動態偏好顯示完整靜態圖表。"
+      }
+    ],
+    "currentLabel": "目前初始化"
+  }
+}

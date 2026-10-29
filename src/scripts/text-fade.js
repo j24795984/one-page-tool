@@ -148,7 +148,9 @@ function getAnimation(effectType, isFirstPageEnter) {
 
 export function initFadeText({
   root = document,
-  scroller = null
+  scroller = null,
+  onComplete,
+  previewCycle = false
 } = {}) {
   if (!root) return () => {};
 
@@ -163,6 +165,7 @@ export function initFadeText({
   }));
   const observers = [];
   const animatedCharacters = [];
+  const timelines = [];
   let isFirstPageEnter = true;
   const enterTimer = window.setTimeout(() => {
     isFirstPageEnter = false;
@@ -201,7 +204,7 @@ export function initFadeText({
           ? { opacity: 1, perspective: 800 }
           : { opacity: 1 }
       );
-      gsap.fromTo(characters, animation.from, animation.to);
+      timelines.push(gsap.timeline({ repeat: previewCycle ? 1 : 0, yoyo: previewCycle, repeatDelay: previewCycle ? 0.45 : 0, onComplete }).fromTo(characters, animation.from, { ...animation.to, delay: previewCycle ? 0 : animation.to.delay }).timeScale(previewCycle ? 1.5 : 1));
       observer.unobserve(fadeText);
     }, observerOptions);
 
@@ -212,6 +215,7 @@ export function initFadeText({
   return () => {
     window.clearTimeout(enterTimer);
     observers.forEach((observer) => observer.disconnect());
+    timelines.forEach(timeline => timeline.kill());
     gsap.killTweensOf(animatedCharacters);
 
     snapshots.forEach(({ fadeText, html, ariaLabel, style }) => {

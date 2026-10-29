@@ -1,86 +1,12 @@
 ---
-import ContentDirectory from '../../components/ContentDirectory.vue';
-import TopMenu from '../../components/TopMenu.vue';
-import '../../styles/global.css';
-
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import UiShowcaseDirectory from '../../components/UiShowcaseDirectory.vue';
+import { createUiShowcaseItems } from '../../data/ui-showcase.js';
 const baseUrl = `${import.meta.env.BASE_URL.replace(/\/$/, '')}/`;
-const items = [
-  {
-    title: 'Page Link Highlight — 第三方平台',
-    category: '導覽',
-    subtitle: '無法控制 HTML 與後端時的 URL/DOM fallback',
-    href: `${baseUrl}js-effects/page-link-highlight/`
-  },
-  {
-    title: 'Page Link Highlight — 後端路由',
-    category: '導覽',
-    subtitle: '前後端耦合渲染',
-    href: `${baseUrl}js-effects/page-link-highlight/backend/`
-  },
-  {
-    title: 'Page Link Highlight — 前端路由',
-    category: '導覽',
-    subtitle: '前端渲染',
-    href: `${baseUrl}js-effects/page-link-highlight/frontend/`
-  },
-  {
-    title: 'Parallax',
-    category: '視差',
-    href: `${baseUrl}js-effects/parallax/`
-  },
-  {
-    title: 'Text Fade',
-    category: '文字',
-    href: `${baseUrl}js-effects/text-fade/`
-  },
-  {
-    title: 'Object Fade Active',
-    category: '物件',
-    href: `${baseUrl}js-effects/object-fade-active/`
-  },
-  {
-    title: 'Number Scroll',
-    category: '文字',
-    subtitle: 'GSAP 數字位數滾動與數值更新',
-    href: `${baseUrl}js-effects/number-scroll/`
-  },
-  {
-    title: 'SVG Line Grow',
-    category: 'SVG',
-    subtitle: '沿 SVG Path 長度繪製線條動畫',
-    href: `${baseUrl}js-effects/svg-line-grow/`
-  },
-  {
-    title: 'WebGL Image Reveal',
-    category: 'WebGL',
-    subtitle: 'PixiJS Shader 圖片邊緣拉伸還原',
-    href: `${baseUrl}js-effects/webgl-image-reveal/`
-  },
-  {
-    title: 'Custom Scrollbar',
-    category: '捲動',
-    subtitle: '內容捲動、滑塊同步與拖曳控制',
-    href: `${baseUrl}js-effects/custom-scrollbar/`
-  }
-];
+const items = createUiShowcaseItems(baseUrl).map(({ id, title, category, tags, summary, effects, triggers, types, packages, media, preview, variants, href }) => (
+  { id, title, category, tags, summary, effects, triggers, types, packages, media, preview, variants, href }
+));
 ---
-
-<!DOCTYPE html>
-<html lang="zh-TW">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>JS 效果 | One Page Tool</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-</head>
-<body class="min-h-screen bg-[#f5f1ea] font-['Inter',sans-serif] text-[#314d74]">
-  <TopMenu baseUrl={baseUrl} />
-  <ContentDirectory
-    client:load
-    title="JS 效果"
-    items={items}
-  />
-</body>
-</html>
+<BaseLayout title="UI 庫">
+  <UiShowcaseDirectory client:load items={items} />
+</BaseLayout>

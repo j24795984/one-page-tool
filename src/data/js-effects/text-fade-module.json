@@ -1,0 +1,27 @@
+{
+  "info": {
+    "eyebrow": "JS EFFECT",
+    "title": "Text Fade Module",
+    "summary": "可獨立匯入的 GSAP 逐字顯示模組，以 data-text-fade 組合淡入、上移與模糊效果。"
+  },
+  "usage": {
+    "title": "使用方式",
+    "description": "在文字容器上設定 data-text-fade，匯入模組並傳入 GSAP 實例；匯入本身不會自動初始化。",
+    "examples": [
+      {
+        "label": "HTML",
+        "code": "<h2 data-text-fade=\"timing(d:0.27;o:0.8;e:none) fade rise(y:9) blur(b:10)\">效果展示</h2>"
+      },
+      {
+        "label": "JavaScript / ESM",
+        "code": "import { gsap } from 'gsap';\nimport { createTextFade } from './text-fade.mjs';\n\nconst effect = createTextFade(element, { gsap });\neffect.timeline.play();\n// 離開頁面時呼叫 effect.destroy();"
+      }
+    ],
+    "parameters": [
+      { "name": "timing(d, o, s, e)", "description": "設定每字秒數、重疊比例或間隔秒數，以及 GSAP ease；s 優先於 o。" },
+      { "name": "fade(from, to)", "description": "設定不透明度起點與終點。" },
+      { "name": "rise(y)", "description": "設定逐字向上移動的起始距離，單位為 px。" },
+      { "name": "blur(b)", "description": "設定起始模糊半徑，單位為 px。" }
+    ]
+  }
+}

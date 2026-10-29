@@ -1,0 +1,12 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import UiShowcaseDirectory from '../../components/UiShowcaseDirectory.vue';
+import { createUiShowcaseItems } from '../../data/ui-showcase.js';
+const baseUrl = `${import.meta.env.BASE_URL.replace(/\/$/, '')}/`;
+const items = createUiShowcaseItems(baseUrl).map(({ id, title, category, tags, summary, effects, triggers, types, packages, media, preview, variants, href }) => (
+  { id, title, category, tags, summary, effects, triggers, types, packages, media, preview, variants, href }
+));
+---
+<BaseLayout title="UI 庫">
+  <UiShowcaseDirectory client:load items={items} />
+</BaseLayout>

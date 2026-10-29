@@ -1,6 +1,6 @@
 <script setup>
 import { computed, onBeforeUnmount, onMounted, reactive, ref } from 'vue';
-import EffectControlsPanel from './EffectControlsPanel.vue';
+import EffectPreviewToolbar from './EffectPreviewToolbar.vue';
 import EffectInfoPanel from './EffectInfoPanel.vue';
 import EffectShowcaseLayout from './EffectShowcaseLayout.vue';
 import effectData from '../data/js-effects/object-fade-active.json';
@@ -67,10 +67,10 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <EffectShowcaseLayout :back-href="`${baseUrl}js-effects/`">
+  <EffectShowcaseLayout :back-href="`${baseUrl}ui/`">
     <template #info>
       <EffectInfoPanel
-        :back-href="`${baseUrl}js-effects/`"
+        :back-href="`${baseUrl}ui/`"
         :info="effectData.info"
         :usage="effectData.usage"
         :current-code="parameterCode"
@@ -78,6 +78,8 @@ onBeforeUnmount(() => {
         download-filename="object-fade-active.js"
       />
     </template>
+
+    <template #toolbar><EffectPreviewToolbar @replay="restartEffect" :config="effectData.controls" :model-value="settings" @select-choice="selectChoice" /></template>
 
     <template #preview>
       <div ref="scroller" class="effect-preview-scroll object-fade-demo">
@@ -103,14 +105,5 @@ onBeforeUnmount(() => {
       </div>
     </template>
 
-    <template #controls>
-      <EffectControlsPanel
-        :config="effectData.controls"
-        :model-value="settings"
-        @apply="restartEffect"
-        @select-choice="selectChoice"
-        @update-setting="updateSetting"
-      />
-    </template>
   </EffectShowcaseLayout>
 </template>

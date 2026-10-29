@@ -1,0 +1,30 @@
+---
+import '../../../styles/pattern-guide.css';
+import '../../../styles/global.css';
+import '../../../styles/infinite-drag-grid.css';
+
+const baseUrl = `${import.meta.env.BASE_URL.replace(/\/$/, '')}/`;
+---
+
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Infinite Drag Grid | One Page Tool</title>
+</head>
+<body class="infinite-drag-grid-page">
+  <main class="standalone-pattern">
+    <div id="viewport">
+      <div id="grid-container"></div>
+    </div>
+  </main>
+
+  <script>
+    import { initInfiniteGrid } from '../../../scripts/infinite-drag-grid.js';
+    initInfiniteGrid(document.getElementById('viewport'), document.getElementById('grid-container'));
+  </script>
+</body>
+</html>
+
+<style>.standalone-pattern { height:100dvh; overflow:auto; } .infinite-drag-grid-page .standalone-pattern { overflow:hidden; }</style>

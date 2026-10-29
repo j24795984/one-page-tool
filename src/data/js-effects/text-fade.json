@@ -32,17 +32,17 @@
       {
         "label": "Fade Up",
         "value": "up",
-        "note": "由下往上逐字浮現"
+        "note": "文字由下往上逐字移動並淡入，呈現輕柔的上浮效果。"
       },
       {
         "label": "Matrix 3D",
         "value": "3d",
-        "note": "使用原始 matrix3d 逐字浮現"
+        "note": "文字由右往左逐字移動並淡入，呈現水平滑入效果。"
       },
       {
         "label": "BR Text",
         "value": "br",
-        "note": "保留換行並可設定觸發位置"
+        "note": "保留指定換行，文字以較小幅度由右往左淡入，逐字間隔較明顯。"
       }
     ],
     "fieldsTitle": "參數控制",
@@ -66,24 +66,10 @@
     "hint": "向下捲動查看逐字效果 ↓",
     "sections": [
       {
-        "label": "01 — Introduction",
+        "label": "效果展示",
         "lines": [
           "Every idea begins",
           "with a quiet sentence."
-        ]
-      },
-      {
-        "label": "02 — Process",
-        "lines": [
-          "Shape the words.",
-          "Reveal the rhythm."
-        ]
-      },
-      {
-        "label": "03 — Result",
-        "lines": [
-          "Make every letter",
-          "arrive with purpose."
         ]
       }
     ]

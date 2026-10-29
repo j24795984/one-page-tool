@@ -36,16 +36,17 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <EffectShowcaseLayout :back-href="`${baseUrl}js-effects/`">
+  <EffectShowcaseLayout :back-href="`${baseUrl}ui/`">
     <template #info>
       <EffectInfoPanel
-        :back-href="`${baseUrl}js-effects/`"
+        :back-href="`${baseUrl}ui/`"
         :info="effectData.info"
         :usage="effectData.usage"
         :current-code="currentCode"
         :download-href="customScrollbarDownloadUrl"
         download-filename="custom-scrollbar.js"
       />
+      <section class="effect-info__usage"><h2 class="effect-info__usage-title">操作方式</h2><p>使用滾輪或觸控板捲動內容，也可以拖曳右側滑塊控制位置。</p></section>
     </template>
 
     <template #preview>
@@ -80,20 +81,5 @@ onBeforeUnmount(() => {
       </div>
     </template>
 
-    <template #controls>
-      <div class="custom-scrollbar-demo__notes">
-        <p class="effect-controls__title">操作方式</p>
-        <dl>
-          <div>
-            <dt>內容捲動</dt>
-            <dd>使用滑鼠滾輪或觸控板捲動內容。</dd>
-          </div>
-          <div>
-            <dt>滑塊拖曳</dt>
-            <dd>按住右側滑塊上下拖曳，控制內容位置。</dd>
-          </div>
-        </dl>
-      </div>
-    </template>
   </EffectShowcaseLayout>
 </template>

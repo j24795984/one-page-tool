@@ -1,6 +1,6 @@
 <script setup>
 import { computed, nextTick, onBeforeUnmount, onMounted, reactive, ref } from 'vue';
-import EffectControlsPanel from './EffectControlsPanel.vue';
+import EffectPreviewToolbar from './EffectPreviewToolbar.vue';
 import EffectInfoPanel from './EffectInfoPanel.vue';
 import EffectShowcaseLayout from './EffectShowcaseLayout.vue';
 import effectData from '../data/js-effects/text-fade.json';
@@ -15,6 +15,7 @@ defineProps({
 });
 
 const settings = reactive({ ...effectData.defaults });
+const currentChoice = computed(() => effectData.controls.choices.find(choice => choice.value === settings.variant));
 const previewRoot = ref(null);
 const scroller = ref(null);
 
@@ -75,10 +76,10 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <EffectShowcaseLayout :back-href="`${baseUrl}js-effects/`">
+  <EffectShowcaseLayout :back-href="`${baseUrl}ui/`">
     <template #info>
       <EffectInfoPanel
-        :back-href="`${baseUrl}js-effects/`"
+        :back-href="`${baseUrl}ui/`"
         :info="effectData.info"
         :usage="effectData.usage"
         :current-code="parameterCode"
@@ -87,11 +88,16 @@ onBeforeUnmount(() => {
       />
     </template>
 
+    <template #toolbar><EffectPreviewToolbar @replay="restartEffect" :config="effectData.controls" :model-value="settings" @select-choice="updateAndRestart" /></template>
+
     <template #preview>
       <div ref="scroller" class="effect-preview-scroll text-fade-demo">
         <header class="text-fade-demo__intro">
           <p class="text-fade-demo__intro-label">{{ effectData.preview.label }}</p>
-          <h2 class="text-fade-demo__intro-title">{{ effectData.preview.title }}</h2>
+          <div class="text-fade-demo__intro-copy">
+            <h2 class="text-fade-demo__intro-title">{{ effectData.preview.title }}</h2>
+            <p class="text-fade-demo__description" aria-live="polite">{{ currentChoice.note }}</p>
+          </div>
           <span class="text-fade-demo__scroll-hint">{{ effectData.preview.hint }}</span>
         </header>
 
@@ -124,13 +130,5 @@ onBeforeUnmount(() => {
       </div>
     </template>
 
-    <template #controls>
-      <EffectControlsPanel
-        :config="effectData.controls"
-        :model-value="settings"
-        @select-choice="updateAndRestart"
-        @update-setting="updateAndRestart"
-      />
-    </template>
   </EffectShowcaseLayout>
 </template>

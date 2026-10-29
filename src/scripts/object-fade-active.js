@@ -20,13 +20,15 @@ export function initObjectFadeActive({
   direction = 'up',
   options = {},
   root,
-  scroller
+  scroller,
+  onComplete
 }) {
   if (!root || !scroller) return () => {};
 
   gsap.registerPlugin(ScrollTrigger);
 
   const targets = [...root.querySelectorAll('[data-object-fade]')];
+  let completed = 0;
   const duration = normalizeNumber(options.duration, 0.75, 0, 5);
   const offset = normalizeNumber(options.offset, 56, 0, 300);
   const start = normalizeNumber(options.start, 84, 10, 100);
@@ -72,7 +74,8 @@ export function initObjectFadeActive({
             stagger,
             delay,
             ease,
-            overwrite: 'auto'
+            overwrite: 'auto',
+            onComplete: () => { completed += batch.length; if (completed >= targets.length) onComplete?.(); }
           });
         },
         onLeaveBack: (batch) => {

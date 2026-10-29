@@ -1,6 +1,6 @@
 <script setup>
 import { computed, onBeforeUnmount, onMounted, reactive, ref } from 'vue';
-import EffectControlsPanel from './EffectControlsPanel.vue';
+import EffectPreviewToolbar from './EffectPreviewToolbar.vue';
 import EffectInfoPanel from './EffectInfoPanel.vue';
 import EffectShowcaseLayout from './EffectShowcaseLayout.vue';
 import effectData from '../data/js-effects/number-scroll.json';
@@ -36,6 +36,11 @@ function updateSetting({ key, value }) {
   settings[key] = value;
 }
 
+function selectChoice(setting) {
+  updateSetting(setting);
+  restartEffect();
+}
+
 function restartEffect() {
   if (!initEffect || !numberElement.value) return;
 
@@ -65,10 +70,10 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <EffectShowcaseLayout :back-href="`${baseUrl}js-effects/`">
+  <EffectShowcaseLayout :back-href="`${baseUrl}ui/`">
     <template #info>
       <EffectInfoPanel
-        :back-href="`${baseUrl}js-effects/`"
+        :back-href="`${baseUrl}ui/`"
         :info="effectData.info"
         :usage="effectData.usage"
         :current-code="parameterCode"
@@ -76,6 +81,8 @@ onBeforeUnmount(() => {
         download-filename="number-scroll.js"
       />
     </template>
+
+    <template #toolbar><EffectPreviewToolbar @replay="restartEffect" :config="effectData.controls" :model-value="settings" @select-choice="selectChoice" /></template>
 
     <template #preview>
       <div class="number-scroll-demo">
@@ -89,10 +96,6 @@ onBeforeUnmount(() => {
           <div ref="numberElement" class="number-scroll"></div>
           <p class="number-scroll-demo__caption">{{ effectData.preview.caption }}</p>
 
-          <button class="number-scroll-demo__replay" type="button" @click="restartEffect">
-            重新播放
-            <span aria-hidden="true">↻</span>
-          </button>
         </section>
 
         <dl class="number-scroll-demo__facts">
@@ -104,14 +107,5 @@ onBeforeUnmount(() => {
       </div>
     </template>
 
-    <template #controls>
-      <EffectControlsPanel
-        :config="effectData.controls"
-        :model-value="settings"
-        @select-choice="updateSetting"
-        @update-setting="updateSetting"
-        @apply="restartEffect"
-      />
-    </template>
   </EffectShowcaseLayout>
 </template>

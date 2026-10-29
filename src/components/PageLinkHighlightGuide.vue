@@ -1,5 +1,6 @@
 <script setup>
 import { computed, ref } from 'vue';
+import CodeCopyButton from './CodeCopyButton.vue';
 import guideData from '../data/js-effects/page-link-highlight.json';
 import pageLinkFocusDownloadUrl from '../scripts/pageLinkFocus.js?url';
 import '../styles/page-link-highlight.css';
@@ -37,13 +38,14 @@ const selectedOption = computed(() => (
 
 <template>
   <main class="page-link-guide">
+    <a class="page-link-guide__mobile-back" :href="`${baseUrl}ui/`">← 返回 UI 庫</a>
     <aside class="page-link-guide__sidebar">
-      <a class="page-link-guide__back" :href="`${baseUrl}js-effects/`">← 返回 JS 效果</a>
+      <a class="page-link-guide__back" :href="`${baseUrl}ui/`">← 返回 UI 庫</a>
 
       <p class="page-link-guide__eyebrow">Architecture Guide</p>
       <h1>Page Link<br>Highlight</h1>
       <a
-        v-if="groupId === 'fallback'"
+        v-if="visibleGroups.some(group => group.id === 'fallback')"
         class="page-link-guide__download"
         :href="pageLinkFocusDownloadUrl"
         download="pageLinkFocus.js"
@@ -53,6 +55,10 @@ const selectedOption = computed(() => (
       </a>
       <p class="page-link-guide__summary">{{ guideData.info.summary }}</p>
 
+
+    </aside>
+
+    <section class="page-link-guide__stage" aria-live="polite">
       <nav class="page-link-guide__choices" aria-label="Top Menu Highlight 架構選擇">
         <section v-for="group in visibleGroups" :key="group.id">
           <div class="page-link-guide__group-heading">
@@ -73,9 +79,6 @@ const selectedOption = computed(() => (
           </button>
         </section>
       </nav>
-    </aside>
-
-    <section class="page-link-guide__stage" aria-live="polite">
       <header class="page-link-guide__stage-header">
         <div>
           <p>{{ selectedOption.category }}</p>
@@ -119,6 +122,7 @@ const selectedOption = computed(() => (
             <header>
               <span>{{ sample.label }}</span>
               <code>{{ sample.language }}</code>
+              <CodeCopyButton :code="sample.code" :label="sample.label" />
             </header>
             <pre><code>{{ sample.code }}</code></pre>
           </article>

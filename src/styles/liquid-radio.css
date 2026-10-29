@@ -1,0 +1,8 @@
+.liquid-radio, .liquid-radio * { box-sizing:border-box; }
+.liquid-radio { position:relative; display:grid; gap:0; width:max-content; max-width:100%; border:0; padding:0; margin:0; color:#252a30; font-family:Inter,Arial,sans-serif; }
+.liquid-radio label { position:relative; display:flex; align-items:center; gap:12px; height:44px; padding:0 20px; background:transparent; border:1px solid transparent; cursor:pointer; font-size:16px; }
+.liquid-radio input { position:absolute; width:1px; height:1px; opacity:0; }
+.liquid-radio label:has(:focus-visible) i { outline:2px solid #496783; outline-offset:4px; }
+.liquid-radio i { display:block; flex-shrink:0; width:24px; height:24px; border:1px solid #9ba7b0; border-radius:50%; }
+.liquid-radio label:has(:checked) i { border-color:#496783; }
+.liquid-radio [data-liquid-dot] { position:absolute; top:0; left:26px; width:14px; height:14px; border-radius:50%; background:#496783; pointer-events:none; transform:translateY(15px); }

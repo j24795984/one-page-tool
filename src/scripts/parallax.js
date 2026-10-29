@@ -54,8 +54,8 @@ class GsapParallax {
         ease: 'none',
         scrollTrigger: {
           trigger,
-          start: 'top top',
-          end: 'bottom bottom',
+          start: this.scroller ? 0 : 'top top',
+          end: this.scroller ? () => ScrollTrigger.maxScroll(scrollSource) : 'bottom bottom',
           scrub: this.settings.scrub,
           scroller: this.scroller || undefined,
           invalidateOnRefresh: true
@@ -86,4 +86,4 @@ class GsapParallax {
 
 const parallax = new GsapParallax();
 
-export { parallax };
+export { parallax, GsapParallax };

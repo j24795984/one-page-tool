@@ -1,0 +1,35 @@
+.button-effect-stage, .button-effect-stage * { box-sizing:border-box; }
+.button-effect-stage { display:flex; align-items:center; justify-content:center; width:100%; height:100%; min-height:180px; padding:24px; background:#f7f7f4; color:#496783; }
+.button-effect-stage--preview { position:absolute; inset:0; min-height:0; padding:16px; }
+.button-effect-stage .motion-button { position:relative; isolation:isolate; display:inline-flex; align-items:center; justify-content:center; gap:12px; min-height:48px; padding:0 28px; border:1px solid #496783; border-radius:8px; background:white; color:#496783; font:500 16px/1.4 Inter,Arial,sans-serif; cursor:pointer; overflow:hidden; touch-action:manipulation; user-select:none; }
+.motion-button:focus-visible { outline:2px solid #496783; outline-offset:5px; }
+.motion-button > .button-label { position:relative; z-index:2; pointer-events:none; white-space:nowrap; }
+.button-fill { position:absolute; z-index:0; pointer-events:none; background:#496783; }
+.button-magnetic-zone { display:grid; place-items:center; width:260px; height:160px; }
+[data-button-effect="magnetic-button"] .motion-button, [data-button-effect="ripple-click"] .motion-button { background:#496783; color:#fff; }
+[data-button-effect="direction-aware-fill"] .button-fill { width:440px; height:440px; border-radius:50%; left:50%; top:50%; transform:translate(-50%,-50%) scale(0); }
+[data-button-effect="rotating-border"] .motion-button { border:0; box-shadow:-5px 0 18px #ff6b4a26, 5px 0 18px #00c8ff26, 0 0 12px #7c5cff20; overflow:visible; }
+.button-border-clip { position:absolute; inset:-2px; border-radius:10px; overflow:hidden; z-index:-2; pointer-events:none; }
+.button-border-light { position:absolute; width:260px; height:260px; left:50%; top:50%; margin:-130px; background:conic-gradient(from 0deg,#ff6b4a,#7c5cff,#00c8ff,#ff6b4a); }
+[data-button-effect="rotating-border"] .motion-button::after { content:''; position:absolute; inset:0; border-radius:8px; background:white; z-index:-1; }
+[data-button-effect="ripple-click"] .button-fill { width:440px; height:440px; left:50%; top:50%; border-radius:50%; background:#ffffff66; transform:translate(-50%,-50%) scale(0); }
+[data-button-effect="hold-to-confirm"] .button-fill { inset:0; background:#e8eef3; transform:scaleX(0); transform-origin:left; }
+[data-button-effect="hold-to-confirm"] .motion-button { min-width:190px; touch-action:none; }
+[data-button-effect="icon-slide-button"] .motion-button { min-width:180px; }
+.button-arrow { position:absolute; width:20px; height:20px; top:14px; pointer-events:none; }
+.button-arrow--in { left:18px; transform:translateX(-48px); }
+.button-arrow--out { right:18px; }
+[data-button-effect="icon-slide-button"] .button-label { transform:translateX(-10px); }
+.social-buttons { display:flex; gap:14px; }
+.social-buttons .motion-button { width:48px; height:48px; padding:0; border-radius:50%; }
+.social-buttons .button-fill { inset:0; transform:translateY(100%); }
+.social-icon { position:absolute; width:20px; height:20px; pointer-events:none; }
+.social-icon--next { color:white; transform:translateY(48px); }
+.button-effect-stage svg { fill:none; stroke:currentColor; stroke-width:1.7; stroke-linecap:round; stroke-linejoin:round; }
+/* The fixed-height dock shell never participates in icon magnification. */
+[data-button-effect="dock-magnify"] { container-type:inline-size; }
+.dock-menu { position:relative; flex:none; height:56px; border:1px solid #DEDFDA; border-radius:12px; background:#E8EEF3; overflow:visible; box-shadow:0 5px 16px #49678312; }
+.dock-menu .dock-item { position:absolute; left:0; bottom:10px; width:clamp(20px,7cqw,36px); height:clamp(20px,7cqw,36px); min-height:0; padding:4px; border:0; border-radius:7px; background:#496783; color:#fff; transform-origin:50% 100%; overflow:visible; }
+.dock-menu .dock-item:nth-child(3n+2) { background:#6b8278; }
+.dock-menu .dock-item:nth-child(3n) { background:#74879b; }
+.dock-menu .dock-item svg { width:100%; height:100%; pointer-events:none; }

@@ -1,0 +1,19 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import ImportedEffectDetail from '../../../components/ImportedEffectDetail.vue';
+import { info, usage } from '../../../data/js-effects/text-fade-module.json';
+
+const baseUrl = `${import.meta.env.BASE_URL.replace(/\/$/, '')}/`;
+---
+
+<BaseLayout title={info.title} showNavigation={false}>
+  <ImportedEffectDetail
+    client:load
+    baseUrl={baseUrl}
+    demoHref={`${baseUrl}demos/text-fade-module/`}
+    downloadHref={`${baseUrl}downloads/text-fade.mjs`}
+    downloadFilename="text-fade.mjs"
+    info={info}
+    usage={usage}
+  />
+</BaseLayout>

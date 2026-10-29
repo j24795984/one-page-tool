@@ -115,7 +115,7 @@ function setGroupingVisibility(separators, visibleDigits) {
   });
 }
 
-export function initNumberScroll({ element, ...rawOptions } = {}) {
+export function initNumberScroll({ element, onComplete, previewCycle = false, ...rawOptions } = {}) {
   if (!(element instanceof HTMLElement)) return () => {};
 
   const options = normalizeOptions(rawOptions);
@@ -192,10 +192,11 @@ export function initNumberScroll({ element, ...rawOptions } = {}) {
   };
   const media = gsap.matchMedia();
 
-  const finish = () => {
-    setGroupingVisibility(groupingSeparators, getIntegerDigitCount(options.end));
-    if (sign.textContent) sign.textContent = options.end < 0 ? '−' : '\u00a0';
-    liveValue.textContent = formatValue(options.end, options);
+  const finish = (value = options.end) => {
+    setGroupingVisibility(groupingSeparators, getIntegerDigitCount(value));
+    if (sign.textContent) sign.textContent = value < 0 ? '−' : '\u00a0';
+    liveValue.textContent = formatValue(value, options);
+    onComplete?.();
   };
 
   media.add(
@@ -212,7 +213,7 @@ export function initNumberScroll({ element, ...rawOptions } = {}) {
         return;
       }
 
-      gsap.to(tracks, {
+      gsap.timeline({ repeat: previewCycle ? 1 : 0, yoyo: previewCycle, repeatDelay: previewCycle ? 0.45 : 0, onComplete: () => finish(previewCycle ? options.start : options.end) }).to(tracks, {
         yPercent: targetYPercent,
         duration: options.duration,
         ease: options.ease,
@@ -224,9 +225,9 @@ export function initNumberScroll({ element, ...rawOptions } = {}) {
         onStart: () => gsap.set(tracks, { willChange: 'transform' }),
         onComplete: () => {
           gsap.set(tracks, { clearProps: 'willChange' });
-          finish();
+          setGroupingVisibility(groupingSeparators, getIntegerDigitCount(options.end));
         }
-      });
+      }).timeScale(previewCycle ? 1.5 : 1);
     }
   );
 
