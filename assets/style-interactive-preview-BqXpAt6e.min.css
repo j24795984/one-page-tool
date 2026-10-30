@@ -1,0 +1,1 @@
+.button-effect-stage{position:relative}.preview-cursor{z-index:10;clip-path:polygon(0 0,100% 65%,56% 68%,35% 100%);filter:drop-shadow(0 0 1px #fff);pointer-events:none;background:#496783;width:14px;height:20px;transition:background .15s;position:absolute;top:0;left:0}.preview-cursor[hidden]{display:none}.preview-cursor.is-pressed{background:#e58b53}

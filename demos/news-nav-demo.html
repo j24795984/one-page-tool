@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>分類導覽滑動效果</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100svh;
+      display: grid;
+      place-items: center;
+      background: #fff;
+      font-family: 'Noto Serif TC', serif;
+    }
+
+    .category-nav {
+      --theme-base: #d0b065;
+      position: relative;
+    }
+
+    .category-list {
+      display: flex;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .category-link {
+      display: block;
+      padding: 0 18px;
+      border: 0;
+      background: transparent;
+      color: #231815;
+      font: inherit;
+      font-size: 19px;
+      line-height: 1.3;
+      opacity: .4;
+      cursor: pointer;
+      transition: opacity .45s cubic-bezier(.4, 0, .2, 1);
+    }
+
+    .category-list li:not(:last-child) .category-link {
+      border-right: 1px solid var(--theme-base);
+    }
+
+    .category-link:is(:hover, :focus-visible, [aria-pressed='true']) {
+      outline: none;
+      opacity: 1;
+    }
+
+    .category-indicator {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--theme-base);
+      opacity: 0;
+      pointer-events: none;
+      transform: translate3d(var(--indicator-x, 0px), var(--indicator-y, 0px), 0) translateX(-50%);
+    }
+
+    .category-nav.is-ready .category-indicator {
+      opacity: 1;
+      transition: transform .5s cubic-bezier(.4, 0, .2, 1);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .category-link,
+      .category-nav.is-ready .category-indicator {
+        transition: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <nav class="category-nav" aria-label="分類導覽">
+    <span class="category-indicator" aria-hidden="true"></span>
+    <ul class="category-list">
+      <li><button class="category-link" type="button" aria-pressed="true">分類1</button></li>
+      <li><button class="category-link" type="button" aria-pressed="false">分類2</button></li>
+      <li><button class="category-link" type="button" aria-pressed="false">分類3</button></li>
+    </ul>
+  </nav>
+  <script>
+    const nav = document.querySelector('.category-nav');
+    const indicator = nav.querySelector('.category-indicator');
+    const links = [...nav.querySelectorAll('.category-link')];
+    let selected = links[0];
+    let hoveredLink = null;
+
+    function positionIndicator() {
+      const target = hoveredLink || links.find(link => link === document.activeElement) || selected;
+      const navRect = nav.getBoundingClientRect();
+      const targetRect = target.getBoundingClientRect();
+      indicator.style.setProperty('--indicator-x', `${targetRect.left - navRect.left + targetRect.width / 2}px`);
+      indicator.style.setProperty('--indicator-y', `${targetRect.top - navRect.top - indicator.offsetHeight - 8}px`);
+    }
+
+    links.forEach(link => {
+      link.addEventListener('pointerenter', () => {
+        hoveredLink = link;
+        positionIndicator();
+      });
+      link.addEventListener('focus', () => {
+        hoveredLink = null;
+        positionIndicator();
+      });
+      link.addEventListener('click', () => {
+        selected = link;
+        links.forEach(item => item.setAttribute('aria-pressed', String(item === selected)));
+        positionIndicator();
+      });
+    });
+
+    nav.addEventListener('pointerleave', () => {
+      hoveredLink = null;
+      positionIndicator();
+    });
+    nav.addEventListener('focusout', () => requestAnimationFrame(positionIndicator));
+    new ResizeObserver(positionIndicator).observe(nav);
+    document.fonts.ready.then(positionIndicator);
+    positionIndicator();
+    requestAnimationFrame(() => nav.classList.add('is-ready'));
+  </script>
+</body>
+</html>

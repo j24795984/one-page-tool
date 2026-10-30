@@ -1,0 +1,217 @@
+<!DOCTYPE html><html lang="zh-TW"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Number Scroll | One Page Tool</title><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet"><link rel="stylesheet" href="/one-page-tool/assets/style-global-ZhmNlArA.min.css"><link rel="stylesheet" href="/one-page-tool/assets/style-EffectShowcaseLayout-LVxWlN5u.min.css"><link rel="stylesheet" href="/one-page-tool/assets/style-CodeCopyButton-YUgVfkAX.min.css"><link rel="stylesheet" href="/one-page-tool/assets/style-index@_@astro-DQY2w9Jx.min.css"><link rel="stylesheet" href="/one-page-tool/assets/CodeCopyButton.YUgVfkAX.min.css"></head><body class="h-screen overflow-hidden bg-[#f5f1ea] font-['Inter',sans-serif] text-[#314d74]"><style>astro-island,astro-slot,astro-static-slot{display:contents}</style><script>(()=>{var e=async t=>{await(await t())()};(self.Astro||(self.Astro={})).load=e;window.dispatchEvent(new Event("astro:load"));})();</script><script>(()=>{var g=Object.defineProperty;var w=(c,s,d)=>s in c?g(c,s,{enumerable:!0,configurable:!0,writable:!0,value:d}):c[s]=d;var l=(c,s,d)=>w(c,typeof s!="symbol"?s+"":s,d);var E=new Set(["__proto__","constructor","prototype"]);{let c={0:t=>y(t),1:t=>d(t),2:t=>new RegExp(t),3:t=>new Date(t),4:t=>new Map(d(t)),5:t=>new Set(d(t)),6:t=>BigInt(t),7:t=>new URL(t),8:t=>new Uint8Array(t),9:t=>new Uint16Array(t),10:t=>new Uint32Array(t),11:t=>Number.POSITIVE_INFINITY*t},s=t=>{let[p,e]=t;return p in c?c[p](e):void 0},d=t=>t.map(s),y=t=>typeof t!="object"||t===null?t:Object.fromEntries(Object.entries(t).map(([p,e])=>[p,s(e)]));class f extends HTMLElement{constructor(){super(...arguments);l(this,"Component");l(this,"hydrator");l(this,"hydrate",async()=>{var b;if(!this.hydrator||!this.isConnected)return;let e=(b=this.parentElement)==null?void 0:b.closest("astro-island[ssr]");if(e){e.addEventListener("astro:hydrate",this.hydrate,{once:!0});return}let n=this.querySelectorAll("astro-slot"),r={},i=this.querySelectorAll("template[data-astro-template]");for(let o of i){let a=o.closest(this.tagName);a!=null&&a.isSameNode(this)&&(r[o.getAttribute("data-astro-template")||"default"]=o.innerHTML,o.remove())}for(let o of n){let a=o.closest(this.tagName);a!=null&&a.isSameNode(this)&&(r[o.getAttribute("name")||"default"]=o.innerHTML)}let u;try{u=this.hasAttribute("props")?y(JSON.parse(this.getAttribute("props"))):{}}catch(o){let a=this.getAttribute("component-url")||"<unknown>",v=this.getAttribute("component-export");throw v&&(a+=` (export ${v})`),console.error(`[hydrate] Error parsing props for component ${a}`,this.getAttribute("props"),o),o}let h;await this.hydrator(this)(this.Component,u,r,{client:this.getAttribute("client")}),this.removeAttribute("ssr"),this.dispatchEvent(new CustomEvent("astro:hydrate"))});l(this,"unmount",()=>{this.isConnected||this.dispatchEvent(new CustomEvent("astro:unmount"))})}disconnectedCallback(){document.removeEventListener("astro:after-swap",this.unmount),document.addEventListener("astro:after-swap",this.unmount,{once:!0})}connectedCallback(){if(!this.hasAttribute("await-children")||document.readyState==="interactive"||document.readyState==="complete")this.childrenConnectedCallback();else{let e=()=>{document.removeEventListener("DOMContentLoaded",e),n.disconnect(),this.childrenConnectedCallback()},n=new MutationObserver(()=>{var r;((r=this.lastChild)==null?void 0:r.nodeType)===Node.COMMENT_NODE&&this.lastChild.nodeValue==="astro:end"&&(this.lastChild.remove(),e())});n.observe(this,{childList:!0}),document.addEventListener("DOMContentLoaded",e)}}async childrenConnectedCallback(){let e=this.getAttribute("before-hydration-url");e&&await import(e),this.start()}getRetryImportUrl(e){let n=new URL(e,document.baseURI),r=`astro-retry=${Date.now()}`,i=n.hash.replace(/^#/,"");return n.hash=i?`${i}&${r}`:r,n.toString()}async importWithRetry(e){try{return await import(e)}catch(n){return await new Promise(r=>setTimeout(r,1e3)),import(this.getRetryImportUrl(e))}}handleHydrationError(e){let n=this.getAttribute("component-url"),r=new CustomEvent("astro:hydration-error",{cancelable:!0,bubbles:!0,composed:!0,detail:{error:e,componentUrl:n}});this.dispatchEvent(r)&&console.error(`[astro-island] Error hydrating ${n}`,e)}async start(){let e=JSON.parse(this.getAttribute("opts")),n=this.getAttribute("client");if(Astro[n]===void 0){window.addEventListener(`astro:${n}`,()=>this.start(),{once:!0});return}try{await Astro[n](async()=>{let r=this.getAttribute("renderer-url");try{let[i,{default:u}]=await Promise.all([this.importWithRetry(this.getAttribute("component-url")),r?this.importWithRetry(r):Promise.resolve({default:()=>()=>{}})]),h=this.getAttribute("component-export")||"default";if(h.includes(".")){this.Component=i;for(let m of h.split(".")){if(E.has(m)||!this.Component||typeof this.Component!="object"&&typeof this.Component!="function"||!Object.hasOwn(this.Component,m))throw new Error(`Invalid component export path: ${h}`);this.Component=this.Component[m]}}else{if(E.has(h))throw new Error(`Invalid component export path: ${h}`);this.Component=i[h]}return this.hydrator=u,this.hydrate}catch(i){return this.handleHydrationError(i),()=>{}}},e,this)}catch(r){this.handleHydrationError(r)}}attributeChangedCallback(){this.hydrate()}}l(f,"observedAttributes",["props"]),customElements.get("astro-island")||customElements.define("astro-island",f)}})();</script><astro-island uid="ZjRREE" prefix="s0" component-url="/one-page-tool/assets/NumberScrollDemo.DI__fMLK.min.js" component-export="default" renderer-url="/one-page-tool/assets/client.BGrzsgJc.min.js" props="{&quot;baseUrl&quot;:[0,&quot;/one-page-tool/&quot;]}" ssr client="load" opts="{&quot;name&quot;:&quot;NumberScrollDemo&quot;,&quot;value&quot;:true}" await-children><main class="effect-showcase"><header class="effect-showcase__mobile-header"><a href="/one-page-tool/ui/">← 返回 UI 庫</a></header><div class="effect-showcase__toolbar"><!--[--><!--[--><div class="effect-toolbar__versions" role="group" aria-label="展示版本"><!--[--><button type="button" aria-pressed="true">數字揭示</button><button type="button" aria-pressed="false">Odometer 計數器</button><!--]--></div><button type="button">↻ 重新播放</button><!--]--><!--[--><div class="effect-toolbar__versions" role="group" aria-label="展示版本"><!--[--><button type="button" aria-pressed="true">Auto</button><button type="button" aria-pressed="false">Roll Up</button><button type="button" aria-pressed="false">Roll Down</button><!--]--></div><!----><!--]--><!--]--><button class="effect-showcase__info-toggle" type="button" aria-expanded="false" aria-controls="effect-mobile-info">效果說明 <svg class="effect-showcase__info-chevron" aria-hidden="true" viewBox="0 0 16 16" width="16" height="16" fill="none"><path d="m4 6 4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg></button></div><aside id="effect-mobile-info" class="effect-showcase__info" aria-label="效果說明"><!--[--><!--[--><a class="effect-info__back" href="/one-page-tool/ui/">← 返回 UI 庫</a><p class="effect-info__eyebrow">JS Effect</p><h1 class="effect-info__title">Number Scroll</h1><a class="effect-info__download" href="/one-page-tool/assets/file-number-scroll-2EMtwEXK.min.js" download="number-scroll.js">JS 下載 <span aria-hidden="true">↓</span></a><p class="effect-info__summary">提供數字滾動揭示與 Odometer 計數器兩種模式；前者整圈揭示成果，後者只轉動改變的位數，適合持續更新的統計。</p><section class="effect-info__usage" aria-labelledby="effect-usage-title"><h2 id="effect-usage-title" class="effect-info__usage-title">使用方式</h2><p>引入 GSAP 與下方 CSS。initNumberScroll() 播放一次並回傳 cleanup；createOdometer() 保存目前數值，透過 update(value) 更新，卸載時呼叫 destroy()。示範計時器由頁面負責。</p><h3 class="effect-info__section-title">引入方式</h3><div class="effect-info__examples"><!--[--><div><div class="effect-info__code-heading"><p class="effect-info__example-label">DOM 元素</p><span class="code-copy" data-v-714eecae><button type="button" aria-label="複製DOM 元素" data-v-714eecae>複製</button><span class="code-copy__status" role="status" data-v-714eecae></span></span></div><pre class="effect-info__code"><code>&lt;span class=&quot;number-scroll&quot; data-number-scroll&gt;&lt;/span&gt;</code></pre></div><div><div class="effect-info__code-heading"><p class="effect-info__example-label">JavaScript / ESM</p><span class="code-copy" data-v-714eecae><button type="button" aria-label="複製JavaScript / ESM" data-v-714eecae>複製</button><span class="code-copy__status" role="status" data-v-714eecae></span></span></div><pre class="effect-info__code"><code>import { initNumberScroll } from &#39;./number-scroll.js&#39;;
+
+const cleanup = initNumberScroll({
+  element: document.querySelector(&#39;[data-number-scroll]&#39;),
+  start: 12480,
+  end: 128640,
+  duration: 1.6
+});</code></pre></div><div><div class="effect-info__code-heading"><p class="effect-info__example-label">Odometer / 即時資料更新</p><span class="code-copy" data-v-714eecae><button type="button" aria-label="複製Odometer / 即時資料更新" data-v-714eecae>複製</button><span class="code-copy__status" role="status" data-v-714eecae></span></span></div><pre class="effect-info__code"><code>import { createOdometer } from &#39;./number-scroll.js&#39;;
+const counter = createOdometer({ element: document.querySelector(&#39;[data-number-scroll]&#39;), start: 12480, duration: 0.65, prefix: &#39;$&#39; });
+counter.update(12481);
+// 下一次資料抵達時：counter.update(12500);
+// 卸載時：counter.destroy();</code></pre></div><div><div class="effect-info__code-heading"><p class="effect-info__example-label">CSS</p><span class="code-copy" data-v-714eecae><button type="button" aria-label="複製CSS" data-v-714eecae>複製</button><span class="code-copy__status" role="status" data-v-714eecae></span></span></div><pre class="effect-info__code"><code>.number-scroll-demo {
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  gap: clamp(1rem, 3vw, 2rem);
+  min-height: 100%;
+  padding: clamp(1.25rem, 4vw, 3.5rem);
+  color: #314d74;
+}
+
+.number-scroll-demo__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.number-scroll-demo__header p,
+.number-scroll-demo__header span {
+  margin: 0;
+  color: #7a889b;
+  font-size: var(--type-text-caption);
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.number-scroll-demo__card {
+  display: grid;
+  align-content: center;
+  justify-items: start;
+  min-width: 0;
+  border: 1px solid rgb(49 77 116 / 14%);
+  border-radius: 1.25rem;
+  background: rgb(245 241 234 / 72%);
+  padding: clamp(1.5rem, 5vw, 4rem);
+  overflow: hidden;
+}
+
+.number-scroll-demo__metric-label,
+.number-scroll-demo__caption {
+  margin: 0;
+  color: #7a889b;
+  font-size: var(--type-text-small);
+}
+
+.number-scroll-demo__metric-label {
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.number-scroll {
+  max-width: 100%;
+  margin-block: clamp(1.25rem, 4vh, 2.5rem) 1rem;
+  color: #314d74;
+  font-size: clamp(3rem, 8vw, 7.5rem);
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.055em;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.number-scroll__visual {
+  display: inline-flex;
+  max-width: 100%;
+  align-items: baseline;
+}
+
+.number-scroll__digit {
+  display: inline-block;
+  flex: 0 0 0.62em;
+  width: 0.62em;
+  height: 1em;
+  overflow: hidden;
+}
+
+.number-scroll__track {
+  display: flex;
+  flex-direction: column;
+}
+
+.number-scroll__digit-row {
+  display: block;
+  flex: 0 0 1em;
+  height: 1em;
+  line-height: 1;
+  text-align: center;
+}
+
+.number-scroll__separator,
+.number-scroll__affix,
+.number-scroll__sign {
+  display: inline-block;
+  flex: none;
+}
+
+.number-scroll__separator {
+  margin-inline: 0.02em;
+  transition: opacity 120ms ease;
+}
+
+.number-scroll__affix,
+.number-scroll__sign {
+  margin-inline: 0.04em;
+}
+
+.number-scroll__sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+}
+
+.number-scroll-demo__replay {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.65rem;
+  margin-top: 2rem;
+  border: 1px solid rgb(49 77 116 / 28%);
+  border-radius: 999px;
+  background: transparent;
+  padding: 0.7rem 0.95rem;
+  color: #314d74;
+  font: inherit;
+  font-size: var(--type-text-small);
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.number-scroll-demo__replay:hover {
+  border-color: #314d74;
+  background: #314d74;
+  color: #fff;
+}
+
+.number-scroll-demo__facts {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin: 0;
+  border-block: 1px solid rgb(49 77 116 / 14%);
+}
+
+.number-scroll-demo__facts div {
+  padding: 1rem;
+}
+
+.number-scroll-demo__facts div + div {
+  border-left: 1px solid rgb(49 77 116 / 14%);
+}
+
+.number-scroll-demo__facts dt {
+  color: #7a889b;
+  font-size: var(--type-text-caption);
+  font-weight: 600;
+  letter-spacing: 0.06em;
+}
+
+.number-scroll-demo__facts dd {
+  margin: 0.4rem 0 0;
+  color: #314d74;
+  font-size: var(--type-text-small);
+}
+
+@media (max-width: 42rem) {
+  .number-scroll-demo {
+    min-height: 100%;
+  }
+
+  .number-scroll-demo__header,
+  .number-scroll-demo__facts {
+    grid-template-columns: 1fr;
+  }
+
+  .number-scroll-demo__header {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .number-scroll-demo__facts div + div {
+    border-top: 1px solid rgb(49 77 116 / 14%);
+    border-left: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .number-scroll__separator {
+    transition: none;
+  }
+}
+</code></pre></div><!--]--></div><h3 class="effect-info__section-title">控制項目</h3><dl class="effect-info__parameter-list"><!--[--><div><dt>start / end</dt><dd>起始值與目標值；整數部分最多 9 位。</dd></div><div><dt>duration / ease</dt><dd>滾動秒數與 GSAP easing。</dd></div><div><dt>decimals</dt><dd>固定小數位數，範圍 0–3。</dd></div><div><dt>grouping</dt><dd>是否顯示千分位分隔符號。</dd></div><div><dt>prefix / suffix</dt><dd>固定顯示於數值前後的文字或符號。</dd></div><div><dt>mode / update(value)</dt><dd>mode: reveal 為整圈揭示，odometer 不加額外圈數，未變位數靜止。createOdometer.update(value) 依增減決定方向；快速連續更新會取消前次動畫，從上次目標值開始。</dd></div><!--]--></dl></section><div class="effect-info__current"><div class="effect-info__code-heading"><p class="effect-info__example-label">目前初始化</p><span class="code-copy" data-v-714eecae><button type="button" aria-label="複製目前初始化" data-v-714eecae>複製</button><span class="code-copy__status" role="status" data-v-714eecae></span></span></div><code class="effect-info__current-code">const cleanup = initNumberScroll({
+  element: document.querySelector(&#39;[data-number-scroll]&#39;),
+  &quot;start&quot;: 12480,
+  &quot;end&quot;: 128640,
+  &quot;duration&quot;: 1.6,
+  &quot;decimals&quot;: 0,
+  &quot;grouping&quot;: true,
+  &quot;prefix&quot;: &quot;$&quot;,
+  &quot;suffix&quot;: &quot;&quot;,
+  &quot;direction&quot;: &quot;auto&quot;,
+  &quot;ease&quot;: &quot;power3.inOut&quot;
+});</code></div><!--]--><!--]--></aside><section class="effect-showcase__stage" aria-label="效果預覽"><div class="effect-showcase__viewport"><!--[--><div class="number-scroll-demo"><header class="number-scroll-demo__header"><p>Live Metric</p><span>Transform-only digit tracks</span></header><section class="number-scroll-demo__card"><p class="number-scroll-demo__metric-label">Annual recurring revenue</p><div class="number-scroll"></div><p class="number-scroll-demo__caption">Updated moments ago</p></section><dl class="number-scroll-demo__facts"><!--[--><div><dt>DOM updates</dt><dd>Apply only</dd></div><div><dt>Animated property</dt><dd>Transform</dd></div><div><dt>Reduced motion</dt><dd>Supported</dd></div><!--]--></dl></div><!--]--></div></section></main><!--astro:end--></astro-island></body></html>
