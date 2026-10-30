@@ -22,6 +22,7 @@ function normalizeOptions(options) {
     end,
     decimals,
     direction,
+    mode: options.mode === 'odometer' ? 'odometer' : 'reveal',
     duration: clamp(Number(options.duration) || 0, 0, 10),
     ease: options.ease || 'power3.inOut',
     grouping: options.grouping !== false,
@@ -58,7 +59,7 @@ function createTextPart(className, text) {
   return part;
 }
 
-function createDigitSequence(startCharacter, endCharacter, direction) {
+function createDigitSequence(startCharacter, endCharacter, direction, mode) {
   if (startCharacter === ' ' || endCharacter === ' ') {
     return startCharacter === endCharacter
       ? [startCharacter]
@@ -71,7 +72,7 @@ function createDigitSequence(startCharacter, endCharacter, direction) {
   const distance = direction === 'down'
     ? (start - end + 10) % 10
     : (end - start + 10) % 10;
-  const steps = distance + 10;
+  const steps = distance + (mode === 'odometer' ? 0 : 10);
   const sequence = [start];
 
   for (let index = 1; index <= steps; index += 1) {
@@ -81,14 +82,17 @@ function createDigitSequence(startCharacter, endCharacter, direction) {
   return sequence;
 }
 
-function createDigitColumn(startCharacter, endCharacter, direction) {
+function createDigitColumn(startCharacter, endCharacter, direction, mode) {
   const column = document.createElement('span');
   const track = document.createElement('span');
-  const sequence = createDigitSequence(startCharacter, endCharacter, direction);
+  const sequence = createDigitSequence(startCharacter, endCharacter, direction, mode);
+  const reverse = mode === 'odometer' && direction === 'down';
+  if (reverse) sequence.reverse();
 
   column.className = 'number-scroll__digit';
   track.className = 'number-scroll__track';
   track.dataset.steps = String(sequence.length - 1);
+  track.dataset.reverse = String(reverse);
 
   sequence.forEach((digit) => {
     const row = document.createElement('span');
@@ -159,7 +163,8 @@ export function initNumberScroll({ element, onComplete, previewCycle = false, ..
     const column = createDigitColumn(
       startDigits[index],
       endDigits[index],
-      options.direction
+      options.direction,
+      options.mode
     );
     tracks.push(column.firstElementChild);
     visual.appendChild(column);
@@ -172,7 +177,8 @@ export function initNumberScroll({ element, onComplete, previewCycle = false, ..
       const column = createDigitColumn(
         startDigits[index],
         endDigits[index],
-        options.direction
+        options.direction,
+        options.mode
       );
       tracks.push(column.firstElementChild);
       visual.appendChild(column);
@@ -188,7 +194,7 @@ export function initNumberScroll({ element, onComplete, previewCycle = false, ..
 
   const targetYPercent = (index, track) => {
     const steps = Number(track.dataset.steps);
-    return -100 * (steps / (steps + 1));
+    return track.dataset.reverse === 'true' ? 0 : -100 * (steps / (steps + 1));
   };
   const media = gsap.matchMedia();
 
@@ -205,7 +211,7 @@ export function initNumberScroll({ element, onComplete, previewCycle = false, ..
       allowMotion: '(prefers-reduced-motion: no-preference)'
     },
     ({ conditions }) => {
-      gsap.set(tracks, { yPercent: 0 });
+      gsap.set(tracks, { yPercent: (index, track) => track.dataset.reverse === 'true' ? -100 * Number(track.dataset.steps) / (Number(track.dataset.steps) + 1) : 0 });
 
       if (conditions.reduceMotion || options.duration === 0) {
         gsap.set(tracks, { yPercent: targetYPercent });
@@ -227,7 +233,7 @@ export function initNumberScroll({ element, onComplete, previewCycle = false, ..
           gsap.set(tracks, { clearProps: 'willChange' });
           setGroupingVisibility(groupingSeparators, getIntegerDigitCount(options.end));
         }
-      }).timeScale(previewCycle ? 1.5 : 1);
+      }).timeScale(previewCycle ? 0.9 : 1);
     }
   );
 
@@ -240,5 +246,22 @@ export function initNumberScroll({ element, onComplete, previewCycle = false, ..
     } else {
       element.setAttribute('aria-label', originalAriaLabel);
     }
+  };
+}
+
+// Data updates are supplied by the caller; the effect owns no demo timer.
+export function createOdometer({ element, start = 0, ...options } = {}) {
+  let value = start;
+  let destroyed = false;
+  let cleanup = initNumberScroll({ ...options, element, start, end: start, mode: 'odometer', duration: 0 });
+  return {
+    update(next) {
+      if (destroyed || !Number.isFinite(Number(next)) || Number(next) === value) return;
+      const end = normalizeOptions({ ...options, end: next }).end;
+      cleanup();
+      cleanup = initNumberScroll({ ...options, element, start: value, end, mode: 'odometer', direction: end >= value ? 'up' : 'down' });
+      value = end;
+    },
+    destroy() { destroyed = true; cleanup(); }
   };
 }

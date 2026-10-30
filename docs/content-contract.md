@@ -4,7 +4,9 @@
 
 ## 分類規則
 
-- 三個篩選維度：類型、觸發方式、技術。每組多選採 OR，跨組採 AND。
+- 四個篩選維度：類型、觸發方式、風格、技術。每組多選採 OR，跨組採 AND。
+- 每筆風格只能有一個主分類，以 `style` 字串儲存；依目前動作呈現判斷，不依配色或框架判斷。分類及順序：精緻（克制平順）、俏皮（回彈變形與趣味）、動感（強位移與節奏）、科技（數位像素光效）、無分類（文件或無明確動態風格）。可愛併入俏皮並保留搜尋同義詞，不使用經典分類。
+- 風格篩選可多選，五個選項固定顯示；無分類只選取未歸入前四類的內容，不代表全部。未選風格時不限制內容。風格只加入篩選與搜尋，不增加卡片標籤列。唯一項目對照表為 `src/data/ui-styles.js`，未指定項目歸無分類。
 - 效果保留為卡片標籤與關鍵字搜尋資料，不作篩選維度。
 - 觸發方式按詳細頁的實際啟動行為分類；列表自動示範與一般重播按鈕不影響分類。
 - 觸發選項依序：自動播放、進入可視區、捲動連動、hover、點擊、長按、拖曳；只顯示資料中有使用的選項。
@@ -17,6 +19,7 @@
 
 - 列表組裝入口為 `src/data/ui-showcase.js`；按鈕群資料來自 `src/data/button-effects.js`，效果說明及版面資料沿用其既有來源。
 - 每筆提供 `effects`、`types`、`triggers`、`packages` 陣列；packages 對外稱「技術」，保留欄位名稱相容性。
+- 技術依本站效果動畫本身標示，例如 GSAP、CSS Keyframes、CSS Transition、原生 JS；Vue／React 元件框架、一般排版 CSS 及假游標使用的套件不列入。
 - `preview.kind`：inline（本地共用效果）、scene（原效果場景）、document（文件）。`preview.mode`：auto 或 static。
 - `media.image`、`media.video` 為素材紀錄；沒有素材時保留 null，不以封面替代即時效果。素材維護才讀 [素材紀錄](preview-assets.md)。
 - 本地素材放 public，欄位使用相對 public 路徑，組裝時補部署 base；也可使用完整 HTTPS 網址。
@@ -25,7 +28,7 @@
 
 ## 網址與搜尋
 
-- 使用可重複的 types、triggers、packages 及 q；開啟網址應還原條件。
+- 使用可重複的 types、triggers、styles、packages 及 q；開啟網址應還原條件。資料使用單值 style，網址 styles 可重複以表達多選。
 - 舊 `triggers=懸停` 正規化為 `triggers=hover`；移除舊 effects、category 參數，不推測轉換。
 - 搜尋包含名稱、簡述、效果與技術等既有內容，忽略英文大小寫與前後空白；可與分類組合。
 

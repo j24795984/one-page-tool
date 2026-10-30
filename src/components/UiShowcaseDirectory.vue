@@ -3,6 +3,7 @@ import { computed, onMounted, onBeforeUnmount, reactive, ref, watch, provide } f
 import UiPreview from './UiPreview.vue';
 import { createPreviewScheduler } from '../scripts/preview-scheduler.js';
 import { filterGroups, filterItems, triggerOrder } from '../scripts/ui-library.js';
+import { styleOrder } from '../data/ui-styles.js';
 import '../styles/ui-showcase-directory.css';
 const props = defineProps({ items: { type: Array, required: true } });
 const active = ref([]);
@@ -16,8 +17,8 @@ const query = ref('');
 const searchInput = ref('');
 function submitSearch() { query.value = searchInput.value.trim(); }
 function clearQuery() { query.value = ''; searchInput.value = ''; }
-const selections = reactive({ triggers: [], types: [], packages: [] });
-const options = computed(() => Object.fromEntries(filterGroups.map(({key}) => [key, key === 'triggers' ? triggerOrder.filter(value => props.items.some(item => item.triggers.includes(value))) : [...new Set(props.items.flatMap(item => item[key]))]])));
+const selections = reactive({ triggers: [], types: [], styles: [], packages: [] });
+const options = computed(() => Object.fromEntries(filterGroups.map(({key}) => [key, key === 'styles' ? styleOrder : key === 'triggers' ? triggerOrder.filter(value => props.items.some(item => item.triggers.includes(value))) : [...new Set(props.items.flatMap(item => item[key]))]])));
 const filteredItems = computed(() => filterItems(props.items, selections, query.value));
 function toggle(key, value) { selections[key] = selections[key].includes(value) ? selections[key].filter(entry => entry !== value) : [...selections[key], value]; }
 function clearFilters() { clearQuery(); filterGroups.forEach(({key}) => { selections[key] = []; }); }

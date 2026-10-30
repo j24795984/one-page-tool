@@ -6,6 +6,7 @@ import EffectShowcaseLayout from './EffectShowcaseLayout.vue';
 import effectData from '../data/js-effects/number-scroll.json';
 import numberScrollDownloadUrl from '../scripts/number-scroll.js?url';
 import '../styles/number-scroll.css';
+import numberCss from '../styles/number-scroll.css?raw';
 
 defineProps({
   baseUrl: {
@@ -16,21 +17,18 @@ defineProps({
 
 const settings = reactive({ ...effectData.defaults });
 const numberElement = ref(null);
+const usage = { ...effectData.usage, examples: [...effectData.usage.examples, { label: 'CSS', code: numberCss }] };
+const directionControls = { choiceKey: 'direction', choices: [{ label: 'Auto', value: 'auto' }, { label: 'Roll Up', value: 'up' }, { label: 'Roll Down', value: 'down' }] };
 
-const parameterCode = computed(() => (
-  `<span data-number-scroll\n` +
-  `  data-start="${settings.startValue}"\n` +
-  `  data-end="${settings.endValue}"\n` +
-  `  data-duration="${settings.duration}"\n` +
-  `  data-decimals="${settings.decimals}"\n` +
-  `  data-grouping="${settings.grouping}"\n` +
-  `  data-prefix="${settings.prefix}"\n` +
-  `  data-suffix="${settings.suffix}"\n` +
-  `></span>`
-));
+const parameterCode = computed(() => settings.mode === 'odometer'
+  ? `const counter = createOdometer({ element: document.querySelector('[data-number-scroll]'), start: 12480, duration: 0.65, prefix: '$', ease: 'back.out(1.1)' });\ncounter.update(12481);`
+  : `const cleanup = initNumberScroll(${JSON.stringify({ start: settings.startValue, end: settings.endValue, duration: settings.duration, decimals: settings.decimals, grouping: settings.grouping, prefix: settings.prefix, suffix: settings.suffix, direction: settings.direction, ease: settings.ease }, null, 2).replace('{', "{\n  element: document.querySelector('[data-number-scroll]'),")});`
+);
 
 let cleanupEffect = () => {};
 let initEffect;
+let createCounter, timer, motion;
+function stopEffect() { clearInterval(timer); cleanupEffect(); cleanupEffect = () => {}; }
 
 function updateSetting({ key, value }) {
   settings[key] = value;
@@ -44,7 +42,17 @@ function selectChoice(setting) {
 function restartEffect() {
   if (!initEffect || !numberElement.value) return;
 
-  cleanupEffect();
+  stopEffect();
+  if (document.hidden) return;
+  if (settings.mode === 'odometer') {
+    const counter = createCounter({ element: numberElement.value, start: 12480, prefix: '$', duration: 0.65, ease: 'back.out(1.1)' });
+    cleanupEffect = () => counter.destroy();
+    if (!motion.matches) {
+      let value = 12480;
+      timer = setInterval(() => { value += 1; counter.update(value); }, 1000);
+    }
+    return;
+  }
   cleanupEffect = initEffect({
     element: numberElement.value,
     start: settings.startValue,
@@ -59,13 +67,23 @@ function restartEffect() {
   });
 }
 
+let disposed = false;
 onMounted(async () => {
-  ({ initNumberScroll: initEffect } = await import('../scripts/number-scroll.js'));
+  const module = await import('../scripts/number-scroll.js');
+  if (disposed) return;
+  initEffect = module.initNumberScroll;
+  createCounter = module.createOdometer;
+  motion = window.matchMedia('(prefers-reduced-motion: reduce)');
+  motion.addEventListener('change', restartEffect);
+  document.addEventListener('visibilitychange', restartEffect);
   restartEffect();
 });
 
 onBeforeUnmount(() => {
-  cleanupEffect();
+  disposed = true;
+  stopEffect();
+  motion?.removeEventListener('change', restartEffect);
+  document.removeEventListener('visibilitychange', restartEffect);
 });
 </script>
 
@@ -75,14 +93,17 @@ onBeforeUnmount(() => {
       <EffectInfoPanel
         :back-href="`${baseUrl}ui/`"
         :info="effectData.info"
-        :usage="effectData.usage"
+        :usage="usage"
         :current-code="parameterCode"
         :download-href="numberScrollDownloadUrl"
         download-filename="number-scroll.js"
       />
     </template>
 
-    <template #toolbar><EffectPreviewToolbar @replay="restartEffect" :config="effectData.controls" :model-value="settings" @select-choice="selectChoice" /></template>
+    <template #toolbar>
+      <EffectPreviewToolbar @replay="restartEffect" :config="effectData.controls" :model-value="settings" @select-choice="selectChoice" />
+      <EffectPreviewToolbar v-if="settings.mode === 'reveal'" :replay="false" :config="directionControls" :model-value="settings" @select-choice="selectChoice" />
+    </template>
 
     <template #preview>
       <div class="number-scroll-demo">

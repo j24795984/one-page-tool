@@ -1,6 +1,11 @@
 <script setup>
 import { computed, defineAsyncComponent, inject, onBeforeUnmount, onMounted, ref, watch } from 'vue';
 const EffectCardScene = defineAsyncComponent(() => import('./EffectCardScene.vue'));
+import { textEffects } from '../data/text-effects.js';
+const TextMotion = defineAsyncComponent(() => import('./TextMotion.vue'));
+const SlotText = defineAsyncComponent(() => import('./SlotText.vue'));
+const HangingTag = defineAsyncComponent(() => import('./HangingTag.vue'));
+const SearchBox = defineAsyncComponent(() => import('./SearchBox.vue'));
 const DonutChart = defineAsyncComponent(() => import('./DonutChart.vue'));
 import { buttonEffects } from '../data/button-effects.js';
 const ButtonEffect = defineAsyncComponent(() => import('./ButtonEffect.vue'));
@@ -39,6 +44,10 @@ onBeforeUnmount(() => { clearTimeout(cooldown); observer?.disconnect(); schedule
     <div ref="root" class="showcase-card__preview" :data-preview="item.id" :data-running="running" :role="interactive ? 'group' : 'img'" :aria-label="item.title + '，' + (interactive ? '互動展示' : preview.kind === 'document' ? '文件指南' : '非互動展示；完整體驗請點選名稱')">
       <div class="card-demo__scene" :class="{'card-demo__scene--interactive':interactive}" :inert="!interactive" :aria-hidden="interactive ? undefined : 'true'">
         <ParallaxCard v-if="item.id === 'parallax' && visible" :running="running" @complete="complete" @error="fail" />
+        <TextMotion v-else-if="visible && textEffects.some(effect => effect.id === item.id)" :id="item.id" preview :running="running" />
+        <SlotText v-else-if="item.id === 'slot-text' && visible" preview :running="running" />
+        <HangingTag v-else-if="item.id === 'hanging-tag' && visible" :running="running" />
+        <SearchBox v-else-if="['expand-search','morph-search'].includes(item.id) && visible" :variant="item.id === 'morph-search' ? 'morph' : 'expand'" preview :running="running" />
         <DonutChart v-else-if="item.id === 'donut-chart-segments' && visible" preview :running="running" @complete="complete" />
         <LiquidRadio v-else-if="item.id === 'liquid-radio' && visible" preview :running="running" />
         <ButtonEffect v-else-if="visible && buttonEffects.some(effect => effect.id === item.id)" :id="item.id" preview :running="running" />

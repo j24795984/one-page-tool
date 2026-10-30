@@ -1,0 +1,40 @@
+{
+  "info": {
+    "eyebrow": "JS Effect · 065",
+    "title": "拉霸 Slot Text",
+    "summary": "每格快速捲過隨機文字與符號，由左至右依序減速、回彈並停在結果，適合結果揭曉。"
+  },
+  "usage": {
+    "title": "使用方式",
+    "description": "引入 GSAP、下方 CSS 與 createSlotText。效果只建立暫停時間軸；由使用端控制播放、反向與清理。減少動態時直接顯示結果。",
+    "examples": [
+      {
+        "label": "HTML",
+        "code": "<div class=\"slot-text-stage\"><div class=\"slot-text\" role=\"img\"></div></div>"
+      },
+      {
+        "label": "JavaScript / ESM",
+        "code": "import { createSlotText } from './slot-text.js';\nconst effect = createSlotText({ element: document.querySelector('.slot-text'), text: '大吉利' });\nif (matchMedia('(prefers-reduced-motion: reduce)').matches) effect.timeline.progress(1);\nelse effect.timeline.play();\n// 卸載時：effect.destroy();"
+      }
+    ],
+    "parameters": [
+      {
+        "name": "text",
+        "description": "結果文字，最多 8 個字元，預設大吉利。"
+      },
+      {
+        "name": "symbols",
+        "description": "滾動時出現的隨機字元池，支援文字、符號及數字。"
+      },
+      {
+        "name": "duration",
+        "description": "第一格停止的秒數，預設 2.4；後續每格延後 0.18 秒。"
+      },
+      {
+        "name": "timeline / destroy()",
+        "description": "由使用端控制播放與反向；destroy 還原原始內容並移除動畫。"
+      }
+    ],
+    "currentLabel": "目前初始化"
+  }
+}

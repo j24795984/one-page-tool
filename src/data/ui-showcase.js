@@ -1,3 +1,5 @@
+import { styleById } from './ui-styles.js';
+import { textEffects } from './text-effects.js';
 import { buttonEffects } from './button-effects.js';
 import { getPatternDetails } from './ui-patterns.js';
 const effectFiles = import.meta.glob('./js-effects/*.json', { eager: true, import: 'default' });
@@ -120,7 +122,7 @@ export function createUiShowcaseItems(baseUrl) {
     {
       category: '文字與數字',
       tags: ['GSAP', 'Number'],
-      summary: '數值更新時逐位垂直滾動，適合營收、統計與累積數量。',
+      summary: '提供數字揭示與 Odometer 計數器，適合營收展示及持續更新的統計。',
 
       effects: ["數字滾動"],
       triggers: ['自動播放'],
@@ -190,9 +192,13 @@ export function createUiShowcaseItems(baseUrl) {
       media: { image: null, video: null },
       href: `${baseUrl}js-effects/liquid-radio/`
     },
+    { title: '拉霸 Slot Text', summary: '隨機文字快速滾動，由左至右依序停在結果，適合抽獎與文字揭曉。', category: '文字與數字', tags: ['065', 'Slot Text'], effects: ['拉霸'], triggers: ['自動播放'], types: ['文字'], packages: ['GSAP'], media: { image: null, video: null }, href: `${baseUrl}js-effects/slot-text/` },
   ];
+  items.push({ title: '吊牌擺動 Hanging Tag', summary: '吊牌落下後左右擺動，停穩再收回換字，適合標籤與短訊息展示。', category: '卡片', tags: ['カランカラン', 'Hanging Tag', '吊牌'], effects: ['擺動'], triggers: ['自動播放'], types: ['卡片'], packages: ['GSAP'], media: { image: null, video: null }, href: `${baseUrl}js-effects/hanging-tag/` });
   items.push(...buttonEffects.map(effect => ({ title: effect.title, summary: effect.summary, category: '按鈕與操作', tags: [effect.number], effects: [effect.effect], triggers: effect.triggers, types: effect.types ?? ['按鈕'], packages: ['GSAP'], media: { image: null, video: null }, href: `${baseUrl}js-effects/${effect.id}/` })));
+  items.push(...textEffects.map(effect => ({ title: effect.title, summary: effect.summary, category: '文字與數字', tags: [effect.number], effects: [effect.effect], triggers: effect.triggers, types: ['文字'], packages: ['GSAP'], media: { image: null, video: null }, href: `${baseUrl}js-effects/${effect.id}/` })));
   const patterns = getPatternDetails(baseUrl);
+  items.push(...['expand', 'morph'].map(variant => ({ title: variant === 'expand' ? '展開搜尋框 Expand Search' : '放大鏡搜尋框 Morph Search', summary: '點擊展開輸入，點擊外部收合並保留內容，適合搜尋入口。', category: '表單', tags: ['搜尋', '検索ボックス'], effects: ['展開', '回彈'], triggers: ['點擊'], types: ['表單', '按鈕'], packages: ['CSS Keyframes'], media: { image: null, video: null }, href: `${baseUrl}js-effects/${variant}-search/` })));
   return items.map((item) => {
     const slug = item.href.split('/').filter(Boolean).at(-1);
     const effect = effectFiles['./js-effects/' + slug + '.json'];
@@ -201,7 +207,8 @@ export function createUiShowcaseItems(baseUrl) {
       ...pattern,
       ...item,
       id: slug,
-      preview: [...buttonEffects.map(effect => effect.id), 'liquid-radio', 'donut-chart-segments', 'text-fade', 'text-fade-module', 'number-scroll', 'object-fade-active', 'svg-line-grow'].includes(slug)
+      style: styleById[slug] ?? '無分類',
+      preview: [...textEffects.map(effect => effect.id), ...buttonEffects.map(effect => effect.id), 'expand-search', 'morph-search', 'hanging-tag', 'slot-text', 'liquid-radio', 'donut-chart-segments', 'text-fade', 'text-fade-module', 'number-scroll', 'object-fade-active', 'svg-line-grow'].includes(slug)
         ? { kind: 'inline', mode: 'auto' }
         : slug === 'page-link-highlight'
           ? { kind: 'document', mode: 'static' }

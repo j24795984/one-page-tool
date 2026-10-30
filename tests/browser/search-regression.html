@@ -1,0 +1,23 @@
+<!doctype html><html><head><meta charset="utf-8"><title>Search animation regression</title><link rel="stylesheet" href="/src/styles/search-box.css"></head><body>
+<div class="search-stage" style="height:300px;width:400px"><form class="search-motion search-motion--morph"><button data-open type="button">Open</button><div data-field inert><input><button data-submit type="submit">Search</button></div></form><span data-outside></span></div><button id="outside">Outside</button><pre id="result">running</pre>
+<script type="module">
+import {initSearchBox} from '/src/scripts/search-box.js';
+import {initInteractivePreview} from '/src/scripts/interactive-preview.js';
+import {initInteractionSimulation} from '/src/scripts/interaction-simulation.js';
+const root=document.querySelector('form'), output=document.querySelector('#result');
+const params=new URLSearchParams(location.search), variant=params.get('variant') || 'morph';
+root.className=`search-motion search-motion--${variant}`;
+const stage=root.parentElement;
+const controller=params.has('preview') ? initInteractivePreview({root:stage,preview:true,running:true,create:options=>initSearchBox({root,...options}),simulate:effect=>initInteractionSimulation({root:stage,kind:'search-box',controls:effect.controls})}) : initSearchBox({root});
+const wait=ms=>new Promise(r=>setTimeout(r,ms));
+if(params.has('preview')) { await wait(1800); stage.dispatchEvent(new PointerEvent('pointerover',{bubbles:true})); await wait(800); }
+const rows=[];
+for(let i=0;i<4;i++) {
+ root.querySelector('[data-open]').click(); await wait(200);
+ rows.push({i,phase:'opening',width:root.offsetWidth,animations:root.getAnimations({subtree:true}).map(a=>({time:a.currentTime,rate:a.playbackRate,state:a.playState}))});
+ await wait(600); document.querySelector('#outside').dispatchEvent(new PointerEvent('pointerdown',{bubbles:true})); await wait(200);
+ rows.push({i,phase:'closing',width:root.offsetWidth,animations:root.getAnimations({subtree:true}).map(a=>({time:a.currentTime,rate:a.playbackRate,state:a.playState}))}); await wait(600);
+}
+output.textContent=JSON.stringify({variant,preview:params.has('preview'),pass:rows.every(r=>r.width>(variant==='morph'?52:150) && r.animations.every(a=>a.time>0&&a.time<700&&a.state==='running')),rows},null,2);
+controller.destroy();
+</script></body></html>

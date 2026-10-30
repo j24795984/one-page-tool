@@ -1,0 +1,36 @@
+export const styleOrder = ['精緻', '俏皮', '動感', '科技', '無分類'];
+
+// One primary motion style per effect; unassigned content remains discoverable.
+export const styleById = {
+  'news-nav': '精緻',
+  'page-link-highlight': '無分類',
+  'text-fade': '精緻',
+  'text-fade-module': '精緻',
+  'object-fade-active': '精緻',
+  'parallax': '精緻',
+  'horizontal-scroll': '動感',
+  'dramatic-diagonal-carousel': '動感',
+  'infinite-drag-grid': '動感',
+  'number-scroll': '科技',
+  'svg-line-grow': '精緻',
+  'webgl-image-reveal': '科技',
+  'custom-scrollbar': '無分類',
+  'donut-chart-segments': '精緻',
+  'liquid-radio': '俏皮',
+  'slot-text': '俏皮',
+  'hanging-tag': '俏皮',
+  'dock-magnify': '俏皮',
+  'magnetic-button': '精緻',
+  'direction-aware-fill': '精緻',
+  'rotating-border': '科技',
+  'ripple-click': '精緻',
+  'hold-to-confirm': '精緻',
+  'icon-slide-button': '精緻',
+  'social-icon-fill': '精緻',
+  'split-invert': '動感',
+  'scroll-text-reveal': '精緻',
+  'crumble-down': '動感',
+  'elastic-wave-stretch': '俏皮',
+  'expand-search': '俏皮',
+  'morph-search': '俏皮'
+};

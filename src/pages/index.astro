@@ -12,7 +12,7 @@ const categories = [...new Set(uiItems.flatMap(item => item.effects))];
     <p class="text-sm tracking-widest">ONE PAGE TOOL</p>
     <h1 class="mt-4 text-4xl font-medium">個人前端資源庫</h1>
     <p class="mt-4 text-[#65758b]">整理介面效果與實用工具，找到適合的實作，再帶進下一個專案。</p>
-    <div class="my-10 grid gap-5 md:grid-cols-2">
+    <div class="my-10 grid gap-5 md:grid-cols-3">
       <a href={baseUrl + 'ui/'} class="rounded-2xl border border-[#314d74]/20 bg-white/60 p-7">
         <h2 class="text-2xl">UI 庫</h2>
         <p class="mt-3">{uiItems.length} 個介面與互動效果，依用途分類、搜尋與預覽。</p>
@@ -20,6 +20,10 @@ const categories = [...new Set(uiItems.flatMap(item => item.effects))];
       <a href={baseUrl + 'tools/'} class="rounded-2xl border border-[#314d74]/20 bg-white/60 p-7">
         <h2 class="text-2xl">小工具</h2>
         <p class="mt-3">{tools.length} 個工具，快速進行動畫預覽與日常開發操作。</p>
+      </a>
+      <a href={baseUrl + 'ui-references/'} class="rounded-2xl border border-[#314d74]/20 bg-white/60 p-7">
+        <h2 class="text-2xl">UI 參考網站</h2>
+        <p class="mt-3">依風格與特色尋找外部 UI 展示網站與動態靈感。</p>
       </a>
     </div>
     <section aria-labelledby="category-title">

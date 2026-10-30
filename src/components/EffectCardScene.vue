@@ -92,7 +92,7 @@ async function start() {
       effect=await initWebGLImageReveal({container:q('.webgl-canvas'),imageUrl:q('.webgl-still').src,width:800,height:500,signal:abort.signal});
       clearTimeout(deadline);
       if(!valid()){effect.destroy();return;}
-      timeline=gsap.timeline({onComplete:complete}).call(()=>effect.play(2)).to({}, {duration:2.3}).call(()=>effect.reset(2)).to({}, {duration:2.3});
+      timeline=gsap.timeline({onComplete:complete}).call(()=>effect.play(3.3)).to({}, {duration:3.6}).call(()=>effect.reset(3.3)).to({}, {duration:3.6});
     }
     if (timeline) replay = onComplete => timeline.eventCallback('onComplete', onComplete).restart();
   } catch { if(valid()){cleanup();emit('error');} }

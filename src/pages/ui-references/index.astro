@@ -1,0 +1,8 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import UiReferenceDirectory from '../../components/UiReferenceDirectory.vue';
+import { uiReferences } from '../../data/ui-references.js';
+---
+<BaseLayout title="UI 參考網站">
+  <UiReferenceDirectory client:load items={uiReferences} />
+</BaseLayout>

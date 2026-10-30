@@ -30,9 +30,16 @@ test('search includes descriptions and technology labels', () => {
 
 
 test('effects remain searchable while filters use triggers', () => {
-  assert.deepEqual(filterGroups.map(group => group.key), ['types', 'triggers', 'packages']);
+  assert.deepEqual(filterGroups.map(group => group.key), ['types', 'triggers', 'styles', 'packages']);
   assert.deepEqual(ids(filterItems(items, selection(), '視差')), ['image']);
   assert.deepEqual(ids(filterItems(items, selection(), '進入可視區')), ['text']);
+});
+test('single-valued styles allow multi-select OR and cross-group AND', () => {
+  const styled = items.map((item, i) => ({ ...item, style: ['精緻', '俏皮', '無分類'][i] }));
+  assert.deepEqual(ids(filterItems(styled, selection({ styles: ['俏皮', '無分類'] }))), ['image', 'scrollbar']);
+  assert.deepEqual(ids(filterItems(styled, selection({ styles: ['俏皮', '無分類'], packages: ['GSAP'] }))), ['image']);
+  assert.deepEqual(ids(filterItems(styled, selection({ styles: ['無分類'] }))), ['scrollbar']);
+  assert.deepEqual(ids(filterItems(styled, selection(), '可愛')), ['image']);
 });
 test('documents without triggers remain visible until a trigger is selected', () => {
   const docs = [{ ...items[0], id: 'document', triggers: [] }];

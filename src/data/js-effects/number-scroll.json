@@ -2,19 +2,23 @@
   "info": {
     "eyebrow": "JS Effect",
     "title": "Number Scroll",
-    "summary": "將數值拆成獨立位數，透過垂直數字軌道呈現 Odometer 滾動；適合營收、累積數量、百分比與即時統計。"
+    "summary": "提供數字滾動揭示與 Odometer 計數器兩種模式；前者整圈揭示成果，後者只轉動改變的位數，適合持續更新的統計。"
   },
   "usage": {
     "title": "使用方式",
-    "description": "準備一個數值容器，再以 ESM 匯入 initNumberScroll()。每次初始化會回傳 cleanup，更新數值或卸載元件前應先執行。",
+    "description": "引入 GSAP 與下方 CSS。initNumberScroll() 播放一次並回傳 cleanup；createOdometer() 保存目前數值，透過 update(value) 更新，卸載時呼叫 destroy()。示範計時器由頁面負責。",
     "examples": [
       {
         "label": "DOM 元素",
-        "code": "<span data-number-scroll></span>"
+        "code": "<span class=\"number-scroll\" data-number-scroll></span>"
       },
       {
         "label": "JavaScript / ESM",
         "code": "import { initNumberScroll } from './number-scroll.js';\n\nconst cleanup = initNumberScroll({\n  element: document.querySelector('[data-number-scroll]'),\n  start: 12480,\n  end: 128640,\n  duration: 1.6\n});"
+      },
+      {
+        "label": "Odometer / 即時資料更新",
+        "code": "import { createOdometer } from './number-scroll.js';\nconst counter = createOdometer({ element: document.querySelector('[data-number-scroll]'), start: 12480, duration: 0.65, prefix: '$' });\ncounter.update(12481);\n// 下一次資料抵達時：counter.update(12500);\n// 卸載時：counter.destroy();"
       }
     ],
     "parameters": [
@@ -37,93 +41,26 @@
       {
         "name": "prefix / suffix",
         "description": "固定顯示於數值前後的文字或符號。"
+      },
+      {
+        "name": "mode / update(value)",
+        "description": "mode: reveal 為整圈揭示，odometer 不加額外圈數，未變位數靜止。createOdometer.update(value) 依增減決定方向；快速連續更新會取消前次動畫，從上次目標值開始。"
       }
     ],
-    "currentLabel": "目前 DOM"
+    "currentLabel": "目前初始化"
   },
   "controls": {
-    "title": "滾動方向",
-    "choiceKey": "direction",
+    "choiceKey": "mode",
     "choices": [
       {
-        "label": "Auto",
-        "value": "auto",
-        "note": "依數值增減自動判斷"
+        "label": "數字揭示",
+        "value": "reveal"
       },
       {
-        "label": "Roll Up",
-        "value": "up",
-        "note": "數字由下往上遞增"
-      },
-      {
-        "label": "Roll Down",
-        "value": "down",
-        "note": "數字由上往下遞減"
+        "label": "Odometer 計數器",
+        "value": "odometer"
       }
-    ],
-    "fieldsTitle": "參數控制",
-    "fields": [
-      {
-        "key": "startValue",
-        "label": "Start Value",
-        "type": "number",
-        "min": -999999999,
-        "max": 999999999,
-        "step": 0.01
-      },
-      {
-        "key": "endValue",
-        "label": "End Value",
-        "type": "number",
-        "min": -999999999,
-        "max": 999999999,
-        "step": 0.01
-      },
-      {
-        "key": "duration",
-        "label": "Duration",
-        "unit": "秒",
-        "type": "number",
-        "min": 0,
-        "max": 10,
-        "step": 0.1
-      },
-      {
-        "key": "decimals",
-        "label": "Decimal Places",
-        "type": "number",
-        "min": 0,
-        "max": 3,
-        "step": 1
-      },
-      {
-        "key": "prefix",
-        "label": "Prefix",
-        "type": "text"
-      },
-      {
-        "key": "suffix",
-        "label": "Suffix",
-        "type": "text"
-      },
-      {
-        "key": "ease",
-        "label": "Ease",
-        "type": "select",
-        "options": [
-          "power2.out",
-          "power3.inOut",
-          "expo.out",
-          "none"
-        ]
-      },
-      {
-        "key": "grouping",
-        "label": "顯示千分位",
-        "type": "checkbox"
-      }
-    ],
-    "submitLabel": "套用並重播"
+    ]
   },
   "preview": {
     "label": "Live Metric",
@@ -154,6 +91,7 @@
     "prefix": "$",
     "suffix": "",
     "ease": "power3.inOut",
-    "grouping": true
+    "grouping": true,
+    "mode": "reveal"
   }
 }

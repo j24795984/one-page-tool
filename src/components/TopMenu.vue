@@ -8,7 +8,8 @@ defineProps({
 
 const categories = [
   { label: '小工具', path: 'tools/' },
-  { label: 'UI 庫', path: 'ui/' }
+  { label: 'UI 庫', path: 'ui/' },
+  { label: 'UI 參考網站', path: 'ui-references/' }
 ];
 </script>
 

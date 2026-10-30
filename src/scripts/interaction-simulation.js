@@ -6,6 +6,7 @@ export function interactionSteps(kind, count) {
   const move=(index,x,y,duration=0.65)=>({index,x,y,duration});
   const wait=duration=>({duration});
   if(kind==='rotating-border')return [];
+  if(kind==='search-box')return [move(0,0.5,0.5),{action:'click'},wait(0.9),move(1,0.5,0.5),{action:'click'},wait(0.75)];
   if(kind==='dock-magnify')return [move(0,-0.05,0.65,0),move(0,0.95,0.65,2.4),wait(0.25),move(0,0.05,0.65,2.4),move(0,-0.1,0.65,0.3),wait(0.3)];
   if(kind==='magnetic-button')return [move(0,-0.1,0.5,0),move(0,0.3,0.35),move(0,0.75,0.65,0.9),move(0,0.35,0.65,0.8),move(0,1.1,0.5),wait(0.4)];
   if(kind==='direction-aware-fill')return [[-0.15,0.5,1.15,0.5],[0.5,-0.5,0.5,1.5],[1.15,0.5,-0.15,0.5],[0.5,1.5,0.5,-0.5]].flatMap(([x,y,ex,ey])=>[move(0,x,y,0.25),move(0,0.5,0.5,0.65),wait(0.3),move(0,ex,ey,0.65),wait(0.55)]);
